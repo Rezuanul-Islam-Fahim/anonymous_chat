@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "489536134509",
+    "firebase_url": "https://anonymous-chat-ed611.firebaseio.com",
+    "project_id": "anonymous-chat-ed611",
+    "storage_bucket": "anonymous-chat-ed611.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489536134509:android:e512dcde65bf883af20e64",
+        "android_client_info": {
+          "package_name": "com.rezuanulfahim.anonymous_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489536134509-i18sll6j6fov2o6ucpcjfbh3semvskpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuHTTC5--RBhB2how564Dt0PotcSMAFsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489536134509-i18sll6j6fov2o6ucpcjfbh3semvskpa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
