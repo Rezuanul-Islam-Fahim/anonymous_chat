@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'register.dart';
 import '../global.dart';
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,17 +21,21 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 30),
             TextField(
-              decoration: inputField('Enter your E-mail'),
+              decoration: inputField('Name'),
             ),
             SizedBox(height: 20),
             TextField(
-              decoration: inputField('Enter your Password'),
+              decoration: inputField('E-mail'),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              decoration: inputField('Password'),
             ),
             SizedBox(height: 20),
             Container(
               width: double.infinity,
               child: RaisedButton(
-                child: Text('Login', style: TextStyle(fontSize: 16)),
+                child: Text('Register', style: TextStyle(fontSize: 16)),
                 padding: EdgeInsets.all(16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -41,30 +44,6 @@ class LoginScreen extends StatelessWidget {
                 textColor: Colors.white,
                 onPressed: () {},
               ),
-            ),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Don\'t have an account? ',
-                  style: TextStyle(fontSize: 16),
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => RegisterScreen()),
-                  ),
-                  child: Text(
-                    'Register Now',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
