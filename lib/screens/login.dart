@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'register.dart';
 import '../global.dart';
 
 class LoginScreen extends StatelessWidget {
+  String email;
+  String password;
+
+  Future<void> _loginUser() async {
+    await Firebase.initializeApp();
+
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final UserCredential _user = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +39,13 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 30),
             TextField(
               decoration: inputField('Enter your E-mail'),
+              onChanged: (value) => email = value,
             ),
             SizedBox(height: 20),
             TextField(
               decoration: inputField('Enter your Password'),
+              onChanged: (value) => password = value,
+              obscureText: true,
             ),
             SizedBox(height: 20),
             Container(
@@ -39,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
-                onPressed: () {},
+                onPressed: _loginUser,
               ),
             ),
             SizedBox(height: 30),

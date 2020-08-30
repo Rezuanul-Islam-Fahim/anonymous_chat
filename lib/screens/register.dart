@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../global.dart';
 
 class RegisterScreen extends StatelessWidget {
+  String username;
+  String email;
+  String password;
+
+  Future<void> _registerUser() async {
+    await Firebase.initializeApp();
+
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final UserCredential _user = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +43,13 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(height: 20),
             TextField(
               decoration: inputField('E-mail'),
+              onChanged: (value) => email = value,
             ),
             SizedBox(height: 20),
             TextField(
               decoration: inputField('Password'),
+              onChanged: (value) => password = value,
+              obscureText: true,
             ),
             SizedBox(height: 20),
             Container(
@@ -42,7 +62,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
-                onPressed: () {},
+                onPressed: _registerUser,
               ),
             ),
           ],
