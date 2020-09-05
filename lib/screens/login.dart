@@ -7,20 +7,23 @@ import 'register.dart';
 import 'chat.dart';
 
 class LoginScreen extends StatelessWidget {
-  String email;
-  String password;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _loginUser(BuildContext context) async {
     final UserCredential _user = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: _emailController.text,
+      password: _passwordController.text,
     );
 
     Navigator.of(context).push(MaterialPageRoute(
       builder: (_) => ChatScreen(_user),
     ));
+
+    _emailController.clear();
+    _passwordController.clear();
   }
 
   @override
@@ -42,12 +45,12 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 30),
             TextField(
               decoration: inputField('Enter your E-mail'),
-              onChanged: (value) => email = value,
+              controller: _emailController,
             ),
             SizedBox(height: 20),
             TextField(
               decoration: inputField('Enter your Password'),
-              onChanged: (value) => password = value,
+              controller: _passwordController,
               obscureText: true,
             ),
             SizedBox(height: 20),
