@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../global.dart';
+import 'chat.dart';
 
 class RegisterScreen extends StatelessWidget {
   String username;
@@ -11,11 +12,15 @@ class RegisterScreen extends StatelessWidget {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> _registerUser() async {
+  Future<void> _registerUser(BuildContext context) async {
     final UserCredential _user = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => ChatScreen(_user),
+    ));
   }
 
   @override
@@ -60,7 +65,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
-                onPressed: _registerUser,
+                onPressed: () => _registerUser(context),
               ),
             ),
           ],
