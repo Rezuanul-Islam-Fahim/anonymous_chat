@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'register.dart';
@@ -10,10 +9,9 @@ class LoginScreen extends StatelessWidget {
   String email;
   String password;
 
-  Future<void> _loginUser() async {
-    await Firebase.initializeApp();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> _loginUser() async {
     final UserCredential _user = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
