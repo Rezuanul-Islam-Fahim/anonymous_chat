@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-InputDecoration inputField(String placeholderText) {
+InputDecoration inputField(String placeholderText, Icon icon) {
   return InputDecoration(
     contentPadding: EdgeInsets.symmetric(
-      horizontal: 20,
+      horizontal: 10,
       vertical: 18,
     ),
     filled: true,
@@ -23,6 +23,10 @@ InputDecoration inputField(String placeholderText) {
         width: 1.1,
         color: Colors.grey[350],
       ),
+    ),
+    prefixIcon: icon,
+    prefixIconConstraints: BoxConstraints(
+      minWidth: 60,
     ),
   );
 }

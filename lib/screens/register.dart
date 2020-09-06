@@ -43,16 +43,25 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 30),
             TextField(
-              decoration: inputField('Name'),
+              decoration: inputField(
+                'Name',
+                Icon(Icons.account_circle_outlined),
+              ),
             ),
             SizedBox(height: 20),
             TextField(
-              decoration: inputField('E-mail'),
+              decoration: inputField(
+                'E-mail',
+                Icon(Icons.email_outlined),
+              ),
               controller: _emailController,
             ),
             SizedBox(height: 20),
             TextField(
-              decoration: inputField('Password'),
+              decoration: inputField(
+                'Password',
+                Icon(Icons.lock_outlined),
+              ),
               controller: _passwordController,
               obscureText: true,
             ),

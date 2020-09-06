@@ -44,12 +44,18 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 30),
             TextField(
-              decoration: inputField('Enter your E-mail'),
+              decoration: inputField(
+                'Enter your E-mail',
+                Icon(Icons.email_outlined),
+              ),
               controller: _emailController,
             ),
             SizedBox(height: 20),
             TextField(
-              decoration: inputField('Enter your Password'),
+              decoration: inputField(
+                'Enter your Password',
+                Icon(Icons.lock_outlined),
+              ),
               controller: _passwordController,
               obscureText: true,
             ),
