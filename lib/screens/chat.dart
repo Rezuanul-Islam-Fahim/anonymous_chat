@@ -14,6 +14,9 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final ScrollController _messagesScroll = ScrollController();
+  final TextEditingController _messageController = TextEditingController();
+
   var dummyData = [
     {
       'text': 'Hello Fahim',
@@ -68,6 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
       'me': true,
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
+              controller: _messagesScroll,
               itemCount: dummyData.length,
               itemBuilder: (context, index) {
                 return Message(
@@ -114,6 +119,7 @@ class _ChatScreenState extends State<ChatScreen> {
               children: <Widget>[
                 Expanded(
                   child: TextField(
+                    controller: _messageController,
                     decoration: _messageInputDecoration(),
                   ),
                 ),
