@@ -56,12 +56,14 @@ class _ChatScreenState extends State<ChatScreen> {
       'me': true,
     },
     {
-      'text': 'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik ',
+      'text':
+          'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik ',
       'from': 'Steve',
       'me': false,
     },
     {
-      'text': 'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik',
+      'text':
+          'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik',
       'from': 'Steve',
       'me': true,
     },
@@ -91,11 +93,33 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           Container(
+            padding: EdgeInsets.only(
+              top: 12,
+              bottom: 12,
+              left: 12,
+              right: 0,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.grey[300],
+                  offset: Offset(0, -2),
+                  blurRadius: 2.8,
+                  spreadRadius: 0.4,
+                ),
+              ],
+            ),
             child: Row(
               children: <Widget>[
-                Expanded(child: TextField()),
+                Expanded(
+                  child: TextField(
+                    decoration: _messageInputDecoration(),
+                  ),
+                ),
                 IconButton(
                   icon: Icon(Icons.send_outlined),
+                  iconSize: 28,
                   onPressed: () {},
                 ),
               ],
@@ -105,4 +129,30 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+}
+
+InputDecoration _messageInputDecoration() {
+  return InputDecoration(
+    filled: true,
+    fillColor: Colors.grey[100],
+    contentPadding: EdgeInsets.symmetric(
+      vertical: 10,
+      horizontal: 15,
+    ),
+    border: OutlineInputBorder(),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 0.7,
+        color: Colors.black26,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 1.2,
+        color: Colors.grey[400],
+      ),
+    ),
+    hintText: 'Enter your message.....',
+    prefixIcon: Icon(Icons.message_outlined),
+  );
 }
