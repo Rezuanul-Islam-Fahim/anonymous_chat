@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../global.dart';
+import 'chat.dart';
 
 class RegisterScreen extends StatelessWidget {
-  String username;
-  String email;
-  String password;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> _registerUser() async {
-    await Firebase.initializeApp();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> _registerUser(BuildContext context) async {
     final UserCredential _user = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: _emailController.text,
+      password: _passwordController.text,
     );
+
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => ChatScreen(_user),
+    ));
+
+    _emailController.clear();
+    _passwordController.clear();
   }
 
   @override
@@ -43,12 +48,12 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(height: 20),
             TextField(
               decoration: inputField('E-mail'),
-              onChanged: (value) => email = value,
+              controller: _emailController,
             ),
             SizedBox(height: 20),
             TextField(
               decoration: inputField('Password'),
-              onChanged: (value) => password = value,
+              controller: _passwordController,
               obscureText: true,
             ),
             SizedBox(height: 20),
@@ -62,7 +67,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
-                onPressed: _registerUser,
+                onPressed: () => _registerUser(context),
               ),
             ),
           ],
