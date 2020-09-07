@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../components/message.dart';
 
 class ChatScreen extends StatefulWidget {
-  final UserCredential _user;
+  final UserCredential _loggedUser;
 
-  ChatScreen(this._user);
+  ChatScreen(this._loggedUser);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -16,6 +19,21 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _messagesScroll = ScrollController();
   final TextEditingController _messageController = TextEditingController();
+
+  final DatabaseReference _dbRef =
+      FirebaseDatabase.instance.reference().child('messages');
+
+  Future<void> _sendMessage() async {
+    if (_messageController.text.length > 0) {
+      await _dbRef.push().set({
+        'text': _messageController.text,
+        'from': widget._loggedUser.user.email,
+        'timendate': DateTime.now().toIso8601String(),
+      });
+
+      _messageController.clear();
+    }
+  }
 
   var dummyData = [
     {
@@ -83,7 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Image.asset('assets/images/logo.png'),
           ),
         ),
-        title: Text('Chats'),
+        title: Text('Anonymous Chat'),
       ),
       body: Column(
         children: <Widget>[
@@ -122,14 +140,15 @@ class _ChatScreenState extends State<ChatScreen> {
               children: <Widget>[
                 Expanded(
                   child: TextField(
-                    controller: _messageController,
                     decoration: _messageInputDecoration(),
+                    controller: _messageController,
+                    onSubmitted: (_) => _sendMessage(),
                   ),
                 ),
                 IconButton(
                   icon: Icon(Icons.send_outlined),
                   iconSize: 28,
-                  onPressed: () {},
+                  onPressed: _sendMessage,
                 ),
               ],
             ),
