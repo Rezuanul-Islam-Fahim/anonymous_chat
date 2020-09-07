@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,10 +39,13 @@ class LoginScreen extends StatelessWidget {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: Image.asset(
-                'assets/images/logo.png',
-                height: 150,
-                width: 150,
+              child: Hero(
+                tag: 'logo',
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  height: 150,
+                  width: 150,
+                ),
               ),
             ),
             Text(

@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../components/message.dart';
 
 class ChatScreen extends StatefulWidget {
-  final UserCredential _user;
+  final UserCredential _loggedUser;
 
-  ChatScreen(this._user);
+  ChatScreen(this._loggedUser);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -17,60 +20,26 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _messagesScroll = ScrollController();
   final TextEditingController _messageController = TextEditingController();
 
-  var dummyData = [
-    {
-      'text': 'Hello Fahim',
-      'from': 'Fahim',
-      'me': true,
-    },
-    {
-      'text': 'Fahim',
-      'from': 'Rezuanul Fahim',
-      'me': false,
-    },
-    {
-      'text': 'Istiaq',
-      'from': 'Rezuanul',
-      'me': false,
-    },
-    {
-      'text': 'Hello Rezuan',
-      'from': 'Niloy',
-      'me': false,
-    },
-    {
-      'text': 'Rezuanul Islam Fahim',
-      'from': 'Fardous',
-      'me': false,
-    },
-    {
-      'text': 'Hello Niloy',
-      'from': 'Fahim',
-      'me': true,
-    },
-    {
-      'text': 'Hello Ashik',
-      'from': 'Steve',
-      'me': false,
-    },
-    {
-      'text': 'Hello Ashik',
-      'from': 'Steve',
-      'me': true,
-    },
-    {
-      'text':
-          'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik ',
-      'from': 'Steve',
-      'me': false,
-    },
-    {
-      'text':
-          'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik',
-      'from': 'Steve',
-      'me': true,
-    },
-  ];
+  final DatabaseReference _dbRef =
+      FirebaseDatabase.instance.reference().child('messages');
+
+  Future<void> _sendMessage() async {
+    if (_messageController.text.length > 0) {
+      await _dbRef.push().set({
+        'text': _messageController.text,
+        'from': widget._loggedUser.user.email,
+        'timendate': DateTime.now().toIso8601String(),
+      });
+
+      _messageController.clear();
+
+      _messagesScroll.animateTo(
+        _messagesScroll.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,21 +47,43 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(5),
-          child: Image.asset('assets/images/logo.png'),
+          child: Hero(
+            tag: 'logo',
+            child: Image.asset('assets/images/logo.png'),
+          ),
         ),
         title: Text('Chats'),
       ),
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              controller: _messagesScroll,
-              itemCount: dummyData.length,
-              itemBuilder: (context, index) {
-                return Message(
-                  dummyData[index]['text'],
-                  dummyData[index]['from'],
-                  dummyData[index]['me'],
+            child: StreamBuilder(
+              stream: _dbRef.onValue,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                Map<dynamic, dynamic> data = snapshot.data.snapshot.value;
+                List<Map<dynamic, dynamic>> messages = [];
+
+                if (data != null) {
+                  data.forEach((key, value) => messages.add(value));
+                }
+
+                return ListView.builder(
+                  padding: EdgeInsets.only(top: 5),
+                  controller: _messagesScroll,
+                  itemCount: messages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Map<dynamic, dynamic> message = messages[index];
+
+                    return Message(
+                      message['text'],
+                      message['from'],
+                      message['from'] == widget._loggedUser.user.email,
+                    );
+                  },
                 );
               },
             ),
@@ -119,14 +110,15 @@ class _ChatScreenState extends State<ChatScreen> {
               children: <Widget>[
                 Expanded(
                   child: TextField(
-                    controller: _messageController,
                     decoration: _messageInputDecoration(),
+                    controller: _messageController,
+                    onSubmitted: (_) => _sendMessage(),
                   ),
                 ),
                 IconButton(
                   icon: Icon(Icons.send_outlined),
                   iconSize: 28,
-                  onPressed: () {},
+                  onPressed: _sendMessage,
                 ),
               ],
             ),
