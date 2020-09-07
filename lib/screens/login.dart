@@ -30,10 +30,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+      resizeToAvoidBottomPadding: false,
+      body: Container(
+        padding: const EdgeInsets.only(top: 60, left: 15, right: 15),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               alignment: Alignment.center,
@@ -43,7 +43,15 @@ class LoginScreen extends StatelessWidget {
                 width: 150,
               ),
             ),
-            SizedBox(height: 30),
+            Text(
+              'Anonymous Chat',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: Colors.grey[800],
+              ),
+            ),
+            SizedBox(height: 40),
             TextField(
               decoration: inputField(
                 'Enter your E-mail',
