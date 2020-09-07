@@ -38,10 +38,13 @@ class RegisterScreen extends StatelessWidget {
               children: <Widget>[
                 Container(
                   alignment: Alignment.center,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: 150,
-                    width: 150,
+                  child: Hero(
+                    tag: 'logo',
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: 150,
+                      width: 150,
+                    ),
                   ),
                 ),
                 Text(

@@ -78,7 +78,10 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(5),
-          child: Image.asset('assets/images/logo.png'),
+          child: Hero(
+            tag: 'logo',
+            child: Image.asset('assets/images/logo.png'),
+          ),
         ),
         title: Text('Chats'),
       ),
