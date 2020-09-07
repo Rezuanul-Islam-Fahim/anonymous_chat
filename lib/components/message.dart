@@ -11,7 +11,7 @@ class Message extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: _isMe ? EdgeInsets.only(left: 110) : EdgeInsets.only(right: 110),
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       alignment: _isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
         crossAxisAlignment:
@@ -30,7 +30,12 @@ class Message extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: _isMe ? Theme.of(context).primaryColor : Colors.black87,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+                bottomLeft: _isMe ? Radius.circular(20) : Radius.zero,
+                bottomRight: !_isMe ? Radius.circular(20) : Radius.zero,
+              ),
             ),
             child: Text(
               _text,

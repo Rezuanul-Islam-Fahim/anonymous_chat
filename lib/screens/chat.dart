@@ -35,61 +35,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  var dummyData = [
-    {
-      'text': 'Hello Fahim',
-      'from': 'Fahim',
-      'me': true,
-    },
-    {
-      'text': 'Fahim',
-      'from': 'Rezuanul Fahim',
-      'me': false,
-    },
-    {
-      'text': 'Istiaq',
-      'from': 'Rezuanul',
-      'me': false,
-    },
-    {
-      'text': 'Hello Rezuan',
-      'from': 'Niloy',
-      'me': false,
-    },
-    {
-      'text': 'Rezuanul Islam Fahim',
-      'from': 'Fardous',
-      'me': false,
-    },
-    {
-      'text': 'Hello Niloy',
-      'from': 'Fahim',
-      'me': true,
-    },
-    {
-      'text': 'Hello Ashik',
-      'from': 'Steve',
-      'me': false,
-    },
-    {
-      'text': 'Hello Ashik',
-      'from': 'Steve',
-      'me': true,
-    },
-    {
-      'text':
-          'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik ',
-      'from': 'Steve',
-      'me': false,
-    },
-    {
-      'text':
-          'Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik Hello Ashik',
-      'from': 'Steve',
-      'me': true,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,19 +46,37 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Image.asset('assets/images/logo.png'),
           ),
         ),
-        title: Text('Anonymous Chat'),
+        title: Text('Chats'),
       ),
       body: Column(
         children: <Widget>[
+          SizedBox(height: 5),
           Expanded(
-            child: ListView.builder(
-              controller: _messagesScroll,
-              itemCount: dummyData.length,
-              itemBuilder: (context, index) {
-                return Message(
-                  dummyData[index]['text'],
-                  dummyData[index]['from'],
-                  dummyData[index]['me'],
+            child: StreamBuilder(
+              stream: _dbRef.onValue,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                Map<dynamic, dynamic> data = snapshot.data.snapshot.value;
+                List<Map<dynamic, dynamic>> messages = [];
+
+                if (data != null) {
+                  data.forEach((key, value) => messages.add(value));
+                }
+
+                return ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Map<dynamic, dynamic> message = messages[index];
+
+                    return Message(
+                      message['text'],
+                      message['from'],
+                      message['from'] == widget._loggedUser.user.email,
+                    );
+                  },
                 );
               },
             ),
