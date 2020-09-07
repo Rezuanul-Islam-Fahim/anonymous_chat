@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../global.dart';
+import '../components/login_register_button.dart';
 import 'register.dart';
 import 'chat.dart';
 
@@ -29,10 +30,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+      resizeToAvoidBottomPadding: false,
+      body: Container(
+        padding: const EdgeInsets.only(top: 60, left: 15, right: 15),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               alignment: Alignment.center,
@@ -42,31 +43,33 @@ class LoginScreen extends StatelessWidget {
                 width: 150,
               ),
             ),
-            SizedBox(height: 30),
+            Text(
+              'Anonymous Chat',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: Colors.grey[800],
+              ),
+            ),
+            SizedBox(height: 40),
             TextField(
-              decoration: inputField('Enter your E-mail'),
+              decoration: inputField(
+                'Enter your E-mail',
+                Icon(Icons.email_outlined),
+              ),
               controller: _emailController,
             ),
             SizedBox(height: 20),
             TextField(
-              decoration: inputField('Enter your Password'),
+              decoration: inputField(
+                'Enter your Password',
+                Icon(Icons.lock_outlined),
+              ),
               controller: _passwordController,
               obscureText: true,
             ),
             SizedBox(height: 20),
-            Container(
-              width: double.infinity,
-              child: RaisedButton(
-                child: Text('Login', style: TextStyle(fontSize: 16)),
-                padding: EdgeInsets.all(16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                onPressed: () => _loginUser(context),
-              ),
-            ),
+            LoginRegisterButton('Login', () => _loginUser(context)),
             SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
