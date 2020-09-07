@@ -32,6 +32,12 @@ class _ChatScreenState extends State<ChatScreen> {
       });
 
       _messageController.clear();
+
+      _messagesScroll.animateTo(
+        _messagesScroll.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -50,7 +56,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: <Widget>[
-          SizedBox(height: 5),
           Expanded(
             child: StreamBuilder(
               stream: _dbRef.onValue,
@@ -67,6 +72,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 }
 
                 return ListView.builder(
+                  padding: EdgeInsets.only(top: 5),
+                  controller: _messagesScroll,
                   itemCount: messages.length,
                   itemBuilder: (BuildContext context, int index) {
                     Map<dynamic, dynamic> message = messages[index];
