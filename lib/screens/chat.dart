@@ -20,6 +20,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _messagesScroll = ScrollController();
   final TextEditingController _messageController = TextEditingController();
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _dbRef =
       FirebaseDatabase.instance.reference().child('messages');
 
@@ -53,6 +54,15 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         title: Text('Chats'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              _auth.signOut();
+              Navigator.of(context).popUntil((Route route) => route.isFirst);
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -71,8 +81,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   data.forEach((key, value) => messages.add(value));
                 }
 
+                messages.sort(
+                  (a, b) => a['timendate'].compareTo(b['timendate']),
+                );
+
                 return ListView.builder(
-                  padding: EdgeInsets.only(top: 5),
+                  padding: EdgeInsets.symmetric(vertical: 5),
                   controller: _messagesScroll,
                   itemCount: messages.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -134,7 +148,7 @@ InputDecoration _messageInputDecoration() {
     filled: true,
     fillColor: Colors.grey[100],
     contentPadding: EdgeInsets.symmetric(
-      vertical: 10,
+      vertical: 8,
       horizontal: 15,
     ),
     border: OutlineInputBorder(),
