@@ -20,6 +20,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _messagesScroll = ScrollController();
   final TextEditingController _messageController = TextEditingController();
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _dbRef =
       FirebaseDatabase.instance.reference().child('messages');
 
@@ -53,6 +54,15 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         title: Text('Chats'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              _auth.signOut();
+              Navigator.of(context).popUntil((Route route) => route.isFirst);
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
