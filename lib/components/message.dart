@@ -20,9 +20,12 @@ class Message extends StatelessWidget {
           if (!_isMe)
             Padding(
               padding: EdgeInsets.only(left: 3),
-              child: Text(_from),
+              child: Text(
+                _from,
+                style: TextStyle(fontSize: 13),
+              ),
             ),
-          if (!_isMe) SizedBox(height: 3),
+          if (!_isMe) SizedBox(height: 1),
           Container(
             padding: EdgeInsets.symmetric(
               vertical: 10,

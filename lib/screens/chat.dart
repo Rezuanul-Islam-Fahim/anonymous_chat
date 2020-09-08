@@ -72,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 }
 
                 return ListView.builder(
-                  padding: EdgeInsets.only(top: 5),
+                  padding: EdgeInsets.symmetric(vertical: 5),
                   controller: _messagesScroll,
                   itemCount: messages.length,
                   itemBuilder: (BuildContext context, int index) {
