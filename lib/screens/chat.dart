@@ -71,6 +71,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   data.forEach((key, value) => messages.add(value));
                 }
 
+                messages.sort(
+                  (a, b) => a['timendate'].compareTo(b['timendate']),
+                );
+
                 return ListView.builder(
                   padding: EdgeInsets.symmetric(vertical: 5),
                   controller: _messagesScroll,
@@ -134,7 +138,7 @@ InputDecoration _messageInputDecoration() {
     filled: true,
     fillColor: Colors.grey[100],
     contentPadding: EdgeInsets.symmetric(
-      vertical: 10,
+      vertical: 8,
       horizontal: 15,
     ),
     border: OutlineInputBorder(),
