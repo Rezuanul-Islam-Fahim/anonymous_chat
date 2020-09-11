@@ -28,9 +28,10 @@ class RegisterScreen extends StatelessWidget {
     await _prefs.setString('userEmail', _email);
     await _prefs.setString('userPassword', _password);
 
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => ChatScreen(_user),
-    ));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => ChatScreen(_user)),
+      (Route<dynamic> route) => false,
+    );
 
     _emailController.clear();
     _passwordController.clear();
