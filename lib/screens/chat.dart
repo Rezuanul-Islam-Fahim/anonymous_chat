@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/message.dart';
+import 'login.dart';
 
 class ChatScreen extends StatefulWidget {
   final UserCredential _loggedUser;
@@ -42,6 +43,17 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Future<void> _logOut() async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.clear();
+    _auth.signOut();
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => LoginScreen()),
+      (Route<dynamic> route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () {
-              _auth.signOut();
-              Navigator.of(context).popUntil((Route route) => route.isFirst);
-            },
+            onPressed: _logOut,
           ),
         ],
       ),
