@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../global.dart';
@@ -10,11 +11,12 @@ import 'chat.dart';
 
 class RegisterScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   Future<void> _registerUser(BuildContext context) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
 
     final String _email = _emailController.text;
@@ -24,6 +26,10 @@ class RegisterScreen extends StatelessWidget {
       email: _email,
       password: _password,
     );
+
+    _firestore.collection('users').doc(_user.user.uid).set({
+      'name': _nameController.text,
+    });
 
     await _prefs.setString('userEmail', _email);
     await _prefs.setString('userPassword', _password);
@@ -72,6 +78,7 @@ class RegisterScreen extends StatelessWidget {
                     'Name',
                     Icon(Icons.account_circle_outlined),
                   ),
+                  controller: _nameController,
                 ),
                 SizedBox(height: 20),
                 TextField(
