@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../global.dart';
 import '../components/login_register_button.dart';
@@ -15,14 +15,23 @@ class RegisterScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _registerUser(BuildContext context) async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    final String _email = _emailController.text;
+    final String _password = _passwordController.text;
+
     final UserCredential _user = await _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
+      email: _email,
+      password: _password,
     );
 
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => ChatScreen(_user),
-    ));
+    await _prefs.setString('userEmail', _email);
+    await _prefs.setString('userPassword', _password);
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => ChatScreen(_user)),
+      (Route<dynamic> route) => false,
+    );
 
     _emailController.clear();
     _passwordController.clear();
