@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/message.dart';
@@ -24,12 +25,21 @@ class _ChatScreenState extends State<ChatScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _dbRef =
       FirebaseDatabase.instance.reference().child('messages');
+  final CollectionReference _users =
+      FirebaseFirestore.instance.collection('users');
 
   Future<void> _sendMessage() async {
+    String _name;
+
+    await _users.doc(widget._loggedUser.user.uid).get().then((snap) {
+      _name = snap.get('name');
+    });
+
     if (_messageController.text.length > 0) {
       await _dbRef.push().set({
         'text': _messageController.text,
-        'from': widget._loggedUser.user.email,
+        'fromName': _name,
+        'fromEmail': widget._loggedUser.user.email,
         'timendate': DateTime.now().toIso8601String(),
       });
 
@@ -103,8 +113,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
                     return Message(
                       message['text'],
-                      message['from'],
-                      message['from'] == widget._loggedUser.user.email,
+                      message['fromName'],
+                      message['fromEmail'] == widget._loggedUser.user.email,
                     );
                   },
                 );
