@@ -28,17 +28,19 @@ class _ChatScreenState extends State<ChatScreen> {
   final CollectionReference _users =
       FirebaseFirestore.instance.collection('users');
 
-  Future<void> _sendMessage() async {
-    String _name;
+  String _loggedUserName;
 
+  void _loadUser() async {
     await _users.doc(widget._loggedUser.user.uid).get().then((snap) {
-      _name = snap.get('name');
+      _loggedUserName = snap.get('name');
     });
+  }
 
+  Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
       await _dbRef.push().set({
         'text': _messageController.text,
-        'fromName': _name,
+        'fromName': _loggedUserName,
         'fromEmail': widget._loggedUser.user.email,
         'timendate': DateTime.now().toIso8601String(),
       });
@@ -47,7 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       _messagesScroll.animateTo(
         _messagesScroll.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 200),
         curve: Curves.easeInOut,
       );
     }
@@ -62,6 +64,12 @@ class _ChatScreenState extends State<ChatScreen> {
       MaterialPageRoute(builder: (_) => LoginScreen()),
       (Route<dynamic> route) => false,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
   }
 
   @override
