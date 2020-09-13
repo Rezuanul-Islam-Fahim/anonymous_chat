@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/message.dart';
-import 'login.dart';
+import 'setting.dart';
 
 class ChatScreen extends StatefulWidget {
   final UserCredential _loggedUser;
@@ -55,17 +54,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  Future<void> _logOut() async {
-    final SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.clear();
-    _auth.signOut();
-
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => LoginScreen()),
-      (Route<dynamic> route) => false,
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -86,8 +74,12 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text('Chats'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: _logOut,
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => SettingScreen()),
+              );
+            },
           ),
         ],
       ),
