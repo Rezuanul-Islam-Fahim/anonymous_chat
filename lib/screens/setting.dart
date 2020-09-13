@@ -12,13 +12,34 @@ class SettingScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _logOut(BuildContext context) async {
-    final SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.clear();
-    _auth.signOut();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout'),
+          content: Text('Are you sure to logout?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            FlatButton(
+              child: Text('Logout'),
+              onPressed: () async {
+                final SharedPreferences _prefs =
+                    await SharedPreferences.getInstance();
+                _prefs.clear();
+                _auth.signOut();
 
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => LoginScreen()),
-      (Route<dynamic> route) => false,
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
