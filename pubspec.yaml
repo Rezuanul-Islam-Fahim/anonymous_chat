@@ -32,7 +32,6 @@ dependencies:
   # External Packages
   firebase_core: ^0.5.0
   firebase_auth: ^0.18.0+1
-  firebase_database: ^4.0.0
   cloud_firestore: ^0.14.0+2
   shared_preferences: ^0.5.10
 
