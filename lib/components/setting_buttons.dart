@@ -10,14 +10,14 @@ class SettingButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Colors.grey[350],
+      splashColor: Colors.grey[300],
       onTap: handler,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
         child: Row(
           children: <Widget>[
             Icon(icon, size: 25, color: Colors.grey[700]),
-            SizedBox(width: 10),
+            SizedBox(width: 15),
             Text(
               label,
               style: TextStyle(

@@ -92,7 +92,7 @@ class RegisterScreen extends StatelessWidget {
                 TextField(
                   decoration: inputField(
                     'Password',
-                    Icon(Icons.lock_outlined),
+                    Icon(Icons.vpn_key_outlined),
                   ),
                   controller: _passwordController,
                   obscureText: true,

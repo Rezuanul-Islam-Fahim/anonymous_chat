@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
             TextField(
               decoration: inputField(
                 'Enter your Password',
-                Icon(Icons.lock_outlined),
+                Icon(Icons.vpn_key_outlined),
               ),
               controller: _passwordController,
               obscureText: true,
