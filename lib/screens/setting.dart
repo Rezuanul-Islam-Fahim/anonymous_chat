@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../components/setting_buttons.dart';
 import 'login.dart';
+import 'change_password.dart';
 
 class SettingScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -58,41 +60,19 @@ class SettingScreen extends StatelessWidget {
             SizedBox(height: 40),
             Column(
               children: <Widget>[
-                SettingButtons(Icons.lock_outlined, 'Change Password'),
-                SettingButtons(Icons.logout, 'Log Out'),
+                SettingButtons(
+                  Icons.vpn_key_outlined,
+                  'Change Password',
+                  () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => ChangePasswordScreen()),
+                  ),
+                ),
+                SettingButtons(
+                  Icons.logout,
+                  'Log Out',
+                  () => _logOut(context),
+                ),
               ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SettingButtons extends StatelessWidget {
-  final dynamic icon;
-  final String label;
-
-  SettingButtons(this.icon, this.label);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: Colors.grey[350],
-      onTap: () => print('done'),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-        child: Row(
-          children: <Widget>[
-            Icon(icon, size: 25, color: Colors.grey[700]),
-            SizedBox(width: 10),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-                color: Colors.grey[700],
-              ),
             ),
           ],
         ),
