@@ -9,7 +9,9 @@ InputDecoration inputField(String placeholderText, Icon icon) {
     filled: true,
     fillColor: Colors.grey[200],
     hintText: placeholderText,
-    border: OutlineInputBorder(),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+    ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30),
       borderSide: BorderSide(
@@ -25,8 +27,6 @@ InputDecoration inputField(String placeholderText, Icon icon) {
       ),
     ),
     prefixIcon: icon,
-    prefixIconConstraints: BoxConstraints(
-      minWidth: 60,
-    ),
+    prefixIconConstraints: BoxConstraints(minWidth: 60),
   );
 }

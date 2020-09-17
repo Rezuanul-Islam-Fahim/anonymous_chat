@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flushbar/flushbar.dart';
 
 import '../global.dart';
 import '../components/login_register_button.dart';
+import '../components/flash_message.dart';
 import 'register.dart';
 import 'chat.dart';
 
@@ -14,28 +17,86 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _loginUser(BuildContext context) async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
 
     final String _email = _emailController.text;
     final String _password = _passwordController.text;
+    UserCredential _user;
 
-    final UserCredential _user = await _auth.signInWithEmailAndPassword(
-      email: _email,
-      password: _password,
-    );
+    try {
+      _user = await _auth.signInWithEmailAndPassword(
+        email: _email,
+        password: _password,
+      );
+    } catch (e) {
+      print(e.toString());
+      // FlashMessage(
+      //   title: 'Login Failed',
+      //   message: 'E-mail and password you have entered is incorrect',
+      //   icon: Icon(
+      //     Icons.info_outlined,
+      //     size: 30,
+      //     color: Colors.redAccent,
+      //   ),
+      //   ctx: context,
+      // );
+      Flushbar(
+        title: 'Login Failed',
+        message: 'Incorrect E-mail address or Password entered',
+        icon: Icon(
+          Icons.info_outline,
+          size: 30,
+          color: Colors.redAccent,
+        ),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
+        borderRadius: 10,
+        duration: Duration(seconds: 5),
+        boxShadows: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 5,
+            spreadRadius: 2,
+          ),
+        ],
+      )..show(context);
+    }
 
-    await _prefs.setString('userEmail', _email);
-    await _prefs.setString('userPassword', _password);
+    if (_user != null) {
+      await _prefs.setString('userEmail', _email);
+      await _prefs.setString('userPassword', _password);
 
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => ChatScreen(_user)),
-      (Route<dynamic> route) => false,
-    );
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => ChatScreen(_user)),
+        (Route<dynamic> route) => false,
+      );
 
-    _emailController.clear();
-    _passwordController.clear();
+      Flushbar(
+        message: 'Successfully logged In',
+        icon: Icon(
+          Icons.info_outline,
+          size: 30,
+          color: Colors.greenAccent,
+        ),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
+        borderRadius: 10,
+        duration: Duration(seconds: 5),
+        boxShadows: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 5,
+            spreadRadius: 2,
+          ),
+        ],
+      )..show(context);
+
+      _emailController.clear();
+      _passwordController.clear();
+    }
   }
 
   @override
@@ -66,24 +127,49 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 40),
-            TextField(
-              decoration: inputField(
-                'Enter your E-mail',
-                Icon(Icons.email_outlined),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    decoration: inputField(
+                      'Enter your E-mail',
+                      Icon(Icons.email_outlined),
+                    ),
+                    controller: _emailController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Email is required';
+                      } else if (!EmailValidator.validate(value)) {
+                        return 'Invalid Email Address';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    decoration: inputField(
+                      'Enter your Password',
+                      Icon(Icons.vpn_key_outlined),
+                    ),
+                    controller: _passwordController,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Password is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  LoginRegisterButton('Login', () {
+                    if (_formKey.currentState.validate()) {
+                      _loginUser(context);
+                    }
+                  }),
+                ],
               ),
-              controller: _emailController,
             ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: inputField(
-                'Enter your Password',
-                Icon(Icons.vpn_key_outlined),
-              ),
-              controller: _passwordController,
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            LoginRegisterButton('Login', () => _loginUser(context)),
             SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

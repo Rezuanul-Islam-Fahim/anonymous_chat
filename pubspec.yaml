@@ -34,6 +34,8 @@ dependencies:
   firebase_auth: ^0.18.0+1
   cloud_firestore: ^0.14.0+2
   shared_preferences: ^0.5.10
+  email_validator: ^1.0.5
+  flushbar: ^1.10.4
 
 dev_dependencies:
   flutter_test:
