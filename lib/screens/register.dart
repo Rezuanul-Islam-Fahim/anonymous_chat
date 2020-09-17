@@ -79,7 +79,7 @@ class RegisterScreen extends StatelessWidget {
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
         borderRadius: 10,
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 4),
         boxShadows: <BoxShadow>[
           BoxShadow(
             color: Colors.black45,
