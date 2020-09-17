@@ -70,7 +70,7 @@ class RegisterScreen extends StatelessWidget {
       );
 
       Flushbar(
-        message: 'Successfully Registered',
+        message: 'Successfully registered new account',
         icon: Icon(
           Icons.info_outline,
           size: 30,

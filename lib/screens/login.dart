@@ -8,7 +8,6 @@ import 'package:flushbar/flushbar.dart';
 
 import '../global.dart';
 import '../components/login_register_button.dart';
-import '../components/flash_message.dart';
 import 'register.dart';
 import 'chat.dart';
 
@@ -33,16 +32,6 @@ class LoginScreen extends StatelessWidget {
       );
     } catch (e) {
       print(e.toString());
-      // FlashMessage(
-      //   title: 'Login Failed',
-      //   message: 'E-mail and password you have entered is incorrect',
-      //   icon: Icon(
-      //     Icons.info_outlined,
-      //     size: 30,
-      //     color: Colors.redAccent,
-      //   ),
-      //   ctx: context,
-      // );
       Flushbar(
         title: 'Login Failed',
         message: 'Incorrect E-mail address or Password entered',
@@ -54,7 +43,7 @@ class LoginScreen extends StatelessWidget {
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
         borderRadius: 10,
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 4),
         boxShadows: <BoxShadow>[
           BoxShadow(
             color: Colors.black45,
@@ -84,7 +73,7 @@ class LoginScreen extends StatelessWidget {
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
         borderRadius: 10,
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 4),
         boxShadows: <BoxShadow>[
           BoxShadow(
             color: Colors.black45,
