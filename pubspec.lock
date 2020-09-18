@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
+  email_validator:
+    dependency: "direct main"
+    description:
+      name: email_validator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -134,13 +141,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
-  firebase_database:
+  flushbar:
     dependency: "direct main"
     description:
-      name: firebase_database
+      name: flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "1.10.4"
   flutter:
     dependency: "direct main"
     description: flutter

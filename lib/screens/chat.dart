@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../components/message.dart';
@@ -21,11 +20,11 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _messagesScroll = ScrollController();
   final TextEditingController _messageController = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final DatabaseReference _dbRef =
-      FirebaseDatabase.instance.reference().child('messages');
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _users =
       FirebaseFirestore.instance.collection('users');
+  final CollectionReference _messages =
+      FirebaseFirestore.instance.collection('messages');
 
   String _loggedUserName;
 
@@ -37,7 +36,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
-      await _dbRef.push().set({
+      await _messages.add({
         'text': _messageController.text,
         'fromName': _loggedUserName,
         'fromEmail': widget._loggedUser.user.email,
@@ -87,34 +86,28 @@ class _ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           Expanded(
             child: StreamBuilder(
-              stream: _dbRef.onValue,
+              stream: _firestore
+                  .collection('messages')
+                  .orderBy('timendate')
+                  .snapshots(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                Map<dynamic, dynamic> data = snapshot.data.snapshot.value;
-                List<Map<dynamic, dynamic>> messages = [];
-
-                if (data != null) {
-                  data.forEach((key, value) => messages.add(value));
-                }
-
-                messages.sort(
-                  (a, b) => a['timendate'].compareTo(b['timendate']),
-                );
+                List<DocumentSnapshot> messages = snapshot.data.docs;
 
                 return ListView.builder(
                   padding: EdgeInsets.symmetric(vertical: 5),
                   controller: _messagesScroll,
                   itemCount: messages.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Map<dynamic, dynamic> message = messages[index];
+                    DocumentSnapshot message = messages[index];
 
                     return Message(
-                      message['text'],
-                      message['fromName'],
-                      message['fromEmail'] == widget._loggedUser.user.email,
+                      message.get('text'),
+                      message.get('fromName'),
+                      message.get('fromEmail') == widget._loggedUser.user.email,
                     );
                   },
                 );

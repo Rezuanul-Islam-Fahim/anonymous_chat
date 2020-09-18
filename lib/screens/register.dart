@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flushbar/flushbar.dart';
 
 import '../global.dart';
 import '../components/login_register_button.dart';
@@ -14,6 +16,8 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   Future<void> _registerUser(BuildContext context) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -21,26 +25,73 @@ class RegisterScreen extends StatelessWidget {
 
     final String _email = _emailController.text;
     final String _password = _passwordController.text;
+    UserCredential _user;
 
-    final UserCredential _user = await _auth.createUserWithEmailAndPassword(
-      email: _email,
-      password: _password,
-    );
+    try {
+      _user = await _auth.createUserWithEmailAndPassword(
+        email: _email,
+        password: _password,
+      );
+    } catch (e) {
+      print(e.toString());
+      Flushbar(
+        title: 'Registration Failed',
+        message: 'The email address is already in use by another account',
+        icon: Icon(
+          Icons.info_outline,
+          size: 30,
+          color: Colors.redAccent,
+        ),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
+        borderRadius: 10,
+        duration: Duration(seconds: 4),
+        boxShadows: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 5,
+            spreadRadius: 2,
+          ),
+        ],
+      )..show(context);
+    }
 
-    _firestore.collection('users').doc(_user.user.uid).set({
-      'name': _nameController.text,
-    });
+    if (_user != null) {
+      _firestore.collection('users').doc(_user.user.uid).set({
+        'name': _nameController.text,
+      });
 
-    await _prefs.setString('userEmail', _email);
-    await _prefs.setString('userPassword', _password);
+      await _prefs.setString('userEmail', _email);
+      await _prefs.setString('userPassword', _password);
 
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => ChatScreen(_user)),
-      (Route<dynamic> route) => false,
-    );
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => ChatScreen(_user)),
+        (Route<dynamic> route) => false,
+      );
 
-    _emailController.clear();
-    _passwordController.clear();
+      Flushbar(
+        message: 'Successfully registered new account',
+        icon: Icon(
+          Icons.info_outline,
+          size: 30,
+          color: Colors.greenAccent,
+        ),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
+        borderRadius: 10,
+        duration: Duration(seconds: 4),
+        boxShadows: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 5,
+            spreadRadius: 2,
+          ),
+        ],
+      )..show(context);
+
+      _emailController.clear();
+      _passwordController.clear();
+    }
   }
 
   @override
@@ -73,34 +124,67 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 40),
-                TextField(
-                  decoration: inputField(
-                    'Name',
-                    Icon(Icons.account_circle_outlined),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        decoration: inputField(
+                          'Name',
+                          Icon(Icons.account_circle_outlined),
+                        ),
+                        controller: _nameController,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Name is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        decoration: inputField(
+                          'E-mail',
+                          Icon(Icons.email_outlined),
+                        ),
+                        controller: _emailController,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Email is required';
+                          } else if (!EmailValidator.validate(value)) {
+                            return 'Invalid E-mail address';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        decoration: inputField(
+                          'Password',
+                          Icon(Icons.vpn_key_outlined),
+                        ),
+                        controller: _passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Password is required';
+                          } else if (value.length < 6) {
+                            return 'Password should be at least 6 characters';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      LoginRegisterButton(
+                        'Register Now',
+                        () {
+                          if (_formKey.currentState.validate()) {
+                            _registerUser(context);
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  controller: _nameController,
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  decoration: inputField(
-                    'E-mail',
-                    Icon(Icons.email_outlined),
-                  ),
-                  controller: _emailController,
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  decoration: inputField(
-                    'Password',
-                    Icon(Icons.vpn_key_outlined),
-                  ),
-                  controller: _passwordController,
-                  obscureText: true,
-                ),
-                SizedBox(height: 20),
-                LoginRegisterButton(
-                  'Register Now',
-                  () => _registerUser(context),
                 ),
               ],
             ),
