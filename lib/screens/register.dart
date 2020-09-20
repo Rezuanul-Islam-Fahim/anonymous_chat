@@ -65,7 +65,7 @@ class RegisterScreen extends StatelessWidget {
       await _prefs.setString('userPassword', _password);
 
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => ChatScreen(_user)),
+        MaterialPageRoute(builder: (_) => ChatScreen()),
         (Route<dynamic> route) => false,
       );
 

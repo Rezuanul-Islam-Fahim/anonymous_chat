@@ -27,7 +27,7 @@ class ChangePasswordScreen extends StatelessWidget {
     await _prefs.setString('userPassword', _passwordController.text);
 
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => ChatScreen(_user)),
+      MaterialPageRoute(builder: (_) => ChatScreen()),
       (Route<dynamic> route) => false,
     );
 

@@ -8,9 +8,9 @@ import '../components/message.dart';
 import 'setting.dart';
 
 class ChatScreen extends StatefulWidget {
-  final UserCredential _loggedUser;
+  final UserCredential loggedUser;
 
-  ChatScreen(this._loggedUser);
+  ChatScreen({this.loggedUser});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -29,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String _loggedUserName;
 
   void _loadUser() async {
-    await _users.doc(widget._loggedUser.user.uid).get().then((snap) {
+    await _users.doc(widget.loggedUser.user.uid).get().then((snap) {
       _loggedUserName = snap.get('name');
     });
   }
@@ -39,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
       await _messages.add({
         'text': _messageController.text,
         'fromName': _loggedUserName,
-        'fromEmail': widget._loggedUser.user.email,
+        'fromEmail': widget.loggedUser.user.email,
         'timendate': DateTime.now().toIso8601String(),
       });
 
@@ -107,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     return Message(
                       message.get('text'),
                       message.get('fromName'),
-                      message.get('fromEmail') == widget._loggedUser.user.email,
+                      message.get('fromEmail') == widget.loggedUser.user.email,
                     );
                   },
                 );
