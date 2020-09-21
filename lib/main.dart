@@ -25,9 +25,9 @@ void main() async {
 }
 
 class AnonymousChat extends StatelessWidget {
-  final String email;
-
   AnonymousChat({this.email});
+
+  final String email;
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
 import '../global.dart';
+import '../services/auth.dart';
+import '../services/auth_exception.dart';
 import '../components/login_register_button.dart';
 import '../components/flush_message.dart';
 import 'register.dart';
@@ -14,34 +16,15 @@ import 'chat.dart';
 class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Future<void> _loginUser(BuildContext context) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String _email = _emailController.text;
-    String _password = _passwordController.text;
-    UserCredential _user;
+  Future<void> _login(BuildContext context) async {
+    AuthResultStatus _status = await AuthService.login(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
-    try {
-      _user = await _auth.signInWithEmailAndPassword(
-        email: _email,
-        password: _password,
-      );
-    } catch (e) {
-      print(e.toString());
-      FlushMessage(
-        title: 'Login Failed',
-        message: 'Incorrect E-mail address or Password entered',
-        icon: Icons.info_outline,
-        color: Colors.red,
-      ).show(context);
-    }
-
-    if (_user != null) {
-      await _prefs.setString('userEmail', _email);
-      await _prefs.setString('userPassword', _password);
-
+    if (_status == AuthResultStatus.successful) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => ChatScreen()),
         (Route<dynamic> route) => false,
@@ -55,6 +38,15 @@ class LoginScreen extends StatelessWidget {
 
       _emailController.clear();
       _passwordController.clear();
+    } else {
+      String _errorMessage = AuthExceptionHandler.generateErrorMessage(_status);
+
+      FlushMessage(
+        title: 'Login Failed',
+        message: _errorMessage,
+        icon: Icons.info_outline,
+        color: Colors.red,
+      ).show(context);
     }
   }
 
@@ -86,49 +78,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 40),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: inputField(
-                      'Enter your E-mail',
-                      Icon(Icons.email_outlined),
-                    ),
-                    controller: _emailController,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Email is required';
-                      } else if (!EmailValidator.validate(value)) {
-                        return 'Invalid Email Address';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    decoration: inputField(
-                      'Enter your Password',
-                      Icon(Icons.vpn_key_outlined),
-                    ),
-                    controller: _passwordController,
-                    obscureText: true,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Password is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  LoginRegisterButton('Login', () {
-                    if (_formKey.currentState.validate()) {
-                      _loginUser(context);
-                    }
-                  }),
-                ],
-              ),
-            ),
+            _buildForm(context),
             SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -155,6 +105,53 @@ class LoginScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildForm(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            decoration: inputField(
+              'Enter your E-mail',
+              Icon(Icons.email_outlined),
+            ),
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Email is required';
+              } else if (!EmailValidator.validate(value)) {
+                return 'Invalid Email Address';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 20),
+          TextFormField(
+            decoration: inputField(
+              'Enter your Password',
+              Icon(Icons.vpn_key_outlined),
+            ),
+            controller: _passwordController,
+            obscureText: true,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Password is required';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 20),
+          LoginRegisterButton('Login', () {
+            if (_formKey.currentState.validate()) {
+              _login(context);
+            }
+          }),
+        ],
       ),
     );
   }

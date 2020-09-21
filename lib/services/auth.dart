@@ -1,18 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'auth_exception.dart';
 
 class AuthService {
-  static Future<void> login({String email, String password}) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+  static Future<AuthResultStatus> login({String email, String password}) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    AuthResultStatus _status;
 
-    FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      UserCredential _user = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    if (!_prefs.containsKey('userEmail')) {
-      _prefs.setString('userEmail', email);
-      _prefs.setString('userPassword', password);
+      if (_user.user != null) {
+        _status = AuthResultStatus.successful;
+      }
+    } catch (e) {
+      print(e.code);
+      _status = AuthExceptionHandler.handleException(e);
     }
+
+    return _status;
   }
 }
