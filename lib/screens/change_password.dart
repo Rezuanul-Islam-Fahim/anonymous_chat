@@ -3,16 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flushbar/flushbar.dart';
 
 import '../global.dart';
 import '../components/login_register_button.dart';
+import '../components/flush_message.dart';
 import 'chat.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPassController = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _changePassword(BuildContext context) async {
@@ -31,25 +30,11 @@ class ChangePasswordScreen extends StatelessWidget {
       (Route<dynamic> route) => false,
     );
 
-    Flushbar(
+    FlushMessage(
       message: 'Successfully changed password',
-      icon: Icon(
-        Icons.info_outline,
-        size: 30,
-        color: Colors.green,
-      ),
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
-      borderRadius: 10,
-      duration: Duration(seconds: 4),
-      boxShadows: <BoxShadow>[
-        BoxShadow(
-          color: Colors.black45,
-          blurRadius: 5,
-          spreadRadius: 2,
-        ),
-      ],
-    )..show(context);
+      icon: Icons.info_outline,
+      color: Colors.green,
+    ).show(context);
   }
 
   @override

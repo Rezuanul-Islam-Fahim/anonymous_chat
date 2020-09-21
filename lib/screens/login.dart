@@ -4,25 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flushbar/flushbar.dart';
 
 import '../global.dart';
 import '../components/login_register_button.dart';
+import '../components/flush_message.dart';
 import 'register.dart';
 import 'chat.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _loginUser(BuildContext context) async {
-    final SharedPreferences _prefs = await SharedPreferences.getInstance();
-
-    final String _email = _emailController.text;
-    final String _password = _passwordController.text;
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String _email = _emailController.text;
+    String _password = _passwordController.text;
     UserCredential _user;
 
     try {
@@ -32,26 +30,12 @@ class LoginScreen extends StatelessWidget {
       );
     } catch (e) {
       print(e.toString());
-      Flushbar(
+      FlushMessage(
         title: 'Login Failed',
         message: 'Incorrect E-mail address or Password entered',
-        icon: Icon(
-          Icons.info_outline,
-          size: 30,
-          color: Colors.redAccent,
-        ),
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
-        borderRadius: 10,
-        duration: Duration(seconds: 4),
-        boxShadows: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black45,
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      )..show(context);
+        icon: Icons.info_outline,
+        color: Colors.red,
+      ).show(context);
     }
 
     if (_user != null) {
@@ -63,25 +47,11 @@ class LoginScreen extends StatelessWidget {
         (Route<dynamic> route) => false,
       );
 
-      Flushbar(
+      FlushMessage(
         message: 'Successfully logged In',
-        icon: Icon(
-          Icons.info_outline,
-          size: 30,
-          color: Colors.greenAccent,
-        ),
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
-        borderRadius: 10,
-        duration: Duration(seconds: 4),
-        boxShadows: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black45,
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      )..show(context);
+        icon: Icons.info_outline,
+        color: Colors.green,
+      ).show(context);
 
       _emailController.clear();
       _passwordController.clear();

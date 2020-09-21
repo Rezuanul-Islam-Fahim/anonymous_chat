@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flushbar/flushbar.dart';
 
 import '../components/setting_buttons.dart';
+import '../components/flush_message.dart';
 import 'login.dart';
 import 'change_password.dart';
 
@@ -37,25 +37,11 @@ class SettingScreen extends StatelessWidget {
                   (Route<dynamic> route) => false,
                 );
 
-                Flushbar(
+                FlushMessage(
                   message: 'Successfully logged out',
-                  icon: Icon(
-                    Icons.info_outline,
-                    size: 30,
-                    color: Colors.greenAccent,
-                  ),
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
-                  borderRadius: 10,
-                  duration: Duration(seconds: 4),
-                  boxShadows: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black45,
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                )..show(context);
+                  icon: Icons.info_outline,
+                  color: Colors.green,
+                ).show(context);
               },
             ),
           ],

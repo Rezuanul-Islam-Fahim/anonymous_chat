@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 
-class FlashMessage extends StatelessWidget {
+class FlushMessage {
+  FlushMessage({
+    this.title,
+    this.message,
+    this.icon,
+    this.color,
+  });
+
   final String title;
   final String message;
-  final Icon icon;
-  final BuildContext ctx;
+  final IconData icon;
+  final Color color;
 
-  FlashMessage({this.title, this.message, this.icon, this.ctx});
-
-  @override
-  Widget build(BuildContext context) {
-    return Flushbar(
-      title: 'title',
-      message: 'message',
-      icon: Icon(Icons.ad_units),
+  void show(BuildContext context) {
+    Flushbar(
+      title: title != null ? title : null,
+      message: message,
+      icon: Icon(icon, size: 30, color: color),
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
       borderRadius: 10,
