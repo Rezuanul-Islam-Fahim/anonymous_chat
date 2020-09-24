@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
-import 'package:anonymous_chat/global.dart';
+import 'package:anonymous_chat/commons.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/components/login_register_button.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
@@ -103,7 +103,7 @@ class RegisterScreen extends StatelessWidget {
                       TextFormField(
                         decoration: inputField(
                           'Name',
-                          Icon(Icons.account_circle_outlined),
+                          Icons.account_circle_outlined,
                         ),
                         controller: _nameController,
                         validator: (value) {
@@ -117,7 +117,7 @@ class RegisterScreen extends StatelessWidget {
                       TextFormField(
                         decoration: inputField(
                           'E-mail',
-                          Icon(Icons.email_outlined),
+                          Icons.email_outlined,
                         ),
                         controller: _emailController,
                         validator: (value) {
@@ -133,7 +133,7 @@ class RegisterScreen extends StatelessWidget {
                       TextFormField(
                         decoration: inputField(
                           'Password',
-                          Icon(Icons.vpn_key_outlined),
+                          Icons.vpn_key_outlined,
                         ),
                         controller: _passwordController,
                         obscureText: true,

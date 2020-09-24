@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:anonymous_chat/services/auth_exception.dart';
+import 'package:anonymous_chat/services/auth/auth_exception.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
 
@@ -11,12 +11,14 @@ class AuthHandler {
     this.passwordController,
     this.status,
     this.successMessage,
+    this.errorMessageTitle,
   });
 
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final AuthResultStatus status;
   final String successMessage;
+  final String errorMessageTitle;
 
   Future<void> submit(BuildContext context) async {
     if (status == AuthResultStatus.successful) {
@@ -38,11 +40,11 @@ class AuthHandler {
       emailController.clear();
       passwordController.clear();
     } else {
-      String _errorMessage = AuthExceptionHandler.generateErrorMessage(status);
+      String errorMessage = AuthExceptionHandler.generateErrorMessage(status);
 
       FlushMessage(
-        title: 'Login Failed',
-        message: _errorMessage,
+        title: errorMessageTitle,
+        message: errorMessage,
         icon: Icons.info_outline,
         color: Colors.red,
       ).show(context);

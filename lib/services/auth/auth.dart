@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:anonymous_chat/services/auth_exception.dart';
+import 'package:anonymous_chat/services/auth/auth_exception.dart';
 
 class AuthService {
   static Future<AuthResultStatus> login({

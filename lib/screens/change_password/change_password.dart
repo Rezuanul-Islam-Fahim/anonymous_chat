@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:anonymous_chat/global.dart';
+import 'package:anonymous_chat/commons.dart';
 import 'package:anonymous_chat/components/login_register_button.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
@@ -53,7 +53,7 @@ class ChangePasswordScreen extends StatelessWidget {
               TextFormField(
                 decoration: inputField(
                   'Enter New Password',
-                  Icon(Icons.vpn_key_outlined),
+                  Icons.vpn_key_outlined,
                 ),
                 controller: _passwordController,
                 obscureText: true,
@@ -73,7 +73,7 @@ class ChangePasswordScreen extends StatelessWidget {
               TextFormField(
                 decoration: inputField(
                   'Confirm Password',
-                  Icon(Icons.vpn_key_outlined),
+                  Icons.vpn_key_outlined,
                 ),
                 controller: _confirmPassController,
                 obscureText: true,

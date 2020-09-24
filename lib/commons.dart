@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 
-InputDecoration inputField(String placeholderText, Icon icon) {
+InputDecoration inputField(String placeholderText, IconData icon) {
   return InputDecoration(
     contentPadding: EdgeInsets.symmetric(
       horizontal: 10,
@@ -26,7 +27,25 @@ InputDecoration inputField(String placeholderText, Icon icon) {
         color: Colors.grey[350],
       ),
     ),
-    prefixIcon: icon,
-    prefixIconConstraints: BoxConstraints(minWidth: 60),
+    prefixIcon: Icon(icon),
+  );
+}
+
+TextFormField emailField(TextEditingController controller) {
+  return TextFormField(
+    decoration: inputField(
+      'Enter your E-mail',
+      Icons.email_outlined,
+    ),
+    controller: controller,
+    keyboardType: TextInputType.emailAddress,
+    validator: (value) {
+      if (value.isEmpty) {
+        return 'Email is required';
+      } else if (!EmailValidator.validate(value)) {
+        return 'Invalid Email Address';
+      }
+      return null;
+    },
   );
 }

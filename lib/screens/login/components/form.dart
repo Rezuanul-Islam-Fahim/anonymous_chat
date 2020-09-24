@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 
-import 'package:anonymous_chat/global.dart';
-import 'package:anonymous_chat/services/auth.dart';
-import 'package:anonymous_chat/services/auth_handler.dart';
+import 'package:anonymous_chat/commons.dart';
+import 'package:anonymous_chat/services/auth/auth.dart';
+import 'package:anonymous_chat/services/auth/auth_handler.dart';
 import 'package:anonymous_chat/components/login_register_button.dart';
+import 'package:anonymous_chat/screens/login/components/input_field.dart';
 
 class LoginForm extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -20,6 +20,7 @@ class LoginForm extends StatelessWidget {
         password: _passwordController.text,
       ),
       successMessage: 'Successfully Logged In',
+      errorMessageTitle: 'Login Failed',
     ).submit(context);
   }
 
@@ -29,37 +30,9 @@ class LoginForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          TextFormField(
-            decoration: inputField(
-              'Enter your E-mail',
-              Icon(Icons.email_outlined),
-            ),
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Email is required';
-              } else if (!EmailValidator.validate(value)) {
-                return 'Invalid Email Address';
-              }
-              return null;
-            },
-          ),
+          emailField(_emailController),
           SizedBox(height: 20),
-          TextFormField(
-            decoration: inputField(
-              'Enter your Password',
-              Icon(Icons.vpn_key_outlined),
-            ),
-            controller: _passwordController,
-            obscureText: true,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Password is required';
-              }
-              return null;
-            },
-          ),
+          passwordField(_passwordController),
           SizedBox(height: 20),
           LoginRegisterButton('Login', () {
             if (_formKey.currentState.validate()) {
