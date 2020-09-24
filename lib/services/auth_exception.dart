@@ -42,7 +42,7 @@ class AuthExceptionHandler {
         message = 'Your password is wrong.';
         break;
       case AuthResultStatus.userNotFound:
-        message = 'User with this email doesn\'t exist.';
+        message = 'User with this email is not registered.';
         break;
       case AuthResultStatus.userDisabled:
         message = 'User with this email has been disabled.';

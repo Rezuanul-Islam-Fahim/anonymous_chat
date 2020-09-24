@@ -3,48 +3,24 @@ import 'package:email_validator/email_validator.dart';
 
 import 'package:anonymous_chat/global.dart';
 import 'package:anonymous_chat/services/auth.dart';
-import 'package:anonymous_chat/services/auth_exception.dart';
-import 'package:anonymous_chat/components/flush_message.dart';
+import 'package:anonymous_chat/services/auth_handler.dart';
 import 'package:anonymous_chat/components/login_register_button.dart';
-import 'package:anonymous_chat/screens/chat/chat.dart';
 
 class LoginForm extends StatelessWidget {
-  LoginForm(this._emailController, this._passwordController);
-
-  final TextEditingController _emailController;
-  final TextEditingController _passwordController;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _login(BuildContext context) async {
-    AuthResultStatus _status = await AuthService.login(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
-
-    if (_status == AuthResultStatus.successful) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => ChatScreen()),
-        (Route<dynamic> route) => false,
-      );
-
-      FlushMessage(
-        message: 'Successfully logged In',
-        icon: Icons.info_outline,
-        color: Colors.green,
-      ).show(context);
-
-      _emailController.clear();
-      _passwordController.clear();
-    } else {
-      String _errorMessage = AuthExceptionHandler.generateErrorMessage(_status);
-
-      FlushMessage(
-        title: 'Login Failed',
-        message: _errorMessage,
-        icon: Icons.info_outline,
-        color: Colors.red,
-      ).show(context);
-    }
+    AuthHandler(
+      emailController: _emailController,
+      passwordController: _passwordController,
+      status: await AuthService.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ),
+      successMessage: 'Successfully Logged In',
+    ).submit(context);
   }
 
   @override
@@ -90,6 +66,7 @@ class LoginForm extends StatelessWidget {
               _login(context);
             }
           }),
+          SizedBox(height: 30),
         ],
       ),
     );

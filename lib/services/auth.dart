@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:anonymous_chat/services/auth_exception.dart';
 
 class AuthService {
-  static Future<AuthResultStatus> login({String email, String password}) async {
+  static Future<AuthResultStatus> login({
+    String email,
+    String password,
+  }) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     AuthResultStatus _status;
 
@@ -17,7 +20,6 @@ class AuthService {
         _status = AuthResultStatus.successful;
       }
     } catch (e) {
-      print(e.code);
       _status = AuthExceptionHandler.handleException(e);
     }
 
