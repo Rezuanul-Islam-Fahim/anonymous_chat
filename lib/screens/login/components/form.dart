@@ -32,7 +32,7 @@ class LoginForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          emailField(_emailController),
+          emailField(_emailController, 'Enter Your Email'),
           SizedBox(height: 20),
           passwordField(_passwordController),
           SizedBox(height: 20),

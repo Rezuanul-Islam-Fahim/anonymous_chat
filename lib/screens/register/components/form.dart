@@ -36,7 +36,7 @@ class RegisterForm extends StatelessWidget {
         children: <Widget>[
           nameField(_nameController),
           SizedBox(height: 20),
-          emailField(_emailController),
+          emailField(_emailController, 'Email'),
           SizedBox(height: 20),
           passwordField(_passwordController),
           SizedBox(height: 20),

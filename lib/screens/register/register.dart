@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/components/login_register_header.dart';
 import 'package:anonymous_chat/screens/register/components/form.dart';
+import 'package:anonymous_chat/screens/register/components/back_button.dart';
 
 class RegisterScreen extends StatelessWidget {
   @override
@@ -23,7 +24,7 @@ class RegisterScreen extends StatelessWidget {
               ],
             ),
           ),
-          BackButton(),
+          RegisterBackButton(),
         ],
       ),
     );

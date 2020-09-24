@@ -31,10 +31,10 @@ InputDecoration inputField(String placeholderText, IconData icon) {
   );
 }
 
-TextFormField emailField(TextEditingController controller) {
+TextFormField emailField(TextEditingController controller, String placeholder) {
   return TextFormField(
     decoration: inputField(
-      'Enter your E-mail',
+      placeholder,
       Icons.email_outlined,
     ),
     controller: controller,
