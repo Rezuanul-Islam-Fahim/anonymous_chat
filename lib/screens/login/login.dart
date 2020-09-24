@@ -10,7 +10,11 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Container(
-        padding: const EdgeInsets.only(top: 60, left: 15, right: 15),
+        padding: const EdgeInsets.only(
+          top: 60,
+          left: 15,
+          right: 15,
+        ),
         child: Column(
           children: <Widget>[
             Header(),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,11 +42,11 @@ class AuthHandler {
       emailController.clear();
       passwordController.clear();
     } else {
-      String errorMessage = AuthExceptionHandler.generateErrorMessage(status);
+      String _errorMessage = AuthExceptionHandler.generateErrorMessage(status);
 
       FlushMessage(
         title: errorMessageTitle,
-        message: errorMessage,
+        message: _errorMessage,
         icon: Icons.info_outline,
         color: Colors.red,
       ).show(context);
