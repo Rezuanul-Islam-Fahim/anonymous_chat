@@ -6,10 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
-import '../global.dart';
-import '../components/flush_message.dart';
-import '../components/login_register_button.dart';
-import 'chat.dart';
+import 'package:anonymous_chat/global.dart';
+import 'package:anonymous_chat/components/flush_message.dart';
+import 'package:anonymous_chat/components/login_register_button.dart';
+import 'package:anonymous_chat/screens/chat/chat.dart';
 
 class RegisterScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();

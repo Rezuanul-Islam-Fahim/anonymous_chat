@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'auth_exception.dart';
+import 'package:anonymous_chat/services/auth_exception.dart';
 
 class AuthService {
   static Future<AuthResultStatus> login({String email, String password}) async {

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../components/message.dart';
-import 'setting.dart';
+import 'package:anonymous_chat/components/message.dart';
+import 'package:anonymous_chat/screens/setting/setting.dart';
 
 class ChatScreen extends StatefulWidget {
   final UserCredential loggedUser;

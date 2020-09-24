@@ -1,21 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
-import '../global.dart';
-import '../services/auth.dart';
-import '../services/auth_exception.dart';
-import '../components/login_register_button.dart';
-import '../components/flush_message.dart';
-import 'register.dart';
-import 'chat.dart';
+import 'package:anonymous_chat/global.dart';
+import 'package:anonymous_chat/services/auth.dart';
+import 'package:anonymous_chat/services/auth_exception.dart';
+import 'package:anonymous_chat/components/flush_message.dart';
+import 'package:anonymous_chat/components/login_register_button.dart';
+import 'package:anonymous_chat/screens/chat/chat.dart';
 
-class LoginScreen extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class LoginForm extends StatelessWidget {
+  LoginForm(this._emailController, this._passwordController);
+
+  final TextEditingController _emailController;
+  final TextEditingController _passwordController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _login(BuildContext context) async {
@@ -52,64 +49,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Container(
-        padding: const EdgeInsets.only(top: 60, left: 15, right: 15),
-        child: Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: Hero(
-                tag: 'logo',
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  height: 150,
-                  width: 150,
-                ),
-              ),
-            ),
-            Text(
-              'Anonymous Chat',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: Colors.grey[800],
-              ),
-            ),
-            SizedBox(height: 40),
-            _buildForm(context),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Don\'t have an account? ',
-                  style: TextStyle(fontSize: 16),
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => RegisterScreen()),
-                  ),
-                  child: Text(
-                    'Register Now',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildForm(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(

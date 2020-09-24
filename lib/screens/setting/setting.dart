@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../components/setting_buttons.dart';
-import '../components/flush_message.dart';
-import 'login.dart';
-import 'change_password.dart';
+import 'package:anonymous_chat/components/setting_buttons.dart';
+import 'package:anonymous_chat/components/flush_message.dart';
+import 'package:anonymous_chat/screens/login/login.dart';
+import 'package:anonymous_chat/screens/change_password/change_password.dart';
 
 class SettingScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
