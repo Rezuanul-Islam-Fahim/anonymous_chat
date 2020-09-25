@@ -24,10 +24,6 @@ class AuthHandler {
 
   Future<void> submit(BuildContext context) async {
     if (status == AuthResultStatus.successful) {
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      _prefs.setString('userEmail', emailController.text);
-      _prefs.setString('userPassword', passwordController.text);
-
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => ChatScreen()),
         (Route<dynamic> route) => false,
@@ -39,8 +35,9 @@ class AuthHandler {
         color: Colors.green,
       ).show(context);
 
-      emailController.clear();
-      passwordController.clear();
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      _prefs.setString('userEmail', emailController.text);
+      _prefs.setString('userPassword', passwordController.text);
     } else {
       String _errorMessage = AuthExceptionHandler.generateErrorMessage(status);
 
