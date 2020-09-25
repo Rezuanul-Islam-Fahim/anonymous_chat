@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:anonymous_chat/commons.dart';
+import 'package:anonymous_chat/common.dart';
 import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/auth/auth_handler.dart';
 import 'package:anonymous_chat/components/login_register_button.dart';
