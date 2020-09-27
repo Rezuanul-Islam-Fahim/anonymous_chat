@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Message extends StatelessWidget {
+  const Message(this._text, this._from, this._isMe);
+
   final String _text;
   final String _from;
   final bool _isMe;
-
-  const Message(this._text, this._from, this._isMe);
 
   @override
   Widget build(BuildContext context) {

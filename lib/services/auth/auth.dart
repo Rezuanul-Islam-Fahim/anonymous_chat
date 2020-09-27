@@ -58,4 +58,9 @@ class AuthService {
 
     return _status;
   }
+
+  static User loadUser() {
+    User _user = FirebaseAuth.instance.currentUser;
+    return _user;
+  }
 }
