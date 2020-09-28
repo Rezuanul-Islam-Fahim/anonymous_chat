@@ -31,7 +31,7 @@ class MessageInputField extends StatelessWidget {
             ),
           ),
           hintText: 'Enter your message.....',
-          prefixIcon: Icon(Icons.message_outlined),
+          prefixIcon: Icon(Icons.message),
         ),
         controller: _messageController,
         onSubmitted: (_) => _handler(),

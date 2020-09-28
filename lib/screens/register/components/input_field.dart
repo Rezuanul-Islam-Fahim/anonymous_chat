@@ -6,7 +6,7 @@ TextFormField nameField(TextEditingController controller) {
   return TextFormField(
     decoration: inputField(
       'Name',
-      Icons.account_circle_outlined,
+      Icons.account_circle,
     ),
     controller: controller,
     validator: (value) {
@@ -22,7 +22,7 @@ TextFormField passwordField(TextEditingController controller) {
   return TextFormField(
     decoration: inputField(
       'Password',
-      Icons.vpn_key_outlined,
+      Icons.vpn_key,
     ),
     controller: controller,
     obscureText: true,

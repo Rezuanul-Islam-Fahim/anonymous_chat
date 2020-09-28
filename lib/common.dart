@@ -35,7 +35,7 @@ TextFormField emailField(TextEditingController controller, String placeholder) {
   return TextFormField(
     decoration: inputField(
       placeholder,
-      Icons.email_outlined,
+      Icons.email,
     ),
     controller: controller,
     keyboardType: TextInputType.emailAddress,

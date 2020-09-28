@@ -6,7 +6,7 @@ TextFormField passwordField(TextEditingController controller) {
   return TextFormField(
     decoration: inputField(
       'Enter your Password',
-      Icons.vpn_key_outlined,
+      Icons.vpn_key,
     ),
     controller: controller,
     obscureText: true,

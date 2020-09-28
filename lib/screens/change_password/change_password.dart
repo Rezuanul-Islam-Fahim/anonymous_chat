@@ -53,7 +53,7 @@ class ChangePasswordScreen extends StatelessWidget {
               TextFormField(
                 decoration: inputField(
                   'Enter New Password',
-                  Icons.vpn_key_outlined,
+                  Icons.vpn_key,
                 ),
                 controller: _passwordController,
                 obscureText: true,
@@ -73,7 +73,7 @@ class ChangePasswordScreen extends StatelessWidget {
               TextFormField(
                 decoration: inputField(
                   'Confirm Password',
-                  Icons.vpn_key_outlined,
+                  Icons.vpn_key,
                 ),
                 controller: _confirmPassController,
                 obscureText: true,

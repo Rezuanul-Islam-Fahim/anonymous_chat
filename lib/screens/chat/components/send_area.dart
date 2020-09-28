@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:anonymous_chat/screens/chat/components/message_input_field.dart';
 
 class SendArea extends StatelessWidget {
-  SendArea({
+  SendArea(
     this.messageController,
-    this.messageScroll,
-    this.user,
-    this.userDetails,
     this.handler,
-  });
+  );
 
-  final User user;
-  final Map<String, String> userDetails;
-  final Function handler;
-  final ScrollController messageScroll;
   final TextEditingController messageController;
+  final Function handler;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +35,7 @@ class SendArea extends StatelessWidget {
         children: <Widget>[
           MessageInputField(messageController, handler),
           IconButton(
-            icon: Icon(Icons.send_outlined),
+            icon: Icon(Icons.send),
             iconSize: 28,
             onPressed: handler,
           ),

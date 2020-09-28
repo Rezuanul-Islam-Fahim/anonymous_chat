@@ -17,6 +17,7 @@ class DatabaseService {
     await _firestore.collection('users').doc(uid).get().then((snap) {
       _details['name'] = snap.get('name');
     });
+
     return _details;
   }
 

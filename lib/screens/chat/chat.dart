@@ -16,9 +16,9 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _messageScroll = ScrollController();
   User _user;
-  Map<dynamic, dynamic> _userDetails;
+  Map<String, String> _userDetails;
 
-  Future<void> _loadUserDetails() async {
+  Future<void> _loadUsernDetails() async {
     _user = AuthService.loadUser();
     _userDetails = await DatabaseService.fromUID(_user.uid).loadUserDetails();
   }
@@ -45,7 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserDetails();
+    _loadUsernDetails();
   }
 
   @override
@@ -55,13 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: <Widget>[
           MessageStream(_messageScroll, _user),
-          SendArea(
-            messageController: _messageController,
-            messageScroll: _messageScroll,
-            user: _user,
-            userDetails: _userDetails,
-            handler: _sendMessage,
-          ),
+          SendArea(_messageController, _sendMessage),
         ],
       ),
     );

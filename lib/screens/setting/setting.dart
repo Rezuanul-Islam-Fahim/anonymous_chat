@@ -89,14 +89,14 @@ class SettingScreen extends StatelessWidget {
             Column(
               children: <Widget>[
                 SettingButtons(
-                  Icons.vpn_key_outlined,
+                  Icons.vpn_key,
                   'Change Password',
                   () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => ChangePasswordScreen()),
                   ),
                 ),
                 SettingButtons(
-                  Icons.logout,
+                  Icons.exit_to_app,
                   'Log Out',
                   () => _logOut(context),
                 ),

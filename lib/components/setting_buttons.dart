@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SettingButtons extends StatelessWidget {
-  final dynamic icon;
+  SettingButtons(this.icon, this.label, this.handler);
+
+  final IconData icon;
   final String label;
   final Function handler;
-
-  SettingButtons(this.icon, this.label, this.handler);
 
   @override
   Widget build(BuildContext context) {
