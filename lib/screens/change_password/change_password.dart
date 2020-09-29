@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:anonymous_chat/components/login_register_button.dart';
+import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/change_password/components/input_field.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
@@ -60,7 +60,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 _passwordController,
               ),
               SizedBox(height: 20),
-              LoginRegisterButton('Change Password', () {
+              GeneralButton('Change Password', () {
                 if (_formKey.currentState.validate()) {
                   _changePassword(context);
                 }

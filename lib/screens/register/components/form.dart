@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:anonymous_chat/common.dart';
 import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/auth/auth_handler.dart';
-import 'package:anonymous_chat/components/login_register_button.dart';
+import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/register/components/input_field.dart';
 
 class RegisterForm extends StatelessWidget {
@@ -40,7 +40,7 @@ class RegisterForm extends StatelessWidget {
           SizedBox(height: 20),
           passwordField(_passwordController),
           SizedBox(height: 20),
-          LoginRegisterButton('Register Now', () {
+          GeneralButton('Register Now', () {
             if (_formKey.currentState.validate()) {
               _register(context);
             }

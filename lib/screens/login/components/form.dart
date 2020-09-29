@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:anonymous_chat/common.dart';
 import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/auth/auth_handler.dart';
-import 'package:anonymous_chat/components/login_register_button.dart';
+import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/login/components/input_field.dart';
 
 class LoginForm extends StatelessWidget {
@@ -36,7 +36,7 @@ class LoginForm extends StatelessWidget {
           SizedBox(height: 20),
           passwordField(_passwordController),
           SizedBox(height: 20),
-          LoginRegisterButton('Login', () {
+          GeneralButton('Login', () {
             if (_formKey.currentState.validate()) {
               _login(context);
             }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginRegisterButton extends StatelessWidget {
-  LoginRegisterButton(this.label, this.handler);
+class GeneralButton extends StatelessWidget {
+  GeneralButton(this.label, this.handler);
 
   final String label;
   final Function handler;
