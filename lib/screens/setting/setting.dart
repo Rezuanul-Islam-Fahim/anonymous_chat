@@ -40,7 +40,7 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            Button(
+            SettingButton(
               Icons.vpn_key,
               'Change Password',
               () => Navigator.of(context).push(
@@ -49,7 +49,7 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Button(
+            SettingButton(
               Icons.exit_to_app,
               'Logout',
               () => openDialogue(context),

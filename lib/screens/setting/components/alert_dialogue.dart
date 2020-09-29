@@ -33,7 +33,6 @@ void openDialogue(BuildContext context) {
           ),
         ],
         contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 10),
-        actionsPadding: EdgeInsets.only(right: 5),
         buttonPadding: EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 12,
