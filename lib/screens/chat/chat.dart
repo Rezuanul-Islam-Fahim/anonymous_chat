@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/database.dart';
@@ -23,9 +26,9 @@ class _ChatScreenState extends State<ChatScreen> {
     _userDetails = await DatabaseService.fromUID(_user.uid).loadUserDetails();
   }
 
-  void _sendMessage() {
+  Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
-      DatabaseService.toCollection('messages').storeData({
+      await FirebaseFirestore.instance.collection('messages').add({
         'text': _messageController.text,
         'fromName': _userDetails['name'],
         'fromEmail': _user.email,
@@ -36,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       _messageScroll.animateTo(
         _messageScroll.position.maxScrollExtent,
-        duration: Duration(milliseconds: 200),
+        duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     }
