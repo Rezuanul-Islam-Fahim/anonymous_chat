@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:anonymous_chat/common.dart';
 import 'package:anonymous_chat/components/login_register_button.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
+import 'package:anonymous_chat/screens/change_password/components/input_field.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
@@ -40,9 +40,7 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Change Password'),
-      ),
+      appBar: AppBar(title: Text('Change Password')),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Form(
@@ -50,44 +48,16 @@ class ChangePasswordScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              TextFormField(
-                decoration: inputField(
-                  'Enter New Password',
-                  Icons.vpn_key,
-                ),
-                controller: _passwordController,
-                obscureText: true,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Required field';
-                  } else if (value.length < 6) {
-                    return 'Password should be at least 6 characters';
-                  } else if (_confirmPassController.text !=
-                      _passwordController.text) {
-                    return 'New and confirm password field doesn\'t match';
-                  }
-                  return null;
-                },
+              passwordField(
+                'Enter New Password',
+                _passwordController,
+                _confirmPassController,
               ),
               SizedBox(height: 20),
-              TextFormField(
-                decoration: inputField(
-                  'Confirm Password',
-                  Icons.vpn_key,
-                ),
-                controller: _confirmPassController,
-                obscureText: true,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Required field';
-                  } else if (value.length < 6) {
-                    return 'Password should be at least 6 characters';
-                  } else if (_confirmPassController.text !=
-                      _passwordController.text) {
-                    return 'New and confirm password field doesn\'t match';
-                  }
-                  return null;
-                },
+              passwordField(
+                'Confirm Password',
+                _confirmPassController,
+                _passwordController,
               ),
               SizedBox(height: 20),
               LoginRegisterButton('Change Password', () {

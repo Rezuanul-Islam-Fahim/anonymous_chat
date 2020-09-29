@@ -39,7 +39,7 @@ TextFormField emailField(TextEditingController controller, String placeholder) {
     ),
     controller: controller,
     keyboardType: TextInputType.emailAddress,
-    validator: (value) {
+    validator: (String value) {
       if (value.isEmpty) {
         return 'Email is required';
       } else if (!EmailValidator.validate(value)) {

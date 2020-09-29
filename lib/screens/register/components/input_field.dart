@@ -9,7 +9,8 @@ TextFormField nameField(TextEditingController controller) {
       Icons.account_circle,
     ),
     controller: controller,
-    validator: (value) {
+    keyboardType: TextInputType.name,
+    validator: (String value) {
       if (value.isEmpty) {
         return 'Name is required';
       }
@@ -26,7 +27,7 @@ TextFormField passwordField(TextEditingController controller) {
     ),
     controller: controller,
     obscureText: true,
-    validator: (value) {
+    validator: (String value) {
       if (value.isEmpty) {
         return 'Password is required';
       } else if (value.length < 6) {
