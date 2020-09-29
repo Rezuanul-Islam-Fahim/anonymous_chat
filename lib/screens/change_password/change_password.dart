@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/change_password/components/input_field.dart';
@@ -16,13 +17,16 @@ class ChangePasswordScreen extends StatelessWidget {
 
   Future<void> _changePassword(BuildContext context) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    UserCredential _user = await _auth.signInWithEmailAndPassword(
+
+    AuthService.login(
       email: _prefs.getString('userEmail'),
       password: _prefs.getString('userPassword'),
     );
 
-    _user.user.updatePassword(_passwordController.text);
+    FirebaseAuth.instance.currentUser.updatePassword(
+      _passwordController.text,
+    );
+
     await _prefs.setString('userPassword', _passwordController.text);
 
     Navigator.of(context).pushAndRemoveUntil(
