@@ -39,7 +39,7 @@ class SettingScreen extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Button(
               Icons.vpn_key,
               'Change Password',
@@ -51,7 +51,7 @@ class SettingScreen extends StatelessWidget {
             ),
             Button(
               Icons.exit_to_app,
-              'Log Out',
+              'Logout',
               () => openDialogue(context),
             ),
           ],

@@ -13,17 +13,31 @@ void openDialogue(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Logout'),
-        content: Text('Are you sure to logout?'),
+        content: Text('Are you sure to Logout?'),
         actions: <Widget>[
           FlatButton(
+            color: Colors.blueGrey,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(),
           ),
           FlatButton(
+            color: Colors.redAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: Text('Logout'),
             onPressed: () => _logOut(context),
           ),
         ],
+        contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 10),
+        actionsPadding: EdgeInsets.only(right: 5),
+        buttonPadding: EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 12,
+        ),
       );
     },
   );
@@ -40,7 +54,7 @@ Future<void> _logOut(BuildContext context) async {
   );
 
   FlushMessage(
-    message: 'Successfully logged out',
+    message: 'Successfully Logged Out',
     icon: Icons.info_outline,
     color: Colors.green,
   ).show(context);
