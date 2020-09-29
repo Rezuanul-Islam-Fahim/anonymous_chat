@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SettingButtons extends StatelessWidget {
-  SettingButtons(this.icon, this.label, this.handler);
+class Button extends StatelessWidget {
+  Button(this.icon, this.label, this.handler);
 
   final IconData icon;
   final String label;
@@ -10,7 +10,7 @@ class SettingButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Colors.grey[300],
+      splashColor: Colors.grey[200],
       onTap: handler,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),

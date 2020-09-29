@@ -1,61 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:anonymous_chat/components/setting_buttons.dart';
-import 'package:anonymous_chat/components/flush_message.dart';
-import 'package:anonymous_chat/screens/login/login.dart';
+import 'package:anonymous_chat/screens/setting/components/button.dart';
+import 'package:anonymous_chat/screens/setting/components/alert_dialogue.dart';
 import 'package:anonymous_chat/screens/change_password/change_password.dart';
 
 class SettingScreen extends StatelessWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future<void> _logOut(BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Logout'),
-          content: Text('Are you sure to logout?'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            FlatButton(
-              child: Text('Logout'),
-              onPressed: () async {
-                final SharedPreferences _prefs =
-                    await SharedPreferences.getInstance();
-                _prefs.clear();
-                _auth.signOut();
-
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => LoginScreen()),
-                  (Route<dynamic> route) => false,
-                );
-
-                FlushMessage(
-                  message: 'Successfully logged out',
-                  icon: Icons.info_outline,
-                  color: Colors.green,
-                ).show(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Setting'),
-      ),
+      appBar: AppBar(title: Text('Setting')),
       body: Padding(
         padding: const EdgeInsets.only(top: 15),
         child: Column(
@@ -66,9 +19,10 @@ class SettingScreen extends StatelessWidget {
               child: Icon(
                 Icons.account_circle,
                 size: 120,
-                color: Colors.grey[800],
+                color: Colors.grey[700],
               ),
             ),
+            SizedBox(height: 10),
             Text(
               'Rezuanul Islam Fahim',
               style: TextStyle(
@@ -85,22 +39,20 @@ class SettingScreen extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 40),
-            Column(
-              children: <Widget>[
-                SettingButtons(
-                  Icons.vpn_key,
-                  'Change Password',
-                  () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => ChangePasswordScreen()),
-                  ),
+            SizedBox(height: 20),
+            Button(
+              Icons.vpn_key,
+              'Change Password',
+              () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ChangePasswordScreen(),
                 ),
-                SettingButtons(
-                  Icons.exit_to_app,
-                  'Log Out',
-                  () => _logOut(context),
-                ),
-              ],
+              ),
+            ),
+            Button(
+              Icons.exit_to_app,
+              'Log Out',
+              () => openDialogue(context),
             ),
           ],
         ),
