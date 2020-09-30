@@ -6,7 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 
+// This class will handle general auth purposes
+// like login, register, loaduser
 class AuthService {
+  // Handler for logging in user
   static Future<AuthResultStatus> login({
     @required String email,
     @required String password,
@@ -30,6 +33,7 @@ class AuthService {
     return _status;
   }
 
+  // Handler for registering new user
   static Future<AuthResultStatus> register({
     @required String name,
     @required String email,
@@ -59,6 +63,7 @@ class AuthService {
     return _status;
   }
 
+  // Handler for load logged in user
   static User loadUser() {
     User _user = FirebaseAuth.instance.currentUser;
     return _user;

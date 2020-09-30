@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// This is the general button widget for this app.
+// This widget is used in login, regiser and
+// change-password screen
 class GeneralButton extends StatelessWidget {
   GeneralButton(this.label, this.handler);
 

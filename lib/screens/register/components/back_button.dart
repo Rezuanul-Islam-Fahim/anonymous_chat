@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Register screen's back-button widget
 class RegisterBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/login/login.dart';
 
+// This function will open logout dialogue
 void openDialogue(BuildContext context) {
   showDialog(
     context: context,
@@ -42,16 +43,24 @@ void openDialogue(BuildContext context) {
   );
 }
 
+// Logout handler
 Future<void> _logOut(BuildContext context) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+  // Clear credentials from local storgae
   _prefs.clear();
+
+  // Logout
   FirebaseAuth.instance.signOut();
 
+  // Navigate to login screen after
+  // successfully logout
   Navigator.of(context).pushAndRemoveUntil(
     MaterialPageRoute(builder: (_) => LoginScreen()),
     (Route<dynamic> route) => false,
   );
 
+  // Show message after logout
   FlushMessage(
     message: 'Successfully Logged Out',
     icon: Icons.info_outline,

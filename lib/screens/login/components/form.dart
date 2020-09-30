@@ -8,11 +8,13 @@ import 'package:anonymous_chat/services/auth/auth_handler.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/login/components/input_field.dart';
 
+// Login screen's form widget
 class LoginForm extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // Login handler
   Future<void> _login(BuildContext context) async {
     AuthHandler(
       emailController: _emailController,
@@ -38,6 +40,8 @@ class LoginForm extends StatelessWidget {
           SizedBox(height: 20),
           GeneralButton('Login', () {
             if (_formKey.currentState.validate()) {
+              // If form validation passes, then _login
+              // handler will be called
               _login(context);
             }
           }),

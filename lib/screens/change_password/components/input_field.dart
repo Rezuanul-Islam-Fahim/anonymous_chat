@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/common.dart';
 
+// Password field handler
 TextFormField passwordField(
   String _placeHolder,
   TextEditingController _mainController,

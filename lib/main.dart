@@ -8,12 +8,17 @@ import 'package:anonymous_chat/screens/chat/chat.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize firebase
   await Firebase.initializeApp();
 
+  // Load user credentials from local storage
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String _userEmail = _prefs.getString('userEmail');
   String _userPassword = _prefs.getString('userPassword');
 
+  // Login previously logged user, if user credentials
+  // found on local storage
   if (_prefs.containsKey('userEmail')) {
     AuthService.login(
       email: _userEmail,
@@ -21,6 +26,7 @@ void main() async {
     );
   }
 
+  // Main function for run app
   runApp(AnonymousChat(email: _userEmail));
 }
 

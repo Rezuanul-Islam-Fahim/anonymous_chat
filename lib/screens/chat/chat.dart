@@ -21,13 +21,17 @@ class _ChatScreenState extends State<ChatScreen> {
   User _user;
   Map<String, String> _userDetails;
 
+  // Load user details handler
   Future<void> _loadUsernDetails() async {
     _user = AuthService.loadUser();
     _userDetails = await DatabaseService.fromUID(_user.uid).loadUserDetails();
   }
 
+  // This handler will be used for storing
+  // message to database
   Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
+      // Store message
       await FirebaseFirestore.instance.collection('messages').add({
         'text': _messageController.text,
         'fromName': _userDetails['name'],
@@ -35,8 +39,11 @@ class _ChatScreenState extends State<ChatScreen> {
         'timendate': DateTime.now().toIso8601String(),
       });
 
+      // Clear text field after storing message
       _messageController.clear();
 
+      // Animate to max scroll extent of messages stream-builder
+      // after storing message to database
       _messageScroll.animateTo(
         _messageScroll.position.maxScrollExtent,
         duration: Duration(milliseconds: 300),

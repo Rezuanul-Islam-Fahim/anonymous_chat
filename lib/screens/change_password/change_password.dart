@@ -15,25 +15,32 @@ class ChangePasswordScreen extends StatelessWidget {
   final TextEditingController _confirmPassController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // This function will handle all operations
+  // required for change-password process
   Future<void> _changePassword(BuildContext context) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
 
+    // Do recent-login operation for changing-password
     AuthService.login(
       email: _prefs.getString('userEmail'),
       password: _prefs.getString('userPassword'),
     );
 
+    // Update password handler
     FirebaseAuth.instance.currentUser.updatePassword(
       _passwordController.text,
     );
 
+    // Update password in local storage
     await _prefs.setString('userPassword', _passwordController.text);
 
+    // Navigate to chat screen
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => ChatScreen()),
       (Route<dynamic> route) => false,
     );
 
+    // Show success message
     FlushMessage(
       message: 'Successfully changed password',
       icon: Icons.info_outline,

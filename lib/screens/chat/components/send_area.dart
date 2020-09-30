@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/screens/chat/components/message_input_field.dart';
 
+// Chat screen's widget for building send-area
 class SendArea extends StatelessWidget {
-  SendArea(
-    this.messageController,
-    this.handler,
-  );
+  SendArea(this.messageController, this.handler);
 
   final TextEditingController messageController;
   final Function handler;

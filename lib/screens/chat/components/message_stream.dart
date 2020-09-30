@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:anonymous_chat/screens/chat/components/message.dart';
 
+// Message stream-builder widget
 class MessageStream extends StatelessWidget {
   MessageStream(this._messageScroll, this._user);
 
@@ -18,12 +19,15 @@ class MessageStream extends StatelessWidget {
       child: StreamBuilder(
         stream: _messageCollection.orderBy('timendate').snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
+          // If snapshot has no data, then show loader
+          // untll data loads
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
 
           List<DocumentSnapshot> _messages = snapshot.data.docs;
 
+          // Messages list builder
           return ListView.builder(
             padding: EdgeInsets.symmetric(vertical: 5),
             controller: _messageScroll,

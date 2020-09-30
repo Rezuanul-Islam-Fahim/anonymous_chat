@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Message widget for chat screen
 class Message extends StatelessWidget {
   const Message(this._text, this._from, this._isMe);
 

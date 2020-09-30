@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:anonymous_chat/screens/setting/components/button.dart';
+import 'package:anonymous_chat/screens/setting/components/link.dart';
 import 'package:anonymous_chat/screens/setting/components/alert_dialogue.dart';
 import 'package:anonymous_chat/screens/change_password/change_password.dart';
 
@@ -40,7 +40,7 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            SettingButton(
+            Link(
               Icons.vpn_key,
               'Change Password',
               () => Navigator.of(context).push(
@@ -49,7 +49,7 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SettingButton(
+            Link(
               Icons.exit_to_app,
               'Logout',
               () => openDialogue(context),

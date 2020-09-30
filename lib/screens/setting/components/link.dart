@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SettingButton extends StatelessWidget {
-  SettingButton(this.icon, this.label, this.handler);
+// Setting screen's link widget
+class Link extends StatelessWidget {
+  Link(this.icon, this.label, this.handler);
 
   final IconData icon;
   final String label;

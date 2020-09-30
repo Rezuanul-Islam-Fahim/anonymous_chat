@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Header widget for login and register screen
 class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

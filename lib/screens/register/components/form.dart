@@ -8,12 +8,14 @@ import 'package:anonymous_chat/services/auth/auth_handler.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/register/components/input_field.dart';
 
+// Register screen's form widget
 class RegisterForm extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // Register handler
   Future<void> _register(BuildContext context) async {
     AuthHandler(
       emailController: _emailController,
@@ -42,6 +44,8 @@ class RegisterForm extends StatelessWidget {
           SizedBox(height: 20),
           GeneralButton('Register Now', () {
             if (_formKey.currentState.validate()) {
+              // If form validation passes, then _register
+              // handler will be called
               _register(context);
             }
           }),

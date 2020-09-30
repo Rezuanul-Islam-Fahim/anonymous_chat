@@ -1,7 +1,10 @@
+// Class for handling auth exceptions
 class AuthExceptionHandler {
+  // This handler will return auth process result
   static AuthResultStatus handleException(e) {
     AuthResultStatus _status;
 
+    // Generate status
     switch (e.code) {
       case 'invalid-email':
         _status = AuthResultStatus.invalidEmail;
@@ -31,9 +34,11 @@ class AuthExceptionHandler {
     return _status;
   }
 
+  // This handler will return auth error message
   static String generateErrorMessage(AuthResultStatus status) {
     String _message;
 
+    // Generate error message
     switch (status) {
       case AuthResultStatus.invalidEmail:
         _message = 'Your entered email address is invalid.';
@@ -64,6 +69,7 @@ class AuthExceptionHandler {
   }
 }
 
+// Auth result enums
 enum AuthResultStatus {
   successful,
   emailAlreadyExists,

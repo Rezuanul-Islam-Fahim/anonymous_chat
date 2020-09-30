@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/common.dart';
 
+// Name field handler
 TextFormField nameField(TextEditingController controller) {
   return TextFormField(
     decoration: inputField(
@@ -19,6 +20,7 @@ TextFormField nameField(TextEditingController controller) {
   );
 }
 
+// Password field handler
 TextFormField passwordField(TextEditingController controller) {
   return TextFormField(
     decoration: inputField(

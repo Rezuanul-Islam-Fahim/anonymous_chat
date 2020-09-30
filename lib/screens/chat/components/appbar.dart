@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/screens/setting/setting.dart';
 
+// Chat screen's appbar widget handler
 AppBar getAppBar(BuildContext context) {
   return AppBar(
     leading: Padding(

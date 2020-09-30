@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/screens/register/register.dart';
 
+// This widget will build login-screen's register link
 class RegisterLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
