@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-class SettingButtons extends StatelessWidget {
-  final dynamic icon;
+// Setting screen's link widget
+class Link extends StatelessWidget {
+  Link(this.icon, this.label, this.handler);
+
+  final IconData icon;
   final String label;
   final Function handler;
-
-  SettingButtons(this.icon, this.label, this.handler);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Colors.grey[300],
+      splashColor: Colors.grey[200],
       onTap: handler,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),

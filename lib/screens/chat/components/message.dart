@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+// Message widget for chat screen
 class Message extends StatelessWidget {
+  const Message(this._text, this._from, this._isMe);
+
   final String _text;
   final String _from;
   final bool _isMe;
-
-  const Message(this._text, this._from, this._isMe);
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +43,7 @@ class Message extends StatelessWidget {
             ),
             child: Text(
               _text,
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],

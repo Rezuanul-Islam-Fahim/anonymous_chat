@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LoginRegisterButton extends StatelessWidget {
+// This is the general button widget for this app.
+// This widget is used in login, regiser and
+// change-password screen
+class GeneralButton extends StatelessWidget {
+  GeneralButton(this.label, this.handler);
+
   final String label;
   final Function handler;
-
-  LoginRegisterButton(this.label, this.handler);
 
   @override
   Widget build(BuildContext context) {
