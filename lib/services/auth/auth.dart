@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 
@@ -15,16 +16,29 @@ class AuthService {
     @required String password,
   }) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
     AuthResultStatus _status;
 
     try {
-      UserCredential _user = await _auth.signInWithEmailAndPassword(
+      UserCredential _result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      User _user = _result.user;
 
-      if (_user.user != null) {
+      if (_user != null) {
         _status = AuthResultStatus.successful;
+
+        QuerySnapshot _userSnapshot = await _firestore
+            .collection('users')
+            .where('id', isEqualTo: _user.uid)
+            .get();
+
+        List<DocumentSnapshot> _userDocs = _userSnapshot.docs;
+
+        _prefs.setString('name', _userDocs[0].get('name'));
+        _prefs.setString('email', _userDocs[0].get('email'));
       }
     } catch (e) {
       _status = AuthExceptionHandler.handleException(e);
@@ -40,21 +54,28 @@ class AuthService {
     @required String password,
   }) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
     AuthResultStatus _status;
 
     try {
-      UserCredential _user = await _auth.createUserWithEmailAndPassword(
+      UserCredential _result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      User _user = _result.user;
 
-      if (_user.user != null) {
+      if (_user != null) {
         _status = AuthResultStatus.successful;
 
-        FirebaseFirestore _firestore = FirebaseFirestore.instance;
-        _firestore.collection('users').doc(_user.user.uid).set({
+        _firestore.collection('users').doc(_user.uid).set({
+          'id': _user.uid,
           'name': name,
+          'email': email,
         });
+
+        _prefs.setString('name', name);
+        _prefs.setString('email', email);
       }
     } catch (e) {
       _status = AuthExceptionHandler.handleException(e);

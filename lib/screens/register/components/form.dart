@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/common.dart';
 import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/auth/auth_handler.dart';
+import 'package:anonymous_chat/services/navigation.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/register/components/input_field.dart';
 
@@ -17,9 +17,7 @@ class RegisterForm extends StatelessWidget {
 
   // Register handler
   Future<void> _register(BuildContext context) async {
-    AuthHandler(
-      emailController: _emailController,
-      passwordController: _passwordController,
+    Navigation(
       status: await AuthService.register(
         name: _nameController.text,
         email: _emailController.text,
@@ -27,7 +25,7 @@ class RegisterForm extends StatelessWidget {
       ),
       successMessage: 'Successfully registered new account',
       errorMessageTitle: 'Registration failed',
-    ).submit(context);
+    ).loginRegister(context);
   }
 
   @override

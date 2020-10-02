@@ -1,24 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
 
 // This class will be used for auth handling
-class AuthHandler {
-  AuthHandler({
-    this.emailController,
-    this.passwordController,
+class Navigation {
+  Navigation({
     this.status,
     this.successMessage,
     this.errorMessageTitle,
   });
 
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
   final AuthResultStatus status;
   final String successMessage;
   final String errorMessageTitle;
@@ -27,7 +22,7 @@ class AuthHandler {
   // auth process. Like, if auth operation is successful then
   // it will navigate to chat-screen and show success message.
   // Else it will show error message
-  Future<void> submit(BuildContext context) async {
+  Future<void> loginRegister(BuildContext context) async {
     if (status == AuthResultStatus.successful) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => ChatScreen()),
@@ -40,11 +35,6 @@ class AuthHandler {
         icon: Icons.info_outline,
         color: Colors.green,
       ).show(context);
-
-      // Store credentials to local storage
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      _prefs.setString('userEmail', emailController.text);
-      _prefs.setString('userPassword', passwordController.text);
     } else {
       String _errorMessage = AuthExceptionHandler.generateErrorMessage(status);
 

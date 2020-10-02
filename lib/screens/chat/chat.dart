@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/database.dart';
 import 'package:anonymous_chat/screens/chat/components/appbar.dart';
 import 'package:anonymous_chat/screens/chat/components/message_stream.dart';
 import 'package:anonymous_chat/screens/chat/components/send_area.dart';
@@ -18,13 +16,17 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _messageScroll = ScrollController();
-  User _user;
-  Map<String, String> _userDetails;
+  String _name;
+  String _email;
 
-  // Load user details handler
-  Future<void> _loadUsernDetails() async {
-    _user = AuthService.loadUser();
-    _userDetails = await DatabaseService.fromUID(_user.uid).loadUserDetails();
+  // Load user-details handler
+  Future<void> _loadUserDetails() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    _name = _prefs.getString('name');
+    _email = _prefs.getString('email');
+
+    setState(() {});
   }
 
   // This handler will be used for storing
@@ -34,8 +36,8 @@ class _ChatScreenState extends State<ChatScreen> {
       // Store message
       await FirebaseFirestore.instance.collection('messages').add({
         'text': _messageController.text,
-        'fromName': _userDetails['name'],
-        'fromEmail': _user.email,
+        'fromName': _name,
+        'fromEmail': _email,
         'timendate': DateTime.now().toIso8601String(),
       });
 
@@ -55,7 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUsernDetails();
+    _loadUserDetails();
   }
 
   @override
@@ -64,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: getAppBar(context),
       body: Column(
         children: <Widget>[
-          MessageStream(_messageScroll, _user),
+          MessageStream(_messageScroll, _email),
           SendArea(_messageController, _sendMessage),
         ],
       ),
