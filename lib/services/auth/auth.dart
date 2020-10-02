@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:anonymous_chat/services/database.dart';
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 
 // This class will handle general auth purposes
@@ -16,7 +17,6 @@ class AuthService {
     @required String password,
   }) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
-    FirebaseFirestore _firestore = FirebaseFirestore.instance;
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     AuthResultStatus _status;
 
@@ -30,15 +30,12 @@ class AuthService {
       if (_user != null) {
         _status = AuthResultStatus.successful;
 
-        QuerySnapshot _userSnapshot = await _firestore
-            .collection('users')
-            .where('id', isEqualTo: _user.uid)
-            .get();
+        DocumentSnapshot _userData = await DatabaseService.userId(
+          _user.uid,
+        ).getUser();
 
-        List<DocumentSnapshot> _userDocs = _userSnapshot.docs;
-
-        _prefs.setString('name', _userDocs[0].get('name'));
-        _prefs.setString('email', _userDocs[0].get('email'));
+        _prefs.setString('name', _userData.get('name'));
+        _prefs.setString('email', _userData.get('email'));
       }
     } catch (e) {
       _status = AuthExceptionHandler.handleException(e);
@@ -54,7 +51,6 @@ class AuthService {
     @required String password,
   }) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
-    FirebaseFirestore _firestore = FirebaseFirestore.instance;
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     AuthResultStatus _status;
 
@@ -68,7 +64,7 @@ class AuthService {
       if (_user != null) {
         _status = AuthResultStatus.successful;
 
-        _firestore.collection('users').doc(_user.uid).set({
+        DatabaseService.userId(_user.uid).storeUser({
           'id': _user.uid,
           'name': name,
           'email': email,
@@ -84,7 +80,7 @@ class AuthService {
     return _status;
   }
 
-  // Handler for load logged in user
+  // Handler for load logged user
   static User loadUser() {
     User _user = FirebaseAuth.instance.currentUser;
     return _user;

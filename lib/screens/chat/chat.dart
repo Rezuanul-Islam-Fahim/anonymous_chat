@@ -26,6 +26,9 @@ class _ChatScreenState extends State<ChatScreen> {
     _name = _prefs.getString('name');
     _email = _prefs.getString('email');
 
+    print(_prefs.getString('name'));
+    print(_prefs.getString('email'));
+
     setState(() {});
   }
 

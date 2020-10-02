@@ -6,7 +6,9 @@ import 'package:anonymous_chat/services/auth/auth_exception.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
 
-// This class will be used for auth handling
+// This class will be used for Navigation, when some
+// operation success or fails. Like login, register,
+// change-password, logout
 class Navigation {
   Navigation({
     this.status,
