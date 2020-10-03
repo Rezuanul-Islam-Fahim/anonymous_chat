@@ -5,9 +5,9 @@ import 'package:anonymous_chat/screens/chat/components/message.dart';
 
 // Message stream-builder widget
 class MessageStream extends StatelessWidget {
-  MessageStream(this._messageScroll, this._email);
+  MessageStream(this._userData, this._messageScroll);
 
-  final String _email;
+  final Map<String, dynamic> _userData;
   final ScrollController _messageScroll;
   final CollectionReference _messageCollection =
       FirebaseFirestore.instance.collection('messages');
@@ -37,7 +37,7 @@ class MessageStream extends StatelessWidget {
               return Message(
                 _message.get('text'),
                 _message.get('fromName'),
-                _message.get('fromEmail') == _email,
+                _message.get('fromEmail') == _userData['email'],
               );
             },
           );

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:anonymous_chat/services/database.dart';
@@ -30,12 +29,12 @@ class AuthService {
       if (_user != null) {
         _status = AuthResultStatus.successful;
 
-        DocumentSnapshot _userData = await DatabaseService.userId(
+        Map<String, dynamic> _userData = await DatabaseService.userId(
           _user.uid,
-        ).getUser();
+        ).getUserData();
 
-        _prefs.setString('name', _userData.get('name'));
-        _prefs.setString('email', _userData.get('email'));
+        await _prefs.setString('name', _userData['name']);
+        await _prefs.setString('email', _userData['email']);
       }
     } catch (e) {
       _status = AuthExceptionHandler.handleException(e);

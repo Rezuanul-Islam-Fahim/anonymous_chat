@@ -8,6 +8,7 @@ class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   DatabaseService.userId(this.uid);
+
   DatabaseService.toCollection(this.collectionRef);
 
   String uid;
@@ -19,7 +20,8 @@ class DatabaseService {
   }
 
   // Load logged user details from database
-  Future<DocumentSnapshot> getUser() async {
+  Future<Map<String, dynamic>> getUserData() async {
+    Map<String, dynamic> _userDetails = {};
     QuerySnapshot _userSnapshot = await _firestore
         .collection('users')
         .where(
@@ -27,13 +29,17 @@ class DatabaseService {
           isEqualTo: uid,
         )
         .get();
+    DocumentSnapshot _userDoc = _userSnapshot.docs[0];
 
-    return _userSnapshot.docs[0];
+    _userDetails['name'] = _userDoc.get('name');
+    _userDetails['email'] = _userDoc.get('email');
+
+    return _userDetails;
   }
 
   // Store data in database to collection provided
   // by (collectionRef) variable
-  Future<void> storeData(Map<String, String> data) async {
+  Future<void> storeData(Map<String, dynamic> data) async {
     await _firestore.collection(collectionRef).add(data);
   }
 }
