@@ -17,7 +17,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Map<String, dynamic> _userData = {};
 
   // Load user-details handler
-  Future<void> _loadUserDetails() async {
+  Future<void> _loadUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
 
     _userData['name'] = _prefs.getString('name');
@@ -29,13 +29,13 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserDetails();
+    _loadUserData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context),
+      appBar: getAppBar(context, _userData),
       body: Column(
         children: <Widget>[
           MessageStream(_userData, _messageScroll),

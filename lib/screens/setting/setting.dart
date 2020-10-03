@@ -5,6 +5,10 @@ import 'package:anonymous_chat/screens/setting/components/alert_dialogue.dart';
 import 'package:anonymous_chat/screens/change_password/change_password.dart';
 
 class SettingScreen extends StatelessWidget {
+  SettingScreen(this._userData);
+
+  final Map<String, dynamic> _userData;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +28,7 @@ class SettingScreen extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Rezuanul Islam Fahim',
+              _userData['name'],
               style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w600,
@@ -32,7 +36,7 @@ class SettingScreen extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text(
-              'rifahim98@gmail.com',
+              _userData['email'],
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
