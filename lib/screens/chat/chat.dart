@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/database.dart';
 import 'package:anonymous_chat/screens/chat/components/appbar.dart';
 import 'package:anonymous_chat/screens/chat/components/message_stream.dart';
 import 'package:anonymous_chat/screens/chat/components/send_area.dart';
@@ -16,56 +13,33 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _messageController = TextEditingController();
   final ScrollController _messageScroll = ScrollController();
-  User _user;
-  Map<String, String> _userDetails;
+  Map<String, dynamic> _userData = {};
 
-  // Load user details handler
-  Future<void> _loadUsernDetails() async {
-    _user = AuthService.loadUser();
-    _userDetails = await DatabaseService.fromUID(_user.uid).loadUserDetails();
-  }
+  // Load user-details handler
+  Future<void> _loadUserData() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
 
-  // This handler will be used for storing
-  // message to database
-  Future<void> _sendMessage() async {
-    if (_messageController.text.length > 0) {
-      // Store message
-      await FirebaseFirestore.instance.collection('messages').add({
-        'text': _messageController.text,
-        'fromName': _userDetails['name'],
-        'fromEmail': _user.email,
-        'timendate': DateTime.now().toIso8601String(),
-      });
+    _userData['name'] = _prefs.getString('name');
+    _userData['email'] = _prefs.getString('email');
 
-      // Clear text field after storing message
-      _messageController.clear();
-
-      // Animate to max scroll extent of messages stream-builder
-      // after storing message to database
-      _messageScroll.animateTo(
-        _messageScroll.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    _loadUsernDetails();
+    _loadUserData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context),
+      appBar: getAppBar(context, _userData),
       body: Column(
         children: <Widget>[
-          MessageStream(_messageScroll, _user),
-          SendArea(_messageController, _sendMessage),
+          MessageStream(_userData, _messageScroll),
+          SendArea(_userData, _messageScroll),
         ],
       ),
     );

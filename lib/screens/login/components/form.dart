@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/common.dart';
 import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/auth/auth_handler.dart';
+import 'package:anonymous_chat/services/navigation.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/login/components/input_field.dart';
 
@@ -16,16 +16,14 @@ class LoginForm extends StatelessWidget {
 
   // Login handler
   Future<void> _login(BuildContext context) async {
-    AuthHandler(
-      emailController: _emailController,
-      passwordController: _passwordController,
+    Navigation(
       status: await AuthService.login(
         email: _emailController.text,
         password: _passwordController.text,
       ),
       successMessage: 'Successfully Logged In',
       errorMessageTitle: 'Login Failed',
-    ).submit(context);
+    ).loginRegister(context);
   }
 
   @override

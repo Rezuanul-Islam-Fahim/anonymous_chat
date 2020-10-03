@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:anonymous_chat/screens/chat/components/message.dart';
 
 // Message stream-builder widget
 class MessageStream extends StatelessWidget {
-  MessageStream(this._messageScroll, this._user);
+  MessageStream(this._userData, this._messageScroll);
 
-  final User _user;
+  final Map<String, dynamic> _userData;
   final ScrollController _messageScroll;
   final CollectionReference _messageCollection =
       FirebaseFirestore.instance.collection('messages');
@@ -38,7 +37,7 @@ class MessageStream extends StatelessWidget {
               return Message(
                 _message.get('text'),
                 _message.get('fromName'),
-                _message.get('fromEmail') == _user.email,
+                _message.get('fromEmail') == _userData['email'],
               );
             },
           );
