@@ -5,14 +5,13 @@ import 'package:anonymous_chat/screens/chat/components/message_input_field.dart'
 
 // Chat screen's widget for building send-area
 class SendArea extends StatelessWidget {
-  SendArea(this._userData, this._messageScroll, this._messageController);
+  SendArea(this._userData, this._messageScroll);
 
   final Map<String, dynamic> _userData;
   final ScrollController _messageScroll;
-  final TextEditingController _messageController;
+  final TextEditingController _messageController = TextEditingController();
 
-  // This handler will be used for storing
-  // message to database
+  // This handler will be used for storing message to database
   Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
       // Store message
@@ -39,12 +38,7 @@ class SendArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-        top: 12,
-        bottom: 12,
-        left: 12,
-        right: 0,
-      ),
+      padding: EdgeInsets.only(top: 12, bottom: 12, left: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: <BoxShadow>[

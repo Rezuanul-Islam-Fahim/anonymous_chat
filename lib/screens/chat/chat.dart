@@ -13,7 +13,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _messageController = TextEditingController();
   final ScrollController _messageScroll = ScrollController();
   Map<String, dynamic> _userData = {};
 
@@ -40,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: <Widget>[
           MessageStream(_userData, _messageScroll),
-          SendArea(_userData, _messageScroll, _messageController),
+          SendArea(_userData, _messageScroll),
         ],
       ),
     );
