@@ -25,7 +25,7 @@ class RegisterForm extends StatelessWidget {
       ),
       successMessage: 'Successfully registered new account',
       errorMessageTitle: 'Registration failed',
-    ).loginRegister(context);
+    ).navigate(context);
   }
 
   @override
