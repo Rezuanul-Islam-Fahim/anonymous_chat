@@ -8,7 +8,7 @@ import 'package:anonymous_chat/screens/chat/chat.dart';
 
 // This class will be used for Navigation, when some
 // operation success or fails. Like login, register,
-// change-password, logout
+// change-password
 class Navigation {
   Navigation({
     this.status,
@@ -24,7 +24,7 @@ class Navigation {
   // auth process. Like, if auth operation is successful then
   // it will navigate to chat-screen and show success message.
   // Else it will show error message
-  Future<void> loginRegister(BuildContext context) async {
+  Future<void> navigate(BuildContext context) async {
     if (status == AuthResultStatus.successful) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => ChatScreen()),

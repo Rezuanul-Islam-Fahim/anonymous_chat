@@ -23,7 +23,7 @@ class LoginForm extends StatelessWidget {
       ),
       successMessage: 'Successfully Logged In',
       errorMessageTitle: 'Login Failed',
-    ).loginRegister(context);
+    ).navigate(context);
   }
 
   @override

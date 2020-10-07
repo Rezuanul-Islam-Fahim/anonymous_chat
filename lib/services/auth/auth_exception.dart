@@ -24,6 +24,9 @@ class AuthExceptionHandler {
       case 'operation-not-allowed':
         _status = AuthResultStatus.operationNotAllowed;
         break;
+      case 'weak-password':
+        _status = AuthResultStatus.weekPassword;
+        break;
       case 'email-already-in-use':
         _status = AuthResultStatus.emailAlreadyExists;
         break;
@@ -58,6 +61,10 @@ class AuthExceptionHandler {
       case AuthResultStatus.operationNotAllowed:
         _message = 'Signing in with Email and Password is not enabled.';
         break;
+      case AuthResultStatus.weekPassword:
+        _message =
+            'Your password is weak. Password should be at least 6 characters';
+        break;
       case AuthResultStatus.emailAlreadyExists:
         _message = 'Account with this Email is already registered';
         break;
@@ -78,6 +85,7 @@ enum AuthResultStatus {
   userNotFound,
   userDisabled,
   operationNotAllowed,
+  weekPassword,
   tooManyRequests,
   undefined,
 }
