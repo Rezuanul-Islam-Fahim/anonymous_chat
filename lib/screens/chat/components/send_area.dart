@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -37,26 +39,24 @@ class SendArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 12, bottom: 12, left: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.grey[300],
-            offset: Offset(0, -2),
-            blurRadius: 2.8,
-            spreadRadius: 0.4,
-          ),
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.all(15),
       child: Row(
         children: <Widget>[
           MessageInputField(_messageController, _sendMessage),
-          IconButton(
-            icon: Icon(Icons.send),
-            iconSize: 28,
-            onPressed: _sendMessage,
+          Material(
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(30),
+            elevation: 5,
+            color: Theme.of(context).primaryColor,
+            type: MaterialType.button,
+            child: IconButton(
+              icon: Icon(Icons.send),
+              iconSize: 28,
+              color: Colors.white,
+              padding: EdgeInsets.all(13),
+              onPressed: _sendMessage,
+            ),
           ),
         ],
       ),
