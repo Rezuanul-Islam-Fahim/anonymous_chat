@@ -95,16 +95,15 @@ class AuthService {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     AuthResultStatus _status = AuthResultStatus.successful;
 
-    // Do recent-login operation for changing-password
-    UserCredential _result = await _auth.signInWithEmailAndPassword(
-      email: _prefs.getString('email'),
-      password: _prefs.getString('password'),
-    );
-    User _user = _result.user;
-
     try {
+      // Do recent-login operation for changing-password
+      UserCredential _result = await _auth.signInWithEmailAndPassword(
+        email: _prefs.getString('email'),
+        password: _prefs.getString('password'),
+      );
+      User _user = _result.user;
       // Update password
-      _user.updatePassword(newPassword);
+      await _user.updatePassword(newPassword);
     } catch (e) {
       _status = AuthExceptionHandler.handleException(e);
     }

@@ -15,8 +15,6 @@ TextFormField passwordField(
     validator: (String value) {
       if (value.isEmpty) {
         return 'Required Field';
-      } else if (value.length < 6) {
-        return 'Password should be at least 6 characters';
       } else if (_mainController.text != _secondaryController.text) {
         return 'Password fields should be matched';
       }
