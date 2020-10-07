@@ -102,10 +102,15 @@ class AuthService {
         password: _prefs.getString('password'),
       );
       User _user = _result.user;
+
       // Update password
       await _user.updatePassword(newPassword);
     } catch (e) {
       _status = AuthExceptionHandler.handleException(e);
+    }
+
+    if (_status == AuthResultStatus.successful) {
+      _prefs.setString('password', newPassword);
     }
 
     return _status;
