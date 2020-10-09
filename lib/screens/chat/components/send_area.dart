@@ -15,16 +15,18 @@ class SendArea extends StatelessWidget {
   // This handler will be used for storing message to database
   Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
+      String _message = _messageController.text;
+
+      // Clear text field after storing message
+      _messageController.clear();
+
       // Store message
       await FirebaseFirestore.instance.collection('messages').add({
-        'text': _messageController.text,
+        'text': _message,
         'fromName': _userData['name'],
         'fromEmail': _userData['email'],
         'timendate': DateTime.now().toIso8601String(),
       });
-
-      // Clear text field after storing message
-      _messageController.clear();
     }
   }
 
