@@ -11,7 +11,7 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: _isMe ? EdgeInsets.only(left: 110) : EdgeInsets.only(right: 110),
+      margin: _isMe ? EdgeInsets.only(left: 60) : EdgeInsets.only(right: 60),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       alignment: _isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
@@ -29,7 +29,7 @@ class Message extends StatelessWidget {
           if (!_isMe) SizedBox(height: 1),
           Container(
             padding: EdgeInsets.symmetric(
-              vertical: 10,
+              vertical: 15,
               horizontal: 15,
             ),
             decoration: BoxDecoration(

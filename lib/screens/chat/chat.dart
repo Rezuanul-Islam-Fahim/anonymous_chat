@@ -14,7 +14,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _messageScroll = ScrollController();
+  final int _msgIncrement = 15;
   Map<String, dynamic> _userData = {};
+  int _msgLimit = 20;
 
   // Load user-details handler
   Future<void> _loadUserData() async {
@@ -26,10 +28,19 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
+  // Message scroll listener
+  void _scrollListener() {
+    if (_messageScroll.offset >= _messageScroll.position.maxScrollExtent &&
+        !_messageScroll.position.outOfRange) {
+      setState(() => _msgLimit += _msgIncrement);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _messageScroll.addListener(_scrollListener);
   }
 
   @override
@@ -38,8 +49,8 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: getAppBar(context, _userData),
       body: Column(
         children: <Widget>[
-          MessageStream(_userData, _messageScroll),
-          SendArea(_userData, _messageScroll),
+          MessageStream(_userData, _messageScroll, _msgLimit),
+          SendArea(_userData),
         ],
       ),
     );
