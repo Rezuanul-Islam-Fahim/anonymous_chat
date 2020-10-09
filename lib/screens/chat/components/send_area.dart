@@ -7,10 +7,9 @@ import 'package:anonymous_chat/screens/chat/components/message_input_field.dart'
 
 // Chat screen's widget for building send-area
 class SendArea extends StatelessWidget {
-  SendArea(this._userData, this._messageScroll);
+  SendArea(this._userData);
 
   final Map<String, dynamic> _userData;
-  final ScrollController _messageScroll;
   final TextEditingController _messageController = TextEditingController();
 
   // This handler will be used for storing message to database
@@ -26,14 +25,6 @@ class SendArea extends StatelessWidget {
 
       // Clear text field after storing message
       _messageController.clear();
-
-      // Animate to max scroll extent of messages stream-builder
-      // after storing message to database
-      _messageScroll.animateTo(
-        _messageScroll.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
     }
   }
 
