@@ -14,9 +14,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _messageScroll = ScrollController();
-  final int _msgIncrement = 15;
+  final int _msgIncrement = 20;
   Map<String, dynamic> _userData = {};
-  int _msgLimit = 20;
+  int _msgLimit = 15;
 
   // Load user-details handler
   Future<void> _loadUserData() async {
