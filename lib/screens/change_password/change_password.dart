@@ -7,6 +7,7 @@ import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/navigation.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/change_password/components/input_field.dart';
+import 'package:anonymous_chat/screens/login/login.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ),
       successMessage: 'Successfully changed password',
       errorMessageTitle: 'Error occurred',
+      navigationScreen: LoginScreen(),
     ).navigate(context);
 
     setState(() => _isLoading = false);

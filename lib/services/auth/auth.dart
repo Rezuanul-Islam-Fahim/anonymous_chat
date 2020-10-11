@@ -110,7 +110,8 @@ class AuthService {
     }
 
     if (_status == AuthResultStatus.successful) {
-      _prefs.setString('password', newPassword);
+      _prefs.clear();
+      _auth.signOut();
     }
 
     return _status;

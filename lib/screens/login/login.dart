@@ -8,6 +8,7 @@ import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/login_register_header.dart';
 import 'package:anonymous_chat/screens/login/components/form.dart';
 import 'package:anonymous_chat/screens/login/components/register_link.dart';
+import 'package:anonymous_chat/screens/chat/chat.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       successMessage: 'Successfully Logged In',
       errorMessageTitle: 'Login Failed',
+      navigationScreen: ChatScreen(),
     ).navigate(context);
 
     setState(() => _isLoading = false);

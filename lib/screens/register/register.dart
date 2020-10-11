@@ -8,6 +8,7 @@ import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/login_register_header.dart';
 import 'package:anonymous_chat/screens/register/components/form.dart';
 import 'package:anonymous_chat/screens/register/components/back_button.dart';
+import 'package:anonymous_chat/screens/chat/chat.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -32,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       successMessage: 'Successfully registered new account',
       errorMessageTitle: 'Registration failed',
+      navigationScreen: ChatScreen(),
     ).navigate(context);
 
     setState(() => _isLoading = false);

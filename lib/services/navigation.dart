@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
-import 'package:anonymous_chat/screens/chat/chat.dart';
 
 // This class will be used for Navigation, when some
 // operation success or fails. Like login, register,
@@ -14,11 +13,13 @@ class Navigation {
     this.status,
     this.successMessage,
     this.errorMessageTitle,
+    this.navigationScreen,
   });
 
   final AuthResultStatus status;
   final String successMessage;
   final String errorMessageTitle;
+  final Widget navigationScreen;
 
   // This handler will be used for handling after operations of
   // auth process. Like, if auth operation is successful then
@@ -27,7 +28,7 @@ class Navigation {
   Future<void> navigate(BuildContext context) async {
     if (status == AuthResultStatus.successful) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => ChatScreen()),
+        MaterialPageRoute(builder: (_) => navigationScreen),
         (Route<dynamic> route) => false,
       );
 
