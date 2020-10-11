@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
-          Container(
+          Padding(
             padding: const EdgeInsets.only(
               top: 60,
               left: 25,
