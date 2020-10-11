@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           RegisterBackButton(),
-          if (_isLoading) Loader('Registering New Account...'),
+          if (_isLoading) Loader('Registering New Account ...'),
         ],
       ),
     );

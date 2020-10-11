@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-          if (_isLoading) Loader('Logging In...'),
+          if (_isLoading) Loader('Logging In ...'),
         ],
       ),
     );
