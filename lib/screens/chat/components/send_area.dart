@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:anonymous_chat/screens/chat/components/send_button.dart';
 import 'package:anonymous_chat/screens/chat/components/message_input_field.dart';
 
 // Chat screen's widget for building send-area
@@ -37,35 +38,9 @@ class SendArea extends StatelessWidget {
       padding: const EdgeInsets.all(15),
       child: Row(
         children: <Widget>[
-          Material(
-            clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(30),
-            elevation: 5,
-            color: Theme.of(context).primaryColor,
-            type: MaterialType.button,
-            child: IconButton(
-              icon: Icon(Icons.photo),
-              iconSize: 28,
-              color: Colors.white,
-              padding: EdgeInsets.all(13),
-              onPressed: () {},
-            ),
-          ),
+          SendButton(Icons.photo, () {}),
           MessageInputField(_messageController, _sendMessage),
-          Material(
-            clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(30),
-            elevation: 5,
-            color: Theme.of(context).primaryColor,
-            type: MaterialType.button,
-            child: IconButton(
-              icon: Icon(Icons.send),
-              iconSize: 28,
-              color: Colors.white,
-              padding: EdgeInsets.all(13),
-              onPressed: _sendMessage,
-            ),
-          ),
+          SendButton(Icons.send, _sendMessage),
         ],
       ),
     );
