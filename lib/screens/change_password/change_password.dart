@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/navigation.dart';
+import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/change_password/components/input_field.dart';
 import 'package:anonymous_chat/screens/login/login.dart';

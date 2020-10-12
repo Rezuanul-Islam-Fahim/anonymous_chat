@@ -15,9 +15,10 @@ class SendArea extends StatelessWidget {
   // This handler will be used for storing message to database
   Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
+      // Store message to a new variable
       String _message = _messageController.text;
 
-      // Clear text field after storing message
+      // Clear text field before storing message
       _messageController.clear();
 
       // Store message
@@ -36,6 +37,20 @@ class SendArea extends StatelessWidget {
       padding: const EdgeInsets.all(15),
       child: Row(
         children: <Widget>[
+          Material(
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(30),
+            elevation: 5,
+            color: Theme.of(context).primaryColor,
+            type: MaterialType.button,
+            child: IconButton(
+              icon: Icon(Icons.photo),
+              iconSize: 28,
+              color: Colors.white,
+              padding: EdgeInsets.all(13),
+              onPressed: () {},
+            ),
+          ),
           MessageInputField(_messageController, _sendMessage),
           Material(
             clipBehavior: Clip.hardEdge,
