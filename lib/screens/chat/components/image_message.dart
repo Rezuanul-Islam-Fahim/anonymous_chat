@@ -33,6 +33,20 @@ class ImageMessage extends StatelessWidget {
               width: 200,
               height: 200,
               fit: BoxFit.cover,
+              progressIndicatorBuilder: (context, url, downloadProgress) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.grey[300],
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    child: CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                      strokeWidth: 3,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],
