@@ -30,6 +30,7 @@ class SendArea extends StatelessWidget {
         'fromName': _userData['name'],
         'fromEmail': _userData['email'],
         'timendate': DateTime.now().toIso8601String(),
+        'isImage': false,
       });
     }
   }
@@ -56,6 +57,7 @@ class SendArea extends StatelessWidget {
           'fromName': _userData['name'],
           'fromEmail': _userData['email'],
           'timendate': DateTime.now().toIso8601String(),
+          'isImage': true,
         });
       });
     }

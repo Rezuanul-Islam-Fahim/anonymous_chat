@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:anonymous_chat/screens/chat/components/image_message.dart';
 import 'package:anonymous_chat/screens/chat/components/message.dart';
 
 // Message stream-builder widget
@@ -39,11 +40,17 @@ class MessageStream extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               DocumentSnapshot _message = _messages[index];
 
-              return Message(
-                _message.get('text'),
-                _message.get('fromName'),
-                _message.get('fromEmail') == _userData['email'],
-              );
+              return _message.get('isImage')
+                  ? ImageMessage(
+                      _message.get('text'),
+                      _message.get('fromName'),
+                      _message.get('fromEmail') == _userData['email'],
+                    )
+                  : Message(
+                      _message.get('text'),
+                      _message.get('fromName'),
+                      _message.get('fromEmail') == _userData['email'],
+                    );
             },
           );
         },
