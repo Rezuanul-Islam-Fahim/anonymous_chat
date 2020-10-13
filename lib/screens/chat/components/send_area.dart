@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:anonymous_chat/screens/chat/components/message_input_field.dart';
 
@@ -16,17 +19,44 @@ class SendArea extends StatelessWidget {
   Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
       // Store message to a new variable
-      String _message = _messageController.text;
+      String message = _messageController.text;
 
       // Clear text field before storing message
       _messageController.clear();
 
       // Store message
       await FirebaseFirestore.instance.collection('messages').add({
-        'text': _message,
+        'text': message,
         'fromName': _userData['name'],
         'fromEmail': _userData['email'],
         'timendate': DateTime.now().toIso8601String(),
+      });
+    }
+  }
+
+  Future<void> _sendImage() async {
+    File image;
+    PickedFile pickedImage = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedImage != null) {
+      image = File(pickedImage.path);
+
+      StorageReference storageRef = FirebaseStorage.instance.ref().child(
+            '${DateTime.now().millisecondsSinceEpoch}',
+          );
+      StorageUploadTask uploadTask = storageRef.putFile(image);
+      StorageTaskSnapshot taskSnap = await uploadTask.onComplete;
+
+      taskSnap.ref.getDownloadURL().then((img) async {
+        // Store message
+        await FirebaseFirestore.instance.collection('messages').add({
+          'text': img,
+          'fromName': _userData['name'],
+          'fromEmail': _userData['email'],
+          'timendate': DateTime.now().toIso8601String(),
+        });
       });
     }
   }
@@ -42,7 +72,7 @@ class SendArea extends StatelessWidget {
             icon: Icon(Icons.photo),
             iconSize: 28,
             splashRadius: 20,
-            onPressed: () {},
+            onPressed: _sendImage,
           ),
           MessageInputField(_messageController, _sendMessage),
           Material(
