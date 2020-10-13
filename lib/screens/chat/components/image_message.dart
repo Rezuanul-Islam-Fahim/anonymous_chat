@@ -47,6 +47,15 @@ class ImageMessage extends StatelessWidget {
                   ),
                 );
               },
+              errorWidget: (context, url, error) => Container(
+                alignment: Alignment.center,
+                color: Colors.grey[300],
+                child: Icon(
+                  Icons.error,
+                  size: 40,
+                  color: Theme.of(context).errorColor,
+                ),
+              ),
             ),
           ),
         ],
