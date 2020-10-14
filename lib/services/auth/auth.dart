@@ -81,10 +81,16 @@ class AuthService {
     return _status;
   }
 
-  // Handler for load logged user
-  static User loadUser() {
-    User _user = FirebaseAuth.instance.currentUser;
-    return _user;
+  // Handler for logout user
+  static Future<void> logOut() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    FirebaseAuth _auth = FirebaseAuth.instance;
+
+    // Clear credentials from local storage
+    _prefs.clear();
+
+    // Logout
+    _auth.signOut();
   }
 
   // Change-password handler
@@ -110,7 +116,7 @@ class AuthService {
     }
 
     if (_status == AuthResultStatus.successful) {
-      _prefs.setString('password', newPassword);
+      logOut();
     }
 
     return _status;

@@ -20,7 +20,7 @@ class Message extends StatelessWidget {
         children: <Widget>[
           if (!_isMe)
             Padding(
-              padding: EdgeInsets.only(left: 3),
+              padding: EdgeInsets.only(left: 2),
               child: Text(
                 _from,
                 style: TextStyle(fontSize: 13),

@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 import 'package:anonymous_chat/screens/login/login.dart';
 
@@ -45,16 +44,9 @@ void openDialogue(BuildContext context) {
 
 // Logout handler
 Future<void> _logOut(BuildContext context) async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  AuthService.logOut();
 
-  // Clear credentials from local storgae
-  _prefs.clear();
-
-  // Logout
-  FirebaseAuth.instance.signOut();
-
-  // Navigate to login screen after
-  // successfully logout
+  // Navigate to login screen after successfully logout
   Navigator.of(context).pushAndRemoveUntil(
     MaterialPageRoute(builder: (_) => LoginScreen()),
     (Route<dynamic> route) => false,

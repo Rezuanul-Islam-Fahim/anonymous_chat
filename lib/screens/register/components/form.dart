@@ -1,32 +1,23 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/common.dart';
-import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/navigation.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/register/components/input_field.dart';
 
 // Register screen's form widget
 class RegisterForm extends StatelessWidget {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  RegisterForm(
+    this._nameController,
+    this._emailController,
+    this._passwordController,
+    this._handler,
+  );
 
-  // Register handler
-  Future<void> _register(BuildContext context) async {
-    Navigation(
-      status: await AuthService.register(
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
-      ),
-      successMessage: 'Successfully registered new account',
-      errorMessageTitle: 'Registration failed',
-    ).navigate(context);
-  }
+  final TextEditingController _nameController;
+  final TextEditingController _emailController;
+  final TextEditingController _passwordController;
+  final Function _handler;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +33,9 @@ class RegisterForm extends StatelessWidget {
           SizedBox(height: 20),
           GeneralButton('Register Now', () {
             if (_formKey.currentState.validate()) {
-              // If form validation passes, then _register
+              // If form validation passes, then register
               // handler will be called
-              _register(context);
+              _handler();
             }
           }),
         ],

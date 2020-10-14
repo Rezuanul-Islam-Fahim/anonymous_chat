@@ -11,7 +11,7 @@ class MessageInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(right: 10),
+        padding: const EdgeInsets.only(right: 15, left: 5),
         child: Material(
           elevation: 4,
           borderRadius: BorderRadius.circular(30),
@@ -20,7 +20,7 @@ class MessageInputField extends StatelessWidget {
               filled: true,
               fillColor: Colors.grey[100],
               contentPadding: EdgeInsets.symmetric(
-                vertical: 17,
+                vertical: 15,
                 horizontal: 10,
               ),
               enabledBorder: OutlineInputBorder(

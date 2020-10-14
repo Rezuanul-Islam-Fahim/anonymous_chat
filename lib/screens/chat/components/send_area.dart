@@ -1,42 +1,33 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:anonymous_chat/screens/chat/components/message_input_field.dart';
 
 // Chat screen's widget for building send-area
 class SendArea extends StatelessWidget {
-  SendArea(this._userData);
+  SendArea(
+    this._messageController,
+    this._sendMessageHandler,
+    this._sendImageHandler,
+  );
 
-  final Map<String, dynamic> _userData;
-  final TextEditingController _messageController = TextEditingController();
-
-  // This handler will be used for storing message to database
-  Future<void> _sendMessage() async {
-    if (_messageController.text.length > 0) {
-      String _message = _messageController.text;
-
-      // Clear text field after storing message
-      _messageController.clear();
-
-      // Store message
-      await FirebaseFirestore.instance.collection('messages').add({
-        'text': _message,
-        'fromName': _userData['name'],
-        'fromEmail': _userData['email'],
-        'timendate': DateTime.now().toIso8601String(),
-      });
-    }
-  }
+  final TextEditingController _messageController;
+  final Function _sendMessageHandler;
+  final Function _sendImageHandler;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.fromLTRB(5, 15, 10, 15),
       child: Row(
         children: <Widget>[
-          MessageInputField(_messageController, _sendMessage),
+          IconButton(
+            color: Theme.of(context).primaryColor,
+            icon: Icon(Icons.photo),
+            iconSize: 28,
+            splashRadius: 20,
+            onPressed: _sendImageHandler,
+          ),
+          MessageInputField(_messageController, _sendMessageHandler),
           Material(
             clipBehavior: Clip.hardEdge,
             borderRadius: BorderRadius.circular(30),
@@ -45,10 +36,10 @@ class SendArea extends StatelessWidget {
             type: MaterialType.button,
             child: IconButton(
               icon: Icon(Icons.send),
-              iconSize: 28,
+              iconSize: 25,
               color: Colors.white,
-              padding: EdgeInsets.all(13),
-              onPressed: _sendMessage,
+              padding: EdgeInsets.all(12),
+              onPressed: _sendMessageHandler,
             ),
           ),
         ],
