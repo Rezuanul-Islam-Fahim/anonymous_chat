@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:anonymous_chat/screens/chat/components/appbar.dart';
 import 'package:anonymous_chat/screens/chat/components/message_stream.dart';
@@ -13,6 +17,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController _messageController = TextEditingController();
   final ScrollController _messageScroll = ScrollController();
   final int _msgIncrement = 20;
   Map<String, dynamic> _userData = {};
@@ -36,6 +41,55 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  // This handler will be used for storing message to database
+  Future<void> _sendMessage() async {
+    if (_messageController.text.length > 0) {
+      // Store message to a new variable
+      String message = _messageController.text;
+
+      // Clear text field before storing message
+      _messageController.clear();
+
+      // Store message
+      await FirebaseFirestore.instance.collection('messages').add({
+        'text': message,
+        'fromName': _userData['name'],
+        'fromEmail': _userData['email'],
+        'timendate': DateTime.now().toIso8601String(),
+        'isImage': false,
+      });
+    }
+  }
+
+  // This handler will store image to database
+  Future<void> _sendImage() async {
+    File image;
+    PickedFile pickedImage = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedImage != null) {
+      image = File(pickedImage.path);
+
+      StorageReference storageRef = FirebaseStorage.instance.ref().child(
+            '${DateTime.now().millisecondsSinceEpoch}',
+          );
+      StorageUploadTask uploadTask = storageRef.putFile(image);
+      StorageTaskSnapshot taskSnap = await uploadTask.onComplete;
+
+      taskSnap.ref.getDownloadURL().then((img) async {
+        // Store message
+        await FirebaseFirestore.instance.collection('messages').add({
+          'text': img,
+          'fromName': _userData['name'],
+          'fromEmail': _userData['email'],
+          'timendate': DateTime.now().toIso8601String(),
+          'isImage': true,
+        });
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: <Widget>[
           MessageStream(_userData, _messageScroll, _msgLimit),
-          SendArea(_userData),
+          SendArea(_messageController, _sendMessage, _sendImage),
         ],
       ),
     );
