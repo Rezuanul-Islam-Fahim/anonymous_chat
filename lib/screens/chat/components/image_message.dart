@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:anonymous_chat/screens/full_sized_image.dart';
+
 class ImageMessage extends StatelessWidget {
   const ImageMessage(this._text, this._from, this._isMe);
 
@@ -26,34 +28,40 @@ class ImageMessage extends StatelessWidget {
               ),
             ),
           if (!_isMe) SizedBox(height: 1),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: CachedNetworkImage(
-              imageUrl: _text,
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover,
-              progressIndicatorBuilder: (context, url, downloadProgress) {
-                return Container(
+          InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => FullImageScreen(_text)),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: CachedNetworkImage(
+                imageUrl: _text,
+                width: 200,
+                height: 200,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) {
+                  return Container(
+                    alignment: Alignment.center,
+                    color: Colors.grey[300],
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      child: CircularProgressIndicator(
+                        value: downloadProgress.progress,
+                        strokeWidth: 3,
+                      ),
+                    ),
+                  );
+                },
+                errorWidget: (context, url, error) => Container(
                   alignment: Alignment.center,
                   color: Colors.grey[300],
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    child: CircularProgressIndicator(
-                      value: downloadProgress.progress,
-                      strokeWidth: 3,
-                    ),
+                  child: Icon(
+                    Icons.error,
+                    size: 40,
+                    color: Theme.of(context).errorColor,
                   ),
-                );
-              },
-              errorWidget: (context, url, error) => Container(
-                alignment: Alignment.center,
-                color: Colors.grey[300],
-                child: Icon(
-                  Icons.error,
-                  size: 40,
-                  color: Theme.of(context).errorColor,
                 ),
               ),
             ),
