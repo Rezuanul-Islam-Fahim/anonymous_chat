@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/screens/chat/components/appbar.dart';
 import 'package:anonymous_chat/screens/chat/components/message_stream.dart';
 import 'package:anonymous_chat/screens/chat/components/send_area.dart';
@@ -22,15 +23,16 @@ class _ChatScreenState extends State<ChatScreen> {
   final int _msgIncrement = 20;
   Map<String, dynamic> _userData = {};
   int _msgLimit = 15;
+  bool _isLoading = false;
 
   // Load user-details handler
   Future<void> _loadUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
 
-    _userData['name'] = _prefs.getString('name');
-    _userData['email'] = _prefs.getString('email');
-
-    setState(() {});
+    setState(() {
+      _userData['name'] = _prefs.getString('name');
+      _userData['email'] = _prefs.getString('email');
+    });
   }
 
   // Message scroll listener
@@ -69,6 +71,8 @@ class _ChatScreenState extends State<ChatScreen> {
     );
 
     if (pickedImage != null) {
+      setState(() => _isLoading = true);
+
       image = File(pickedImage.path);
 
       StorageReference storageRef = FirebaseStorage.instance.ref().child(
@@ -87,6 +91,8 @@ class _ChatScreenState extends State<ChatScreen> {
           'isImage': true,
         });
       });
+
+      setState(() => _isLoading = false);
     }
   }
 
@@ -101,10 +107,15 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(context, _userData),
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          MessageStream(_userData, _messageScroll, _msgLimit),
-          SendArea(_messageController, _sendMessage, _sendImage),
+          Column(
+            children: <Widget>[
+              MessageStream(_userData, _messageScroll, _msgLimit),
+              SendArea(_messageController, _sendMessage, _sendImage),
+            ],
+          ),
+          if (_isLoading) Loader('Sending...'),
         ],
       ),
     );

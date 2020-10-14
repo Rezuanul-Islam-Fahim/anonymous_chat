@@ -68,7 +68,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ),
             ),
           ),
-          if (_isLoading) Loader('Changing Password ...'),
+          if (_isLoading) Loader('Changing Password...'),
         ],
       ),
     );
