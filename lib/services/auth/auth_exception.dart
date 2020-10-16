@@ -44,22 +44,22 @@ class AuthExceptionHandler {
     // Generate error message
     switch (status) {
       case AuthResultStatus.invalidEmail:
-        _message = 'Your entered email address is invalid.';
+        _message = 'Your entered email address is invalid';
         break;
       case AuthResultStatus.wrongPassword:
-        _message = 'Your password is wrong.';
+        _message = 'Your password is wrong';
         break;
       case AuthResultStatus.userNotFound:
-        _message = 'User with this email is not registered.';
+        _message = 'User with this email is not registered';
         break;
       case AuthResultStatus.userDisabled:
-        _message = 'User with this email has been disabled.';
+        _message = 'User with this email has been disabled';
         break;
       case AuthResultStatus.tooManyRequests:
-        _message = 'Too many requests. Try again later.';
+        _message = 'Too many requests. Try again later';
         break;
       case AuthResultStatus.operationNotAllowed:
-        _message = 'Signing in with Email and Password is not enabled.';
+        _message = 'Signing in with Email and Password is not enabled';
         break;
       case AuthResultStatus.weekPassword:
         _message =
@@ -69,7 +69,7 @@ class AuthExceptionHandler {
         _message = 'Account with this Email is already registered';
         break;
       default:
-        _message = 'An undefined error occurred.';
+        _message = 'An undefined error occurred';
     }
 
     return _message;
