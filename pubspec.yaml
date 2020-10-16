@@ -32,6 +32,7 @@ dependencies:
   cloud_firestore: ^0.14.0+2
   firebase_storage: ^4.0.1
   shared_preferences: ^0.5.10
+  shared_preferences_web: ^0.1.0
   image_picker: ^0.6.7+11
   email_validator: ^1.0.5
   flushbar: ^1.10.4
