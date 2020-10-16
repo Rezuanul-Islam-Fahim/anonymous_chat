@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/navigation.dart';
+import 'package:anonymous_chat/services/responsive.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/change_password/components/input_field.dart';
@@ -41,30 +42,34 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       appBar: AppBar(title: Text('Change Password')),
       body: Stack(
         children: <Widget>[
-          Padding(
+          Container(
             padding: EdgeInsets.fromLTRB(25, 40, 25, 0),
+            alignment: Alignment.center,
             child: Form(
               key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  passwordField(
-                    'Enter New Password',
-                    _passwordController,
-                    _confirmPassController,
-                  ),
-                  SizedBox(height: 20),
-                  passwordField(
-                    'Confirm Password',
-                    _confirmPassController,
-                    _passwordController,
-                  ),
-                  SizedBox(height: 20),
-                  GeneralButton('Change Password', () {
-                    if (_formKey.currentState.validate()) {
-                      _changePassword(context);
-                    }
-                  }),
-                ],
+              child: Container(
+                width: Responsive(MediaQuery.of(context)).width(),
+                child: Column(
+                  children: <Widget>[
+                    passwordField(
+                      'Enter New Password',
+                      _passwordController,
+                      _confirmPassController,
+                    ),
+                    SizedBox(height: 20),
+                    passwordField(
+                      'Confirm Password',
+                      _confirmPassController,
+                      _passwordController,
+                    ),
+                    SizedBox(height: 20),
+                    GeneralButton('Change Password', () {
+                      if (_formKey.currentState.validate()) {
+                        _changePassword(context);
+                      }
+                    }),
+                  ],
+                ),
               ),
             ),
           ),
