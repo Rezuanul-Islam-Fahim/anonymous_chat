@@ -5,12 +5,18 @@ import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/login/components/input_field.dart';
 
 // Login screen's form widget
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   LoginForm(this._emailController, this._passwordController, this._handler);
 
   final TextEditingController _emailController;
   final TextEditingController _passwordController;
   final Function _handler;
+
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -19,15 +25,15 @@ class LoginForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          emailField(_emailController, 'Enter Your Email'),
+          emailField(widget._emailController, 'Enter Your Email'),
           SizedBox(height: 20),
-          passwordField(_passwordController),
+          passwordField(widget._passwordController),
           SizedBox(height: 20),
           GeneralButton('Login', () {
             if (_formKey.currentState.validate()) {
               // If form validation passes, then login
               // handler will be called
-              _handler();
+              widget._handler();
             }
           }),
           SizedBox(height: 30),
