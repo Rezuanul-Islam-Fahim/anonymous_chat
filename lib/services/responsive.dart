@@ -7,7 +7,7 @@ class Responsive {
 
   double width(double width) {
     double deviceWidth = mediaQuery.size.width;
-    return deviceWidth > 450 ? width : deviceWidth;
+    return deviceWidth > 500 ? width : deviceWidth;
   }
 
   EdgeInsetsGeometry marginByPortion({
@@ -21,7 +21,7 @@ class Responsive {
     double bottom = 0,
   }) {
     double deviceWidth = mediaQuery.size.width;
-    return deviceWidth > 550
+    return deviceWidth > 500
         ? EdgeInsets.fromLTRB(
             deviceWidth * leftPortion,
             deviceWidth * topPortion,
