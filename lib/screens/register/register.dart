@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             alignment: Alignment.center,
             child: Container(
-              width: Responsive(MediaQuery.of(context)).width(),
+              width: Responsive(MediaQuery.of(context)).width(400),
               child: Column(
                 children: <Widget>[
                   Header(),

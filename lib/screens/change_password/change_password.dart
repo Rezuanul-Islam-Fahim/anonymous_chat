@@ -48,7 +48,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: Form(
               key: _formKey,
               child: Container(
-                width: Responsive(MediaQuery.of(context)).width(),
+                width: Responsive(MediaQuery.of(context)).width(400),
                 child: Column(
                   children: <Widget>[
                     passwordField(

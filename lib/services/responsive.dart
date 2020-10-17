@@ -5,7 +5,29 @@ class Responsive {
 
   final MediaQueryData mediaQuery;
 
-  double width() {
-    return mediaQuery.size.width > 450 ? 400 : mediaQuery.size.width;
+  double width(double width) {
+    double deviceWidth = mediaQuery.size.width;
+    return deviceWidth > 450 ? width : deviceWidth;
+  }
+
+  EdgeInsetsGeometry marginByPortion({
+    double leftPortion = 0,
+    double topPortion = 0,
+    double rightPortion = 0,
+    double bottomPortion = 0,
+    double left = 0,
+    double top = 0,
+    double right = 0,
+    double bottom = 0,
+  }) {
+    double deviceWidth = mediaQuery.size.width;
+    return deviceWidth > 550
+        ? EdgeInsets.fromLTRB(
+            deviceWidth * leftPortion,
+            deviceWidth * topPortion,
+            deviceWidth * rightPortion,
+            deviceWidth * bottomPortion,
+          )
+        : EdgeInsets.fromLTRB(left, top, right, bottom);
   }
 }
