@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
 import 'package:anonymous_chat/services/navigation.dart';
+import 'package:anonymous_chat/services/responsive.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/login_register_header.dart';
 import 'package:anonymous_chat/screens/register/components/form.dart';
@@ -45,22 +46,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
-          Padding(
+          Container(
             padding: const EdgeInsets.only(
               top: 60,
               left: 25,
               right: 25,
             ),
-            child: Column(
-              children: <Widget>[
-                Header(),
-                RegisterForm(
-                  _nameController,
-                  _emailController,
-                  _passwordController,
-                  () => _register(context),
-                ),
-              ],
+            alignment: Alignment.center,
+            child: Container(
+              width: Responsive(MediaQuery.of(context)).width(400),
+              child: Column(
+                children: <Widget>[
+                  Header(),
+                  RegisterForm(
+                    _nameController,
+                    _emailController,
+                    _passwordController,
+                    () => _register(context),
+                  ),
+                ],
+              ),
             ),
           ),
           RegisterBackButton(),

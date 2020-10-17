@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:anonymous_chat/services/responsive.dart';
+
 // Message widget for chat screen
 class Message extends StatelessWidget {
   const Message(this._text, this._from, this._isMe);
@@ -10,8 +12,18 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData _mediaQuery = MediaQuery.of(context);
+
     return Container(
-      margin: _isMe ? EdgeInsets.only(left: 60) : EdgeInsets.only(right: 60),
+      margin: _isMe
+          ? Responsive(_mediaQuery).marginByPortion(
+              leftPortion: 0.45,
+              left: 60,
+            )
+          : Responsive(_mediaQuery).marginByPortion(
+              rightPortion: 0.45,
+              right: 60,
+            ),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       alignment: _isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
