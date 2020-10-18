@@ -43,34 +43,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(
-              top: 60,
-              left: 25,
-              right: 25,
-            ),
-            alignment: Alignment.center,
-            child: Container(
-              width: Responsive(MediaQuery.of(context)).width(400),
-              child: Column(
-                children: <Widget>[
-                  Header(),
-                  RegisterForm(
-                    _nameController,
-                    _emailController,
-                    _passwordController,
-                    () => _register(context),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 60,
+                  left: 25,
+                  right: 25,
+                ),
+                alignment: Alignment.center,
+                child: Container(
+                  width: Responsive(MediaQuery.of(context)).width(400),
+                  child: Column(
+                    children: <Widget>[
+                      Header(),
+                      RegisterForm(
+                        _nameController,
+                        _emailController,
+                        _passwordController,
+                        () => _register(context),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              RegisterBackButton(),
+              if (_isLoading) Loader('Registering New Account...'),
+            ],
           ),
-          RegisterBackButton(),
-          if (_isLoading) Loader('Registering New Account...'),
-        ],
+        ),
       ),
     );
   }
