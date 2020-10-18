@@ -41,33 +41,35 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(
-              top: 60,
-              left: 25,
-              right: 25,
-            ),
-            alignment: Alignment.center,
-            child: Container(
-              width: Responsive(MediaQuery.of(context)).width(400),
-              child: Column(
-                children: <Widget>[
-                  Header(),
-                  LoginForm(
-                    _emailController,
-                    _passwordController,
-                    () => _login(context),
-                  ),
-                  RegisterLink(),
-                ],
+      body: SingleChildScrollView(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height,
+              padding: EdgeInsets.only(
+                top: 60,
+                left: 25,
+                right: 25,
+              ),
+              alignment: Alignment.center,
+              child: Container(
+                width: Responsive(MediaQuery.of(context)).width(400),
+                child: Column(
+                  children: <Widget>[
+                    Header(),
+                    LoginForm(
+                      _emailController,
+                      _passwordController,
+                      () => _login(context),
+                    ),
+                    RegisterLink(),
+                  ],
+                ),
               ),
             ),
-          ),
-          if (_isLoading) Loader('Logging In...'),
-        ],
+            if (_isLoading) Loader('Logging In...'),
+          ],
+        ),
       ),
     );
   }
