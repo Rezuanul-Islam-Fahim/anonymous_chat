@@ -24,7 +24,7 @@ void openDialogue(BuildContext context) {
             onPressed: () => Navigator.of(context).pop(),
           ),
           FlatButton(
-            color: Colors.redAccent,
+            color: Colors.red,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
@@ -32,7 +32,7 @@ void openDialogue(BuildContext context) {
             onPressed: () => _logOut(context),
           ),
         ],
-        contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 10),
+        contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 0),
         buttonPadding: EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 12,

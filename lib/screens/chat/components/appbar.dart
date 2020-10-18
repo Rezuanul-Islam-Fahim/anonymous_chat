@@ -19,7 +19,8 @@ AppBar getAppBar(
     titleSpacing: 10,
     actions: <Widget>[
       IconButton(
-        icon: Icon(Icons.more_vert),
+        icon: Icon(Icons.account_circle),
+        iconSize: 30,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
