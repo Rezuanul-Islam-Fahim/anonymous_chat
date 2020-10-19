@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: <Widget>[
               Container(
                 padding: const EdgeInsets.only(
-                  top: 60,
+                  top: 70,
                   left: 25,
                   right: 25,
                 ),

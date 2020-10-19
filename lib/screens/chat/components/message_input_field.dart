@@ -10,8 +10,9 @@ class MessageInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 10),
+      child: Container(
+        height: 45,
+        padding: const EdgeInsets.only(right: 8),
         child: Material(
           elevation: 4,
           borderRadius: BorderRadius.circular(30),
@@ -24,14 +25,14 @@ class MessageInputField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(
                   width: 0.7,
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(
                   width: 1.2,
-                  color: Colors.grey[350],
+                  color: Colors.grey[300],
                 ),
               ),
               hintText: 'Enter your text...',

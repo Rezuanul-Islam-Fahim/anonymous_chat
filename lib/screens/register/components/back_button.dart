@@ -5,7 +5,7 @@ class RegisterBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 35, left: 15),
+      padding: EdgeInsets.only(top: 45, left: 15),
       child: IconButton(
         icon: Icon(Icons.arrow_back),
         iconSize: 30,
