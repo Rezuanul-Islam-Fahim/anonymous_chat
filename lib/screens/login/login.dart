@@ -41,10 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            Container(
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Container(
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.only(
                 top: 60,
@@ -67,9 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            if (_isLoading) Loader('Logging In...'),
-          ],
-        ),
+          ),
+          if (_isLoading) Loader('Logging In...'),
+        ],
       ),
     );
   }
