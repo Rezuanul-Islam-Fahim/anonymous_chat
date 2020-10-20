@@ -12,7 +12,7 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Setting')),
+      appBar: AppBar(title: Text('Settings')),
       body: Padding(
         padding: const EdgeInsets.only(top: 15),
         child: Column(

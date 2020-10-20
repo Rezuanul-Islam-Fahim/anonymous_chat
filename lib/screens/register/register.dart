@@ -49,11 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Stack(
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.only(
-                  top: 70,
-                  left: 25,
-                  right: 25,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 25),
                 alignment: Alignment.center,
                 child: Container(
                   width: Responsive(MediaQuery.of(context)).width(400),

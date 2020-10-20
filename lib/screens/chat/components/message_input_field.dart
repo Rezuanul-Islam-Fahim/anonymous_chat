@@ -38,7 +38,7 @@ class MessageInputField extends StatelessWidget {
               hintText: 'Enter your text...',
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Icon(Icons.textsms, size: 22),
+                child: Icon(Icons.textsms, size: 20),
               ),
             ),
             controller: _messageController,
