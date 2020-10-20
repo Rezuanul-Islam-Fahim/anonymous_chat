@@ -18,7 +18,7 @@ class SendArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 15, 10, 15),
+      padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
       alignment: Alignment.center,
       child: Container(
         width: Responsive(MediaQuery.of(context)).width(450),
@@ -27,8 +27,8 @@ class SendArea extends StatelessWidget {
             IconButton(
               color: Theme.of(context).primaryColor,
               icon: Icon(Icons.photo),
-              iconSize: 26,
-              splashRadius: 18,
+              iconSize: 25,
+              splashRadius: 16,
               onPressed: _sendImageHandler,
             ),
             MessageInputField(_messageController, _sendMessageHandler),
@@ -40,9 +40,8 @@ class SendArea extends StatelessWidget {
               type: MaterialType.button,
               child: IconButton(
                 icon: Icon(Icons.send),
-                iconSize: 25,
+                iconSize: 23,
                 color: Colors.white,
-                padding: EdgeInsets.all(10),
                 onPressed: _sendMessageHandler,
               ),
             ),
