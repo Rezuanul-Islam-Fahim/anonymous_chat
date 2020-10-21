@@ -40,12 +40,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool _isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
             child: Container(
-              height: MediaQuery.of(context).size.height,
+              height: _isPortrait ? MediaQuery.of(context).size.height : 650,
               padding: EdgeInsets.symmetric(horizontal: 25),
               alignment: Alignment.center,
               child: Container(
