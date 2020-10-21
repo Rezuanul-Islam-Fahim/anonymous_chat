@@ -42,33 +42,35 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       appBar: AppBar(title: Text('Change Password')),
       body: Stack(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(25, 40, 25, 0),
-            alignment: Alignment.center,
-            child: Form(
-              key: _formKey,
-              child: Container(
-                width: Responsive(MediaQuery.of(context)).width(400),
-                child: Column(
-                  children: <Widget>[
-                    passwordField(
-                      'Enter New Password',
-                      _passwordController,
-                      _confirmPassController,
-                    ),
-                    SizedBox(height: 20),
-                    passwordField(
-                      'Confirm Password',
-                      _confirmPassController,
-                      _passwordController,
-                    ),
-                    SizedBox(height: 20),
-                    GeneralButton('Change Password', () {
-                      if (_formKey.currentState.validate()) {
-                        _changePassword(context);
-                      }
-                    }),
-                  ],
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(25, 40, 25, 0),
+              alignment: Alignment.center,
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  width: Responsive(MediaQuery.of(context)).width(400),
+                  child: Column(
+                    children: <Widget>[
+                      passwordField(
+                        'Enter New Password',
+                        _passwordController,
+                        _confirmPassController,
+                      ),
+                      SizedBox(height: 20),
+                      passwordField(
+                        'Confirm Password',
+                        _confirmPassController,
+                        _passwordController,
+                      ),
+                      SizedBox(height: 20),
+                      GeneralButton('Change Password', () {
+                        if (_formKey.currentState.validate()) {
+                          _changePassword(context);
+                        }
+                      }),
+                    ],
+                  ),
                 ),
               ),
             ),
