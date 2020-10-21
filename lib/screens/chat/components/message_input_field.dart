@@ -14,12 +14,12 @@ class MessageInputField extends StatelessWidget {
         height: 42,
         padding: const EdgeInsets.only(right: 8),
         child: Material(
-          elevation: 4,
+          elevation: 3,
           borderRadius: BorderRadius.circular(30),
           child: TextField(
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.grey[100],
+              fillColor: Colors.grey[200],
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),

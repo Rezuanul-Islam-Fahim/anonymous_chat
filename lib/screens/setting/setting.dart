@@ -11,54 +11,67 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData _mediaQuery = MediaQuery.of(context);
+    final bool _isPortrait = _mediaQuery.orientation == Orientation.portrait;
+
+    final PreferredSizeWidget appBar = AppBar(title: Text('Settings'));
+
     return Scaffold(
-      appBar: AppBar(title: Text('Settings')),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.account_circle,
-                size: 120,
-                color: Colors.grey[700],
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              _userData['name'],
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              _userData['email'],
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[600],
-              ),
-            ),
-            SizedBox(height: 30),
-            Link(
-              Icons.vpn_key,
-              'Change Password',
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => ChangePasswordScreen(),
+      appBar: appBar,
+      body: SingleChildScrollView(
+        child: Container(
+          height: _isPortrait
+              ? _mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  _mediaQuery.padding.top
+              : null,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 15),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.account_circle,
+                  size: 120,
+                  color: Colors.grey[700],
                 ),
               ),
-            ),
-            Link(
-              Icons.exit_to_app,
-              'Logout',
-              () => openDialogue(context),
-            ),
-          ],
+              SizedBox(height: 10),
+              Text(
+                _userData['name'],
+                style: TextStyle(
+                  fontSize: 19,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 5),
+              Text(
+                _userData['email'],
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 30),
+              Link(
+                Icons.vpn_key,
+                'Change Password',
+                () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ChangePasswordScreen(),
+                  ),
+                ),
+              ),
+              Link(
+                Icons.exit_to_app,
+                'Logout',
+                () => openDialogue(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
