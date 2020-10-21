@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           SingleChildScrollView(
             child: Container(
-              height: _isPortrait ? MediaQuery.of(context).size.height : 650,
+              height: _isPortrait ? MediaQuery.of(context).size.height : null,
               padding: EdgeInsets.symmetric(horizontal: 25),
               alignment: Alignment.center,
               child: Container(
@@ -62,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       () => _login(context),
                     ),
                     RegisterLink(),
+                    if (!_isPortrait) SizedBox(height: 100),
                   ],
                 ),
               ),

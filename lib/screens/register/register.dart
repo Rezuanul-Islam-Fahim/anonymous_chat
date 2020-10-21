@@ -42,10 +42,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool _isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: _isPortrait ? MediaQuery.of(context).size.height : null,
           child: Stack(
             children: <Widget>[
               Container(
@@ -62,6 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         _passwordController,
                         () => _register(context),
                       ),
+                      if (!_isPortrait) SizedBox(height: 100),
                     ],
                   ),
                 ),
