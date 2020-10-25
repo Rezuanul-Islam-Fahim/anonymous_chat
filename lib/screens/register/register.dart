@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/navigation.dart';
+import 'package:anonymous_chat/services/auth/auth_navigation.dart';
 import 'package:anonymous_chat/services/responsive.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/login_register_header.dart';
@@ -24,19 +24,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // Register handler
   Future<void> _register(BuildContext context) async {
+    // Enable loader when registering
     setState(() => _isLoading = true);
 
-    Navigation(
+    // If a user is successfully registered a new account, this method
+    // will navigate user to chat screen. If registering fails,
+    // then an error message will be shown
+    AuthNavigation(
       status: await AuthService.register(
         name: _nameController.text,
         email: _emailController.text,
         password: _passwordController.text,
       ),
-      successMessage: 'Successfully registered new account',
+      successMessage: 'Successfully registered a new account',
       errorMessageTitle: 'Registration failed',
       navigationScreen: ChatScreen(),
     ).navigate(context);
 
+    // Disable loader when successfully registered a new account
     setState(() => _isLoading = false);
   }
 

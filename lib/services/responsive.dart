@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// This class will handle responsive UI design service
 class Responsive {
   Responsive(this.mediaQuery);
 

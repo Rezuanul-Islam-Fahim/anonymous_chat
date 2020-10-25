@@ -43,10 +43,10 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // This handler will be used for storing message to database
+  // This handler is used for storing message to database
   Future<void> _sendMessage() async {
     if (_messageController.text.length > 0) {
-      // Store message to a new variable
+      // Store message to a new variable for performance improvement
       String message = _messageController.text;
 
       // Clear text field before storing message
@@ -63,28 +63,28 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // This handler will store image to database
+  // This handler is used for storing image message to database
   Future<void> _sendImage() async {
-    File image;
+    // Pick an image
     PickedFile pickedImage = await ImagePicker().getImage(
       source: ImageSource.gallery,
     );
 
     if (pickedImage != null) {
+      // Enable the loader when sending image
       setState(() => _isLoading = true);
 
-      image = File(pickedImage.path);
-
+      File image = File(pickedImage.path);
       StorageReference storageRef = FirebaseStorage.instance.ref().child(
             '${DateTime.now().millisecondsSinceEpoch}',
           );
       StorageUploadTask uploadTask = storageRef.putFile(image);
       StorageTaskSnapshot taskSnap = await uploadTask.onComplete;
 
-      taskSnap.ref.getDownloadURL().then((img) async {
-        // Store message
+      taskSnap.ref.getDownloadURL().then((imgUrl) async {
+        // Store image message to database
         await FirebaseFirestore.instance.collection('messages').add({
-          'text': img,
+          'text': imgUrl,
           'fromName': _userData['name'],
           'fromEmail': _userData['email'],
           'timendate': DateTime.now().toIso8601String(),
@@ -92,6 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       });
 
+      // Disable the loader when image successfully stored
       setState(() => _isLoading = false);
     }
   }
@@ -99,7 +100,11 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+
+    // Load logged user data
     _loadUserData();
+
+    // Messages listview builder's scroll listener
     _messageScroll.addListener(_scrollListener);
   }
 

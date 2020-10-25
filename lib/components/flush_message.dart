@@ -15,8 +15,7 @@ class FlushMessage {
   final IconData icon;
   final Color color;
 
-  // This handler will show Flush-message to
-  // provided context
+  // This handler will show Flush-message to provided context
   void show(BuildContext context) {
     Flushbar(
       title: title != null ? title : null,

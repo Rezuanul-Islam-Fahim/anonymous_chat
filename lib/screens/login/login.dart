@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/navigation.dart';
+import 'package:anonymous_chat/services/auth/auth_navigation.dart';
 import 'package:anonymous_chat/services/responsive.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/login_register_header.dart';
@@ -23,9 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Login handler
   Future<void> _login(BuildContext context) async {
+    // Enable loader when logging in
     setState(() => _isLoading = true);
 
-    Navigation(
+    // If a user is successfully logged in, this method will navigate
+    // user to chat screen. If logging fails, then an error
+    // message will be shown
+    AuthNavigation(
       status: await AuthService.login(
         email: _emailController.text,
         password: _passwordController.text,
@@ -35,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       navigationScreen: ChatScreen(),
     ).navigate(context);
 
+    // Disable loader when successfully logged in
     setState(() => _isLoading = false);
   }
 

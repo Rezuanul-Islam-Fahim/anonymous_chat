@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:anonymous_chat/screens/chat/components/image_message.dart';
-import 'package:anonymous_chat/screens/chat/components/message.dart';
+import 'package:anonymous_chat/screens/chat/components/text_message.dart';
 
 // Message stream-builder widget
 class MessageStream extends StatelessWidget {
@@ -23,7 +23,7 @@ class MessageStream extends StatelessWidget {
             .limit(_msgLimit)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          // If snapshot has no data, then show loader
+          // If snapshot has no data, then show circular loader
           // untll data loads
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
@@ -46,7 +46,7 @@ class MessageStream extends StatelessWidget {
                       _message.get('fromName'),
                       _message.get('fromEmail') == _userData['email'],
                     )
-                  : Message(
+                  : TextMessage(
                       _message.get('text'),
                       _message.get('fromName'),
                       _message.get('fromEmail') == _userData['email'],

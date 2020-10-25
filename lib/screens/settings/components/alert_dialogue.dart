@@ -13,7 +13,7 @@ void openDialogue(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Logout'),
-        content: Text('Are you sure to Logout?'),
+        content: Text('Are you sure you want to Logout?'),
         actions: <Widget>[
           FlatButton(
             color: Colors.blueGrey,
@@ -52,7 +52,7 @@ Future<void> _logOut(BuildContext context) async {
     (Route<dynamic> route) => false,
   );
 
-  // Show message after logout
+  // Show success message after logout
   FlushMessage(
     message: 'Successfully Logged Out',
     icon: Icons.info_outline,

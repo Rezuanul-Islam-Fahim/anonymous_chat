@@ -76,7 +76,7 @@ class AuthExceptionHandler {
   }
 }
 
-// Auth result enums
+// Auth status enums
 enum AuthResultStatus {
   successful,
   emailAlreadyExists,

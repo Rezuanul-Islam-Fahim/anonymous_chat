@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:anonymous_chat/screens/setting/setting.dart';
+import 'package:anonymous_chat/screens/settings/settings.dart';
 
 // Chat screen's appbar widget handler
-AppBar getAppBar(
-  BuildContext context,
-  Map<String, dynamic> _userData,
-) {
+AppBar getAppBar(BuildContext context, Map<String, dynamic> _userData) {
   return AppBar(
     leading: Container(
       margin: EdgeInsets.only(left: 10),
@@ -15,7 +12,7 @@ AppBar getAppBar(
         child: Image.asset('assets/images/logo.png'),
       ),
     ),
-    title: Text('Chats'),
+    title: Text('Chat'),
     titleSpacing: 10,
     actions: <Widget>[
       IconButton(

@@ -8,7 +8,7 @@ import 'package:anonymous_chat/services/database.dart';
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 
 // This class will handle general auth purposes like
-// login, register, loaduser, change-password
+// login, register, change-password, logout
 class AuthService {
   // Handler for logging in user
   static Future<AuthResultStatus> login({
@@ -29,10 +29,12 @@ class AuthService {
       if (_user != null) {
         _status = AuthResultStatus.successful;
 
+        // Load user data from database
         Map<String, dynamic> _userData = await DatabaseService.userId(
           _user.uid,
         ).getUserData();
 
+        // Save user credentials on local storage
         await _prefs.setString('name', _userData['name']);
         await _prefs.setString('email', _userData['email']);
         await _prefs.setString('password', password);
@@ -64,12 +66,14 @@ class AuthService {
       if (_user != null) {
         _status = AuthResultStatus.successful;
 
+        // Store user data to database when register is successful
         DatabaseService.userId(_user.uid).storeUser({
           'id': _user.uid,
           'name': name,
           'email': email,
         });
 
+        // Store user credentials to local storage
         await _prefs.setString('name', name);
         await _prefs.setString('email', email);
         await _prefs.setString('password', password);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:anonymous_chat/screens/setting/components/link.dart';
-import 'package:anonymous_chat/screens/setting/components/alert_dialogue.dart';
+import 'package:anonymous_chat/screens/settings/components/link.dart';
+import 'package:anonymous_chat/screens/settings/components/alert_dialogue.dart';
 import 'package:anonymous_chat/screens/change_password/change_password.dart';
 
 class SettingScreen extends StatelessWidget {

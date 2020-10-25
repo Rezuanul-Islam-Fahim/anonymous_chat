@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// Message input field widget for chat screen
+// Send message input field widget for chat screen
 class MessageInputField extends StatelessWidget {
   const MessageInputField(this._messageController, this._handler);
 

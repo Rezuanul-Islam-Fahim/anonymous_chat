@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/responsive.dart';
 
-// Message widget for chat screen
-class Message extends StatelessWidget {
-  const Message(this._text, this._from, this._isMe);
+// Text message widget for chat screen
+class TextMessage extends StatelessWidget {
+  const TextMessage(this._text, this._from, this._isMe);
 
   final String _text;
   final String _from;

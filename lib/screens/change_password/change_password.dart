@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/navigation.dart';
+import 'package:anonymous_chat/services/auth/auth_navigation.dart';
 import 'package:anonymous_chat/services/responsive.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/general_button.dart';
@@ -21,10 +21,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
+  // This function will handle changing-password functionality
   Future<void> _changePassword(BuildContext context) async {
+    // Enable the loader when changing password
     setState(() => _isLoading = true);
 
-    Navigation(
+    // If password is successfully changed, this method will logout
+    // user and navigate to login screen, if changing password is
+    // not successful, then an error message will be shown
+    AuthNavigation(
       status: await AuthService.changePassword(
         newPassword: _passwordController.text,
       ),
@@ -33,6 +38,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       navigationScreen: LoginScreen(),
     ).navigate(context);
 
+    // Disable the loader after password is changed
     setState(() => _isLoading = false);
   }
 
