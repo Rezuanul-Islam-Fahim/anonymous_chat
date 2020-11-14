@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 import 'package:anonymous_chat/components/flush_message.dart';
 
-// This class will be used for Navigation, when some
-// operation success or fails. Like login, register,
-// change-password
-class Navigation {
-  Navigation({
+// This class is used for Navigation. When some operation success
+// or fails. Like login, register, change-password
+class AuthNavigation {
+  AuthNavigation({
     this.status,
     this.successMessage,
     this.errorMessageTitle,
@@ -21,9 +20,9 @@ class Navigation {
   final String errorMessageTitle;
   final Widget navigationScreen;
 
-  // This handler will be used for handling after operations of
+  // This handler is used for handling after operations of
   // auth process. Like, if auth operation is successful then
-  // it will navigate to chat-screen and show success message.
+  // it will navigate to a new screen and show success message.
   // Else it will show error message
   Future<void> navigate(BuildContext context) async {
     if (status == AuthResultStatus.successful) {

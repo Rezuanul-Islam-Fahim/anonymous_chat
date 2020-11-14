@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// This Circular loader is used in login, register, change-password,
+// and chat screen(when sending images)
 class Loader extends StatelessWidget {
   Loader(this._loadingText);
 

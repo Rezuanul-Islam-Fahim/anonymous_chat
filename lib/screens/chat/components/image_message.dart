@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:anonymous_chat/screens/full_sized_image.dart';
 
+// This is the image message widget
 class ImageMessage extends StatelessWidget {
   const ImageMessage(this._text, this._from, this._isMe);
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Database services class for handling all general database
+// Database service class for handling all general database
 // purposes like data storing, loading
 class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

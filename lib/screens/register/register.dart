@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:anonymous_chat/services/auth/auth.dart';
-import 'package:anonymous_chat/services/navigation.dart';
+import 'package:anonymous_chat/services/auth/auth_navigation.dart';
 import 'package:anonymous_chat/services/responsive.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/components/login_register_header.dart';
@@ -24,53 +24,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // Register handler
   Future<void> _register(BuildContext context) async {
+    // Enable loader when registering
     setState(() => _isLoading = true);
 
-    Navigation(
+    // If a user is successfully registered a new account, this method
+    // will navigate user to chat screen. If registering fails,
+    // then an error message will be shown
+    AuthNavigation(
       status: await AuthService.register(
         name: _nameController.text,
         email: _emailController.text,
         password: _passwordController.text,
       ),
-      successMessage: 'Successfully registered new account',
+      successMessage: 'Successfully registered a new account',
       errorMessageTitle: 'Registration failed',
       navigationScreen: ChatScreen(),
     ).navigate(context);
 
+    // Disable loader when successfully registered a new account
     setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool _isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(
-              top: 60,
-              left: 25,
-              right: 25,
-            ),
-            alignment: Alignment.center,
-            child: Container(
-              width: Responsive(MediaQuery.of(context)).width(400),
-              child: Column(
-                children: <Widget>[
-                  Header(),
-                  RegisterForm(
-                    _nameController,
-                    _emailController,
-                    _passwordController,
-                    () => _register(context),
+      body: SingleChildScrollView(
+        child: Container(
+          height: _isPortrait ? MediaQuery.of(context).size.height : null,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                alignment: Alignment.center,
+                child: Container(
+                  width: Responsive(MediaQuery.of(context)).width(400),
+                  child: Column(
+                    children: <Widget>[
+                      Header(),
+                      RegisterForm(
+                        _nameController,
+                        _emailController,
+                        _passwordController,
+                        () => _register(context),
+                      ),
+                      if (!_isPortrait) SizedBox(height: 100),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              RegisterBackButton(),
+              if (_isLoading) Loader('Registering New Account...'),
+            ],
           ),
-          RegisterBackButton(),
-          if (_isLoading) Loader('Registering New Account...'),
-        ],
+        ),
       ),
     );
   }

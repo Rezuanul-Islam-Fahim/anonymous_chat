@@ -8,10 +8,10 @@ import 'package:anonymous_chat/screens/chat/chat.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize firebase
+  // Initialize firebase before running app
   await Firebase.initializeApp();
 
-  // Main function for running app
+  // Main function for running the app
   runApp(AnonymousChat());
 }
 

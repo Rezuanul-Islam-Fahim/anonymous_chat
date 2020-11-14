@@ -40,7 +40,7 @@ class FullImageScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 35, left: 5),
+            padding: const EdgeInsets.only(top: 45, left: 15),
             child: IconButton(
               icon: Icon(Icons.arrow_back),
               iconSize: 28,

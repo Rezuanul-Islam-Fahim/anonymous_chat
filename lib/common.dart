@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
-// Input-field decoration for all general fields
+// Input-field decoration for all general input-fields
 InputDecoration inputField(String placeholderText, IconData icon) {
   return InputDecoration(
     contentPadding: EdgeInsets.symmetric(
       horizontal: 10,
-      vertical: 18,
+      vertical: 16,
     ),
     filled: true,
     fillColor: Colors.grey[200],

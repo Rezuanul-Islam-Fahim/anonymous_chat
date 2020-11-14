@@ -13,7 +13,7 @@ void openDialogue(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Logout'),
-        content: Text('Are you sure to Logout?'),
+        content: Text('Are you sure you want to Logout?'),
         actions: <Widget>[
           FlatButton(
             color: Colors.blueGrey,
@@ -24,7 +24,7 @@ void openDialogue(BuildContext context) {
             onPressed: () => Navigator.of(context).pop(),
           ),
           FlatButton(
-            color: Colors.redAccent,
+            color: Colors.red,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
@@ -32,7 +32,7 @@ void openDialogue(BuildContext context) {
             onPressed: () => _logOut(context),
           ),
         ],
-        contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 10),
+        contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 0),
         buttonPadding: EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 12,
@@ -52,7 +52,7 @@ Future<void> _logOut(BuildContext context) async {
     (Route<dynamic> route) => false,
   );
 
-  // Show message after logout
+  // Show success message after logout
   FlushMessage(
     message: 'Successfully Logged Out',
     icon: Icons.info_outline,

@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Size _deviceSize = MediaQuery.of(context).size;
+
     return Column(
       children: <Widget>[
+        SizedBox(height: _deviceSize.width > 800 ? 20 : 70),
         Container(
           alignment: Alignment.center,
           child: Hero(
