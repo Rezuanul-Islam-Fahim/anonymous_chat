@@ -13,37 +13,33 @@ class MessageInputField extends StatelessWidget {
       child: Container(
         height: 42,
         padding: const EdgeInsets.only(right: 8),
-        child: Material(
-          elevation: 3,
-          borderRadius: BorderRadius.circular(30),
-          child: TextField(
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.grey[200],
-              contentPadding: EdgeInsets.symmetric(horizontal: 10),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(
-                  width: 0.7,
-                  color: Colors.grey[200],
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(
-                  width: 1.2,
-                  color: Colors.grey[300],
-                ),
-              ),
-              hintText: 'Enter your text...',
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Icon(Icons.textsms, size: 20),
+        child: TextField(
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.grey[200],
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide(
+                width: 0.6,
+                color: Colors.grey[300].withOpacity(0.5),
               ),
             ),
-            controller: _messageController,
-            onSubmitted: (_) => _handler(),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.grey[300].withOpacity(0.7),
+              ),
+            ),
+            hintText: 'Enter your text...',
+            prefixIcon: Container(
+              padding: const EdgeInsets.only(left: 15),
+              child: Icon(Icons.textsms, size: 18),
+            ),
           ),
+          controller: _messageController,
+          onSubmitted: (_) => _handler(),
         ),
       ),
     );
