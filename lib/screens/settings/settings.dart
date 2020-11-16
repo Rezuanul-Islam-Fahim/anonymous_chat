@@ -36,28 +36,28 @@ class SettingScreen extends StatelessWidget {
                   color: Colors.grey[700],
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 8),
               Text(
                 _userData['name'],
                 style: TextStyle(
-                  fontSize: 19,
+                  fontSize: 17,
                   fontWeight: FontWeight.w600,
+                  color: Colors.grey[800],
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 4),
               Text(
                 _userData['email'],
                 style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey[600],
+                  fontSize: 14,
+                  color: Colors.grey[700],
                 ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 30),
               Link(
-                Icons.vpn_key,
+                Icons.vpn_key_outlined,
                 'Change Password',
                 () => Navigator.of(context).push(
                   MaterialPageRoute(

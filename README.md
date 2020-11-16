@@ -1,6 +1,6 @@
-# anonymous_chat
+# Anonymous Chat
 
-A simple chat app for (Android + IOS) made with dart and flutter.
+A simple chatting app for Android + IOS + Web made with dart and flutter.
 
 ## Getting Started
 

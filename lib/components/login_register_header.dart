@@ -23,7 +23,7 @@ class Header extends StatelessWidget {
         Text(
           'Anonymous Chat',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 21,
             fontWeight: FontWeight.w700,
             color: Colors.grey[800],
           ),

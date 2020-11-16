@@ -14,7 +14,7 @@ class ImageMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       alignment: _isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
         crossAxisAlignment:
@@ -25,7 +25,7 @@ class ImageMessage extends StatelessWidget {
               padding: EdgeInsets.only(left: 2),
               child: Text(
                 _from,
-                style: TextStyle(fontSize: 13),
+                style: TextStyle(fontSize: 12),
               ),
             ),
           if (!_isMe) SizedBox(height: 1),

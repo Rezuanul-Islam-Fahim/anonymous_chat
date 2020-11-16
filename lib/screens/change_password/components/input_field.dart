@@ -9,7 +9,7 @@ TextFormField passwordField(
   TextEditingController _secondaryController,
 ) {
   return TextFormField(
-    decoration: inputField(_placeHolder, Icons.vpn_key),
+    decoration: inputField(_placeHolder, Icons.vpn_key_outlined),
     controller: _mainController,
     obscureText: true,
     validator: (String value) {

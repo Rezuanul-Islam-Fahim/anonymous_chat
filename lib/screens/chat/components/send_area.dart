@@ -30,7 +30,7 @@ class SendArea extends StatelessWidget {
               child: IconButton(
                 padding: EdgeInsets.all(0),
                 color: Theme.of(context).primaryColor,
-                icon: Icon(Icons.photo),
+                icon: Icon(Icons.insert_photo_outlined),
                 iconSize: 22,
                 splashRadius: 13,
                 onPressed: _sendImageHandler,
@@ -47,7 +47,7 @@ class SendArea extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 type: MaterialType.button,
                 child: IconButton(
-                  icon: Icon(Icons.send),
+                  icon: Icon(Icons.send_rounded),
                   iconSize: 22,
                   color: Colors.white,
                   onPressed: _sendMessageHandler,

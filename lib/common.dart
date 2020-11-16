@@ -6,7 +6,7 @@ InputDecoration inputField(String placeholderText, IconData icon) {
   return InputDecoration(
     contentPadding: EdgeInsets.symmetric(
       horizontal: 10,
-      vertical: 16,
+      vertical: 15,
     ),
     filled: true,
     fillColor: Colors.grey[200],
@@ -28,7 +28,7 @@ InputDecoration inputField(String placeholderText, IconData icon) {
         color: Colors.grey[350],
       ),
     ),
-    prefixIcon: Icon(icon),
+    prefixIcon: Icon(icon, size: 21),
   );
 }
 
@@ -40,7 +40,7 @@ TextFormField emailField(
   return TextFormField(
     decoration: inputField(
       placeholder,
-      Icons.email,
+      Icons.email_outlined,
     ),
     controller: controller,
     keyboardType: TextInputType.emailAddress,

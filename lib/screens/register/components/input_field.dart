@@ -7,7 +7,7 @@ TextFormField nameField(TextEditingController controller) {
   return TextFormField(
     decoration: inputField(
       'Name',
-      Icons.account_circle,
+      Icons.account_circle_outlined,
     ),
     controller: controller,
     keyboardType: TextInputType.name,
@@ -25,7 +25,7 @@ TextFormField passwordField(TextEditingController controller) {
   return TextFormField(
     decoration: inputField(
       'Password',
-      Icons.vpn_key,
+      Icons.vpn_key_outlined,
     ),
     controller: controller,
     obscureText: true,

@@ -17,7 +17,7 @@ class GeneralButton extends StatelessWidget {
           label,
           style: TextStyle(fontSize: 16, letterSpacing: 0.5),
         ),
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
