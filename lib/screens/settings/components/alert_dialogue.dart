@@ -32,7 +32,7 @@ void openDialogue(BuildContext context) {
             onPressed: () => _logOut(context),
           ),
         ],
-        contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 0),
+        contentPadding: EdgeInsets.fromLTRB(25, 10, 25, 0),
         buttonPadding: EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 12,

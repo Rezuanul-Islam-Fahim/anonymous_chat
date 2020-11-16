@@ -39,11 +39,7 @@ class SettingScreen extends StatelessWidget {
               SizedBox(height: 8),
               Text(
                 _userData['name'],
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey[800],
-                ),
+                style: Theme.of(context).textTheme.headline3,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 4),

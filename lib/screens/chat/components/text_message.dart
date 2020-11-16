@@ -35,7 +35,7 @@ class TextMessage extends StatelessWidget {
               padding: EdgeInsets.only(left: 2),
               child: Text(
                 _from,
-                style: TextStyle(fontSize: 12),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
           Container(

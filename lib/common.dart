@@ -11,6 +11,7 @@ InputDecoration inputField(String placeholderText, IconData icon) {
     filled: true,
     fillColor: Colors.grey[200],
     hintText: placeholderText,
+    hintStyle: TextStyle(fontSize: 15),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30),
     ),
