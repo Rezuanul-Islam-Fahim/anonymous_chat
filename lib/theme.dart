@@ -26,7 +26,10 @@ ThemeData get appTheme => ThemeData(
               fontWeight: FontWeight.w600,
               color: Colors.grey[800],
             ),
-            bodyText1: TextStyle(fontSize: 16),
+            bodyText1: TextStyle(
+              fontSize: 16,
+              color: Colors.black87.withOpacity(0.75),
+            ),
             bodyText2: TextStyle(fontSize: 12),
           ),
     );

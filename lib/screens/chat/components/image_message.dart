@@ -29,7 +29,7 @@ class ImageMessage extends StatelessWidget {
               ),
             ),
           if (!_isMe) SizedBox(height: 1),
-          InkWell(
+          GestureDetector(
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => FullImageScreen(_text)),
