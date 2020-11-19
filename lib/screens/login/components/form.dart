@@ -25,7 +25,7 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          emailField(widget._emailController, 'Enter Your Email'),
+          emailField(widget._emailController, 'Enter your Email'),
           SizedBox(height: 20),
           passwordField(widget._passwordController),
           SizedBox(height: 20),

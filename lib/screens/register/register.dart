@@ -37,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: _passwordController.text,
       ),
       successMessage: 'Successfully registered a new account',
-      errorMessageTitle: 'Registration failed',
+      errorMessageTitle: 'Registration Failed',
       navigationScreen: ChatScreen(),
     ).navigate(context);
 
@@ -76,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               RegisterBackButton(),
-              if (_isLoading) Loader('Registering New Account...'),
+              if (_isLoading) Loader('Registering new account...'),
             ],
           ),
         ),

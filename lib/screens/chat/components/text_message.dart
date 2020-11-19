@@ -54,7 +54,7 @@ class TextMessage extends StatelessWidget {
             ),
             child: Text(
               _text,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
         ],

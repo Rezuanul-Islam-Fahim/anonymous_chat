@@ -12,8 +12,14 @@ void openDialogue(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Logout'),
-        content: Text('Are you sure you want to Logout?'),
+        title: Text(
+          'Logout',
+          style: Theme.of(context).textTheme.headline3,
+        ),
+        content: Text(
+          'Are you sure you want to Logout?',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
         actions: <Widget>[
           FlatButton(
             color: Colors.blueGrey,

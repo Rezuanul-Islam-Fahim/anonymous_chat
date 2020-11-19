@@ -28,7 +28,6 @@ class ImageMessage extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
-          if (!_isMe) SizedBox(height: 1),
           GestureDetector(
             onTap: () => Navigator.push(
               context,

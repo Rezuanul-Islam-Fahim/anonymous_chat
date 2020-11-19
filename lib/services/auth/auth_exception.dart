@@ -59,14 +59,14 @@ class AuthExceptionHandler {
         _message = 'Too many requests. Try again later';
         break;
       case AuthResultStatus.operationNotAllowed:
-        _message = 'Signing in with Email and Password is not enabled';
+        _message = 'Signing in with email and password is not enabled';
         break;
       case AuthResultStatus.weekPassword:
         _message =
             'Your password is weak. Password should be at least 6 characters';
         break;
       case AuthResultStatus.emailAlreadyExists:
-        _message = 'Account with this Email is already registered';
+        _message = 'Account with this email is already registered';
         break;
       default:
         _message = 'An undefined error occurred';
