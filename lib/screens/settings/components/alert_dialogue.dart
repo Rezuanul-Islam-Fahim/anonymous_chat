@@ -14,11 +14,11 @@ void openDialogue(BuildContext context) {
       return AlertDialog(
         title: Text(
           'Logout',
-          style: Theme.of(context).textTheme.headline3,
+          style: Theme.of(context).textTheme.headline2,
         ),
         content: Text(
           'Are you sure you want to Logout?',
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.subtitle1,
         ),
         actions: <Widget>[
           FlatButton(

@@ -11,8 +11,13 @@ ThemeData get appTheme => ThemeData(
                 ),
           ),
       textTheme: ThemeData.light().textTheme.copyWith(
-            headline2: TextStyle(
+            headline1: TextStyle(
               fontSize: 21,
+              fontWeight: FontWeight.w700,
+              color: Colors.grey[800],
+            ),
+            headline2: TextStyle(
+              fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.grey[800],
             ),

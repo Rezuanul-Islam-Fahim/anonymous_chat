@@ -22,7 +22,7 @@ class Header extends StatelessWidget {
         ),
         Text(
           'Anonymous Chat',
-          style: Theme.of(context).textTheme.headline2,
+          style: Theme.of(context).textTheme.headline1,
         ),
         SizedBox(height: 40),
       ],
