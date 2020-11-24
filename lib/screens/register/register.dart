@@ -51,35 +51,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
         MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: _isPortrait ? MediaQuery.of(context).size.height : null,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 25),
-                alignment: Alignment.center,
-                child: Container(
-                  width: Responsive(MediaQuery.of(context)).width(400),
-                  child: Column(
-                    children: <Widget>[
-                      Header(),
-                      RegisterForm(
-                        _nameController,
-                        _emailController,
-                        _passwordController,
-                        () => _register(context),
-                      ),
-                      if (!_isPortrait) SizedBox(height: 100),
-                    ],
-                  ),
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              height: _isPortrait ? MediaQuery.of(context).size.height : null,
+              alignment: Alignment.center,
+              child: Container(
+                width: Responsive(MediaQuery.of(context)).width(400),
+                child: Column(
+                  children: <Widget>[
+                    Header(),
+                    RegisterForm(
+                      _nameController,
+                      _emailController,
+                      _passwordController,
+                      () => _register(context),
+                    ),
+                    if (!_isPortrait) SizedBox(height: 100),
+                  ],
                 ),
               ),
-              RegisterBackButton(),
-              if (_isLoading) Loader('Registering new account...'),
-            ],
+            ),
           ),
-        ),
+          RegisterBackButton(),
+          if (_isLoading) Loader('Registering new account...'),
+        ],
       ),
     );
   }
