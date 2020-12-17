@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-// Send message input field widget for chat screen
+// Message input field widget for chat screen
 class MessageInputField extends StatelessWidget {
-  const MessageInputField(this._messageController, this._handler);
+  const MessageInputField(this.messageController, this.handler);
 
-  final TextEditingController _messageController;
-  final Function _handler;
+  final TextEditingController messageController;
+  final Function handler;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class MessageInputField extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.grey[200],
-            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(
@@ -33,14 +33,14 @@ class MessageInputField extends StatelessWidget {
               ),
             ),
             hintText: 'Enter your text...',
-            hintStyle: TextStyle(fontSize: 15),
+            hintStyle: const TextStyle(fontSize: 15),
             prefixIcon: Container(
               padding: const EdgeInsets.only(left: 15),
-              child: Icon(Icons.textsms_outlined, size: 19),
+              child: const Icon(Icons.textsms_outlined, size: 19),
             ),
           ),
-          controller: _messageController,
-          onSubmitted: (_) => _handler(),
+          controller: messageController,
+          onSubmitted: (_) => handler(),
         ),
       ),
     );

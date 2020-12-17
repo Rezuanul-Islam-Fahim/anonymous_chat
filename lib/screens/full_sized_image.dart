@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class FullImageScreen extends StatelessWidget {
-  FullImageScreen(this._image);
+  const FullImageScreen(this.imageURL);
 
-  final String _image;
+  final String imageURL;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class FullImageScreen extends StatelessWidget {
             alignment: Alignment.center,
             color: Colors.black,
             child: CachedNetworkImage(
-              imageUrl: _image,
+              imageUrl: imageURL,
               progressIndicatorBuilder: (context, url, downloadProgress) {
                 return Container(
                   alignment: Alignment.center,
@@ -42,7 +42,7 @@ class FullImageScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 45, left: 15),
             child: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               iconSize: 28,
               color: Colors.white,
               onPressed: () => Navigator.of(context).pop(),

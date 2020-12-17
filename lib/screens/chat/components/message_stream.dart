@@ -6,21 +6,21 @@ import 'package:anonymous_chat/screens/chat/components/text_message.dart';
 
 // Message stream-builder widget
 class MessageStream extends StatelessWidget {
-  MessageStream(this._userData, this._messageScroll, this._msgLimit);
+  MessageStream(this.userData, this.messageScroll, this.msgLimit);
 
-  final Map<String, dynamic> _userData;
-  final ScrollController _messageScroll;
-  final int _msgLimit;
-  final CollectionReference _messageCollection =
+  final Map<String, dynamic> userData;
+  final ScrollController messageScroll;
+  final int msgLimit;
+  final CollectionReference messageCollection =
       FirebaseFirestore.instance.collection('messages');
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder(
-        stream: _messageCollection
+        stream: messageCollection
             .orderBy('timendate', descending: true)
-            .limit(_msgLimit)
+            .limit(msgLimit)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           // If snapshot has no data, then show circular loader
@@ -29,27 +29,27 @@ class MessageStream extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
 
-          List<DocumentSnapshot> _messages = snapshot.data.docs;
+          List<DocumentSnapshot> messageDocs = snapshot.data.docs;
 
           // Messages list builder
           return ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 5),
-            controller: _messageScroll,
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            controller: messageScroll,
             reverse: true,
-            itemCount: _messages.length,
+            itemCount: messageDocs.length,
             itemBuilder: (BuildContext context, int index) {
-              DocumentSnapshot _message = _messages[index];
+              DocumentSnapshot message = messageDocs[index];
 
-              return _message.get('isImage')
+              return message.get('isImage')
                   ? ImageMessage(
-                      _message.get('text'),
-                      _message.get('fromName'),
-                      _message.get('fromEmail') == _userData['email'],
+                      message.get('text'),
+                      message.get('fromName'),
+                      message.get('fromEmail') == userData['email'],
                     )
                   : TextMessage(
-                      _message.get('text'),
-                      _message.get('fromName'),
-                      _message.get('fromEmail') == _userData['email'],
+                      message.get('text'),
+                      message.get('fromName'),
+                      message.get('fromEmail') == userData['email'],
                     );
             },
           );

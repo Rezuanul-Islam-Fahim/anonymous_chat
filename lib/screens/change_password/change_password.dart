@@ -14,21 +14,21 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPassController = TextEditingController();
-  bool _isLoading = false;
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPassController = TextEditingController();
+  bool isLoading = false;
 
   // This function will handle changing-password functionality
-  Future<void> _changePassword(BuildContext context) async {
+  Future<void> changePassword(BuildContext context) async {
     // Enable the loader when changing password
-    setState(() => _isLoading = true);
+    setState(() => isLoading = true);
 
     // If password is successfully changed, this method will logout
     // user and navigate to login screen, if changing password is
     // not successful, then an error message will be shown
     AuthNavigation(
       status: await AuthService.changePassword(
-        newPassword: _passwordController.text,
+        newPassword: passwordController.text,
       ),
       successMessage: 'Successfully changed password',
       errorMessageTitle: 'Error occurred',
@@ -36,30 +36,30 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     ).navigate(context);
 
     // Disable the loader after password is changed
-    setState(() => _isLoading = false);
+    setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Change Password')),
+      appBar: AppBar(title: const Text('Change Password')),
       body: Stack(
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height,
             child: SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.fromLTRB(25, 40, 25, 0),
+                padding: const EdgeInsets.fromLTRB(25, 40, 25, 0),
                 alignment: Alignment.center,
                 child: ChangePasswordForm(
-                  _passwordController,
-                  _confirmPassController,
-                  _changePassword,
+                  passwordController,
+                  confirmPassController,
+                  changePassword,
                 ),
               ),
             ),
           ),
-          if (_isLoading) Loader('Changing Password...'),
+          if (isLoading) const Loader('Changing Password...'),
         ],
       ),
     );

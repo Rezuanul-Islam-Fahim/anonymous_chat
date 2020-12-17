@@ -3,7 +3,7 @@ import 'package:flushbar/flushbar.dart';
 
 // This class will handle flush-message service
 class FlushMessage {
-  FlushMessage({
+  const FlushMessage({
     this.title,
     this.message,
     this.icon,
@@ -21,14 +21,14 @@ class FlushMessage {
       title: title != null ? title : null,
       message: message,
       icon: Icon(icon, size: 30, color: color),
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.fromLTRB(20, 15, 15, 15),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.fromLTRB(20, 15, 15, 15),
       borderRadius: 10,
-      duration: Duration(seconds: 5),
+      duration: const Duration(seconds: 5),
       boxShadows: <BoxShadow>[
-        BoxShadow(
+        const BoxShadow(
           color: Colors.black54,
-          offset: Offset(2, 2),
+          offset: const Offset(2, 2),
           blurRadius: 4,
           spreadRadius: 1,
         ),

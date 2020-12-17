@@ -5,38 +5,38 @@ import 'package:anonymous_chat/screens/full_sized_image.dart';
 
 // This is the image message widget
 class ImageMessage extends StatelessWidget {
-  const ImageMessage(this._text, this._from, this._isMe);
+  const ImageMessage(this.text, this.from, this.isMe);
 
-  final String _text;
-  final String _from;
-  final bool _isMe;
+  final String text;
+  final String from;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-      alignment: _isMe ? Alignment.centerRight : Alignment.centerLeft,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
         crossAxisAlignment:
-            _isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
-          if (!_isMe)
+          if (!isMe)
             Padding(
-              padding: EdgeInsets.only(left: 2),
+              padding: const EdgeInsets.only(left: 2),
               child: Text(
-                _from,
+                from,
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
           GestureDetector(
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => FullImageScreen(_text)),
+              MaterialPageRoute(builder: (_) => FullImageScreen(text)),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: CachedNetworkImage(
-                imageUrl: _text,
+                imageUrl: text,
                 width: 200,
                 height: 200,
                 fit: BoxFit.cover,

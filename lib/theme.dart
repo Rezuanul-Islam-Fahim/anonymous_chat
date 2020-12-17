@@ -5,7 +5,7 @@ ThemeData get appTheme => ThemeData(
       primarySwatch: Colors.blueGrey,
       appBarTheme: ThemeData.light().appBarTheme.copyWith(
             textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: TextStyle(
+                  headline6: const TextStyle(
                     fontSize: 18,
                   ),
                 ),
@@ -35,6 +35,6 @@ ThemeData get appTheme => ThemeData(
               fontSize: 16,
               color: Colors.black87.withOpacity(0.75),
             ),
-            bodyText2: TextStyle(fontSize: 12),
+            bodyText2: const TextStyle(fontSize: 12),
           ),
     );

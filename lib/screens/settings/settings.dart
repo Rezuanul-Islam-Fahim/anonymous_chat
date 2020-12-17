@@ -5,14 +5,14 @@ import 'package:anonymous_chat/screens/settings/components/alert_dialogue.dart';
 import 'package:anonymous_chat/screens/change_password/change_password.dart';
 
 class SettingScreen extends StatelessWidget {
-  SettingScreen(this._userData);
+  const SettingScreen(this.userData);
 
-  final Map<String, dynamic> _userData;
+  final Map<String, dynamic> userData;
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData _mediaQuery = MediaQuery.of(context);
-    final bool _isPortrait = _mediaQuery.orientation == Orientation.portrait;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isPortrait = mediaQuery.orientation == Orientation.portrait;
 
     final PreferredSizeWidget appBar = AppBar(title: Text('Settings'));
 
@@ -20,10 +20,10 @@ class SettingScreen extends StatelessWidget {
       appBar: appBar,
       body: SingleChildScrollView(
         child: Container(
-          height: _isPortrait
-              ? _mediaQuery.size.height -
+          height: isPortrait
+              ? mediaQuery.size.height -
                   appBar.preferredSize.height -
-                  _mediaQuery.padding.top
+                  mediaQuery.padding.top
               : null,
           child: Column(
             children: <Widget>[
@@ -36,22 +36,22 @@ class SettingScreen extends StatelessWidget {
                   color: Colors.grey[700],
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                _userData['name'],
+                userData['name'],
                 style: Theme.of(context).textTheme.headline3,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
-                _userData['email'],
+                userData['email'],
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[700],
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Link(
                 Icons.vpn_key_outlined,
                 'Change Password',

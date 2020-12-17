@@ -8,7 +8,7 @@ import 'package:anonymous_chat/components/flush_message.dart';
 // This class is used for Navigation. When some operation success
 // or fails. Like login, register, change-password
 class AuthNavigation {
-  AuthNavigation({
+  const AuthNavigation({
     this.status,
     this.successMessage,
     this.errorMessageTitle,
@@ -38,12 +38,12 @@ class AuthNavigation {
         color: Colors.green,
       ).show(context);
     } else {
-      String _errorMessage = AuthExceptionHandler.generateErrorMessage(status);
+      String errorMessage = AuthExceptionHandler.generateErrorMessage(status);
 
       // Error message
       FlushMessage(
         title: errorMessageTitle,
-        message: _errorMessage,
+        message: errorMessage,
         icon: Icons.info_outline,
         color: Colors.red,
       ).show(context);

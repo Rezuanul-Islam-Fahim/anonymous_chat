@@ -3,10 +3,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:anonymous_chat/services/database.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/screens/chat/components/appbar.dart';
 import 'package:anonymous_chat/screens/chat/components/message_stream.dart';
@@ -18,45 +18,45 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _messageScroll = ScrollController();
-  final int _msgIncrement = 20;
-  Map<String, dynamic> _userData = {};
-  int _msgLimit = 15;
-  bool _isLoading = false;
+  final TextEditingController messageController = TextEditingController();
+  final ScrollController messageScroll = ScrollController();
+  Map<String, dynamic> userData = {};
+  int msgLimit = 15;
+  int msgIncrement = 20;
+  bool isLoading = false;
 
   // Load user-details handler
-  Future<void> _loadUserData() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+  Future<void> loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      _userData['name'] = _prefs.getString('name');
-      _userData['email'] = _prefs.getString('email');
+      userData['name'] = prefs.getString('name');
+      userData['email'] = prefs.getString('email');
     });
   }
 
   // Message scroll listener
-  void _scrollListener() {
-    if (_messageScroll.offset >= _messageScroll.position.maxScrollExtent &&
-        !_messageScroll.position.outOfRange) {
-      setState(() => _msgLimit += _msgIncrement);
+  void scrollListener() {
+    if (messageScroll.offset >= messageScroll.position.maxScrollExtent &&
+        !messageScroll.position.outOfRange) {
+      setState(() => msgLimit += msgIncrement);
     }
   }
 
   // This handler is used for storing message to database
-  Future<void> _sendMessage() async {
-    if (_messageController.text.length > 0) {
+  Future<void> sendMessage() async {
+    if (messageController.text.length > 0) {
       // Store message to a new variable for performance improvement
-      String message = _messageController.text;
+      String message = messageController.text;
 
       // Clear text field before storing message
-      _messageController.clear();
+      messageController.clear();
 
-      // Store message
-      await FirebaseFirestore.instance.collection('messages').add({
+      // // Store message
+      DatabaseService.toCollection('messages').storeData({
         'text': message,
-        'fromName': _userData['name'],
-        'fromEmail': _userData['email'],
+        'fromName': userData['name'],
+        'fromEmail': userData['email'],
         'timendate': DateTime.now().toIso8601String(),
         'isImage': false,
       });
@@ -64,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   // This handler is used for storing image message to database
-  Future<void> _sendImage() async {
+  Future<void> sendImage() async {
     // Pick an image
     PickedFile pickedImage = await ImagePicker().getImage(
       source: ImageSource.gallery,
@@ -72,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     if (pickedImage != null) {
       // Enable the loader when sending image
-      setState(() => _isLoading = true);
+      setState(() => isLoading = true);
 
       File image = File(pickedImage.path);
       StorageReference storageRef = FirebaseStorage.instance.ref().child(
@@ -83,17 +83,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
       taskSnap.ref.getDownloadURL().then((imgUrl) async {
         // Store image message to database
-        await FirebaseFirestore.instance.collection('messages').add({
+        DatabaseService.toCollection('messages').storeData({
           'text': imgUrl,
-          'fromName': _userData['name'],
-          'fromEmail': _userData['email'],
+          'fromName': userData['name'],
+          'fromEmail': userData['email'],
           'timendate': DateTime.now().toIso8601String(),
           'isImage': true,
         });
       });
 
       // Disable the loader when image successfully stored
-      setState(() => _isLoading = false);
+      setState(() => isLoading = false);
     }
   }
 
@@ -102,25 +102,25 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
 
     // Load logged user data
-    _loadUserData();
+    loadUserData();
 
     // Messages listview builder's scroll listener
-    _messageScroll.addListener(_scrollListener);
+    messageScroll.addListener(scrollListener);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, _userData),
+      appBar: getAppBar(context, userData),
       body: Stack(
         children: <Widget>[
           Column(
             children: <Widget>[
-              MessageStream(_userData, _messageScroll, _msgLimit),
-              SendArea(_messageController, _sendMessage, _sendImage),
+              MessageStream(userData, messageScroll, msgLimit),
+              SendArea(messageController, sendMessage, sendImage),
             ],
           ),
-          if (_isLoading) Loader('Sending...'),
+          if (isLoading) const Loader('Sending...'),
         ],
       ),
     );

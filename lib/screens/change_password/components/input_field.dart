@@ -4,18 +4,18 @@ import 'package:anonymous_chat/common.dart';
 
 // Password field handler
 TextFormField passwordField(
-  String _placeHolder,
-  TextEditingController _mainController,
-  TextEditingController _secondaryController,
+  String placeHolder,
+  TextEditingController mainController,
+  TextEditingController secondaryController,
 ) {
   return TextFormField(
-    decoration: inputField(_placeHolder, Icons.vpn_key_outlined),
-    controller: _mainController,
+    decoration: inputField(placeHolder, Icons.vpn_key_outlined),
+    controller: mainController,
     obscureText: true,
     validator: (String value) {
       if (value.isEmpty) {
         return 'Required Field';
-      } else if (_mainController.text != _secondaryController.text) {
+      } else if (mainController.text != secondaryController.text) {
         return 'Password fields should be matched';
       }
       return null;

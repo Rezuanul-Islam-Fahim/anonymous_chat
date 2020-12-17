@@ -5,49 +5,49 @@ import 'package:anonymous_chat/components/general_button.dart';
 import 'package:anonymous_chat/screens/change_password/components/input_field.dart';
 
 class ChangePasswordForm extends StatefulWidget {
-  ChangePasswordForm(
-    this._passwordController,
-    this._confirmPassController,
-    this._handler,
+  const ChangePasswordForm(
+    this.passwordController,
+    this.confirmPassController,
+    this.handler,
   );
 
-  final TextEditingController _passwordController;
-  final TextEditingController _confirmPassController;
-  final Function _handler;
+  final TextEditingController passwordController;
+  final TextEditingController confirmPassController;
+  final Function handler;
 
   @override
   _ChangePassFormState createState() => _ChangePassFormState();
 }
 
 class _ChangePassFormState extends State<ChangePasswordForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Container(
         width: Responsive(MediaQuery.of(context)).width(400),
         child: Column(
           children: <Widget>[
             passwordField(
               'Enter New Password',
-              widget._passwordController,
-              widget._confirmPassController,
+              widget.passwordController,
+              widget.confirmPassController,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             passwordField(
               'Confirm Password',
-              widget._confirmPassController,
-              widget._passwordController,
+              widget.confirmPassController,
+              widget.passwordController,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             GeneralButton('Change Password', () {
-              if (_formKey.currentState.validate()) {
-                widget._handler(context);
+              if (formKey.currentState.validate()) {
+                widget.handler(context);
               }
             }),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
           ],
         ),
       ),
