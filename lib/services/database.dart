@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:anonymous_chat/models/user.dart';
+import 'package:anonymous_chat/models/message.dart';
+
 // Database service class for handling all general database
 // purposes like data storing, loading
 class DatabaseService {
@@ -14,13 +17,16 @@ class DatabaseService {
   String collectionRef;
 
   // Store user data in database
-  Future<void> storeUser(Map<String, dynamic> data) async {
-    await firestore.collection('users').doc(uid).set(data);
+  Future<void> storeUser(UserM userData) async {
+    await firestore.collection('users').doc(uid).set({
+      'id': userData.id,
+      'name': userData.name,
+      'email': userData.email,
+    });
   }
 
   // Load logged user details from database
-  Future<Map<String, dynamic>> getUserData() async {
-    Map<String, dynamic> userDetails = {};
+  Future<UserM> getUserData() async {
     QuerySnapshot userSnapshot = await firestore
         .collection('users')
         .where(
@@ -30,15 +36,21 @@ class DatabaseService {
         .get();
     DocumentSnapshot userDoc = userSnapshot.docs[0];
 
-    userDetails['name'] = userDoc.get('name');
-    userDetails['email'] = userDoc.get('email');
-
-    return userDetails;
+    return UserM(
+      name: userDoc.get('name'),
+      email: userDoc.get('email'),
+    );
   }
 
   // Store data in database to collection provided
   // by (collectionRef) variable
-  Future<void> storeData(Map<String, dynamic> data) async {
-    await firestore.collection(collectionRef).add(data);
+  Future<void> storeMessage(Message messageData) async {
+    await firestore.collection(collectionRef).add({
+      'text': messageData.text,
+      'fromName': messageData.fromName,
+      'fromEmail': messageData.fromEmail,
+      'timendate': messageData.timendate,
+      'isImage': messageData.isImage,
+    });
   }
 }

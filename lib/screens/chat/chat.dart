@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:anonymous_chat/models/user.dart';
+import 'package:anonymous_chat/models/message.dart';
 import 'package:anonymous_chat/services/database.dart';
 import 'package:anonymous_chat/components/circular_loader.dart';
 import 'package:anonymous_chat/screens/chat/components/appbar.dart';
@@ -20,7 +22,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController messageController = TextEditingController();
   final ScrollController messageScroll = ScrollController();
-  Map<String, dynamic> userData = {};
+  UserM userData;
   int msgLimit = 15;
   int msgIncrement = 20;
   bool isLoading = false;
@@ -30,8 +32,10 @@ class _ChatScreenState extends State<ChatScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      userData['name'] = prefs.getString('name');
-      userData['email'] = prefs.getString('email');
+      userData = UserM(
+        name: prefs.getString('name'),
+        email: prefs.getString('email'),
+      );
     });
   }
 
@@ -53,13 +57,15 @@ class _ChatScreenState extends State<ChatScreen> {
       messageController.clear();
 
       // // Store message
-      DatabaseService.toCollection('messages').storeData({
-        'text': message,
-        'fromName': userData['name'],
-        'fromEmail': userData['email'],
-        'timendate': DateTime.now().toIso8601String(),
-        'isImage': false,
-      });
+      DatabaseService.toCollection('messages').storeMessage(
+        Message(
+          text: message,
+          fromName: userData.name,
+          fromEmail: userData.email,
+          timendate: DateTime.now().toIso8601String(),
+          isImage: false,
+        ),
+      );
     }
   }
 
@@ -83,13 +89,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
       taskSnap.ref.getDownloadURL().then((imgUrl) async {
         // Store image message to database
-        DatabaseService.toCollection('messages').storeData({
-          'text': imgUrl,
-          'fromName': userData['name'],
-          'fromEmail': userData['email'],
-          'timendate': DateTime.now().toIso8601String(),
-          'isImage': true,
-        });
+        DatabaseService.toCollection('messages').storeMessage(
+          Message(
+            text: imgUrl,
+            fromName: userData.name,
+            fromEmail: userData.email,
+            timendate: DateTime.now().toIso8601String(),
+            isImage: true,
+          ),
+        );
       });
 
       // Disable the loader when image successfully stored

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:anonymous_chat/models/message.dart';
 import 'package:anonymous_chat/screens/full_sized_image.dart';
 
 // This is the image message widget
 class ImageMessage extends StatelessWidget {
-  const ImageMessage(this.text, this.from, this.isMe);
+  const ImageMessage(this.messageData, this.isMe);
 
-  final String text;
-  final String from;
+  final Message messageData;
   final bool isMe;
 
   @override
@@ -24,19 +24,21 @@ class ImageMessage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 2),
               child: Text(
-                from,
+                messageData.fromName,
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
           GestureDetector(
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => FullImageScreen(text)),
+              MaterialPageRoute(
+                builder: (_) => FullImageScreen(messageData.text),
+              ),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: CachedNetworkImage(
-                imageUrl: text,
+                imageUrl: messageData.text,
                 width: 200,
                 height: 200,
                 fit: BoxFit.cover,

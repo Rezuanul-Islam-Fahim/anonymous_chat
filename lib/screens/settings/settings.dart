@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:anonymous_chat/models/user.dart';
 import 'package:anonymous_chat/screens/settings/components/link.dart';
 import 'package:anonymous_chat/screens/settings/components/alert_dialogue.dart';
 import 'package:anonymous_chat/screens/change_password/change_password.dart';
@@ -7,7 +8,7 @@ import 'package:anonymous_chat/screens/change_password/change_password.dart';
 class SettingScreen extends StatelessWidget {
   const SettingScreen(this.userData);
 
-  final Map<String, dynamic> userData;
+  final UserM userData;
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +39,13 @@ class SettingScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                userData['name'],
+                userData.name,
                 style: Theme.of(context).textTheme.headline3,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 4),
               Text(
-                userData['email'],
+                userData.email,
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[700],

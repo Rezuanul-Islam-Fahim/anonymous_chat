@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:anonymous_chat/models/message.dart';
 import 'package:anonymous_chat/services/responsive.dart';
 
 // Text message widget for chat screen
 class TextMessage extends StatelessWidget {
-  const TextMessage(this.text, this.from, this.isMe);
+  const TextMessage(this.messageData, this.isMe);
 
-  final String text;
-  final String from;
+  final Message messageData;
   final bool isMe;
 
   @override
@@ -34,7 +34,7 @@ class TextMessage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 2),
               child: Text(
-                from,
+                messageData.fromName,
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
@@ -53,7 +53,7 @@ class TextMessage extends StatelessWidget {
               ),
             ),
             child: Text(
-              text,
+              messageData.text,
               style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),

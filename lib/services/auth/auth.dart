@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:anonymous_chat/models/user.dart';
 import 'package:anonymous_chat/services/database.dart';
 import 'package:anonymous_chat/services/auth/auth_exception.dart';
 
@@ -30,13 +31,13 @@ class AuthService {
         status = AuthResultStatus.successful;
 
         // Load user data from database
-        Map<String, dynamic> userData = await DatabaseService.userId(
+        UserM userData = await DatabaseService.userId(
           user.uid,
         ).getUserData();
 
         // Save user credentials on local storage
-        await prefs.setString('name', userData['name']);
-        await prefs.setString('email', userData['email']);
+        await prefs.setString('name', userData.name);
+        await prefs.setString('email', userData.email);
         await prefs.setString('password', password);
       }
     } catch (e) {
@@ -67,11 +68,9 @@ class AuthService {
         status = AuthResultStatus.successful;
 
         // Store user data to database when registering is successful
-        DatabaseService.userId(user.uid).storeUser({
-          'id': user.uid,
-          'name': name,
-          'email': email,
-        });
+        DatabaseService.userId(user.uid).storeUser(
+          UserM(id: user.uid, name: name, email: email),
+        );
 
         // Store user credentials to local storage
         await prefs.setString('name', name);

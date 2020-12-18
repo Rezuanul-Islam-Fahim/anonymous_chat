@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:anonymous_chat/models/user.dart';
+import 'package:anonymous_chat/models/message.dart';
 import 'package:anonymous_chat/screens/chat/components/image_message.dart';
 import 'package:anonymous_chat/screens/chat/components/text_message.dart';
 
@@ -8,7 +10,7 @@ import 'package:anonymous_chat/screens/chat/components/text_message.dart';
 class MessageStream extends StatelessWidget {
   MessageStream(this.userData, this.messageScroll, this.msgLimit);
 
-  final Map<String, dynamic> userData;
+  final UserM userData;
   final ScrollController messageScroll;
   final int msgLimit;
   final CollectionReference messageCollection =
@@ -42,14 +44,18 @@ class MessageStream extends StatelessWidget {
 
               return message.get('isImage')
                   ? ImageMessage(
-                      message.get('text'),
-                      message.get('fromName'),
-                      message.get('fromEmail') == userData['email'],
+                      Message(
+                        text: message.get('text'),
+                        fromName: message.get('fromName'),
+                      ),
+                      message.get('fromEmail') == userData.email,
                     )
                   : TextMessage(
-                      message.get('text'),
-                      message.get('fromName'),
-                      message.get('fromEmail') == userData['email'],
+                      Message(
+                        text: message.get('text'),
+                        fromName: message.get('fromName'),
+                      ),
+                      message.get('fromEmail') == userData.email,
                     );
             },
           );

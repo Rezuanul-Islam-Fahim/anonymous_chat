@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:anonymous_chat/models/user.dart';
 import 'package:anonymous_chat/screens/settings/settings.dart';
 
 // Chat screen's appbar widget handler
-AppBar getAppBar(BuildContext context, Map<String, dynamic> userData) {
+AppBar getAppBar(BuildContext context, UserM userData) {
   return AppBar(
     leading: Container(
       margin: const EdgeInsets.only(left: 10),
