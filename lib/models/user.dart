@@ -1,3 +1,4 @@
+// User model
 class UserM {
   const UserM({this.id, this.name, this.email});
 

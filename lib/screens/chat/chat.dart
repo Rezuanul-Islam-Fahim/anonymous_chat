@@ -23,8 +23,8 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController messageController = TextEditingController();
   final ScrollController messageScroll = ScrollController();
   UserM userData;
-  int msgLimit = 15;
-  int msgIncrement = 20;
+  int msgLimit = 20;
+  int msgIncrement = 25;
   bool isLoading = false;
 
   // Load user-details handler

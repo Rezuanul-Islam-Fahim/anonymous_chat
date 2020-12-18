@@ -1,3 +1,4 @@
+// Message model
 class Message {
   const Message({
     this.text,
