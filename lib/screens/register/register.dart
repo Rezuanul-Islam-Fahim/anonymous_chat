@@ -54,15 +54,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              height: isPortrait ? mediaQuery.size.height : null,
-              alignment: Alignment.center,
-              child: Container(
-                width: Responsive(mediaQuery).width(400),
-                child: Stack(
-                  children: <Widget>[
-                    Column(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  height: isPortrait ? mediaQuery.size.height : null,
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: Responsive(mediaQuery).width(400),
+                    child: Column(
                       children: <Widget>[
                         Header(),
                         RegisterForm(
@@ -71,13 +71,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           passwordController,
                           () => register(context),
                         ),
+                        if (!isPortrait) const SizedBox(height: 100),
                       ],
                     ),
-                    RegisterBackButton(),
-                    if (!isPortrait) const SizedBox(height: 100),
-                  ],
+                  ),
                 ),
-              ),
+                RegisterBackButton(),
+              ],
             ),
           ),
           if (isLoading) const Loader('Registering new account...'),
