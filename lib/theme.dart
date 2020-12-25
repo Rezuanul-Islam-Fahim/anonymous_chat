@@ -7,6 +7,7 @@ ThemeData get appTheme => ThemeData(
             textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: const TextStyle(
                     fontSize: 18,
+                    color: Colors.white,
                   ),
                 ),
             brightness: Brightness.dark,
