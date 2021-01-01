@@ -42,7 +42,7 @@ class DatabaseService {
     );
   }
 
-  // Store data in database to collection provided
+  // Store message in database to collection provided
   // by (collectionRef) variable
   Future<void> storeMessage(Message messageData) async {
     await firestore.collection(collectionRef).add({
