@@ -16,6 +16,10 @@ A simple chatting app for Android + IOS + Web made with dart and flutter.
 
 <img height="490px" src="screenshots/screenshot7.gif"> <img height="490px" src="screenshots/screenshot8.gif">
 
+### Web App
+
+<img src="screenshots/web-app.png">
+
 ## Features
 
 - Android/IOS/Web app support
