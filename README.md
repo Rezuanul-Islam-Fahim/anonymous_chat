@@ -12,7 +12,7 @@ A simple chatting app for Android + IOS + Web made with dart and flutter.
 
 <img height="490px" src="screenshots/screenshot1.gif"> <img height="490px" src="screenshots/screenshot2.gif"> <img height="490px" src="screenshots/screenshot3.gif"> <img height="490px" src="screenshots/screenshot4.gif"> <img height="490px" src="screenshots/screenshot5.gif"> <img height="490px" src="screenshots/screenshot6.gif">
 
-#### Realtime Chatting
+### Realtime Chatting
 
 <img height="490px" src="screenshots/screenshot7.gif"> <img height="490px" src="screenshots/screenshot8.gif">
 
