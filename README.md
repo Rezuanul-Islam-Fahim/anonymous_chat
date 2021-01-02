@@ -2,6 +2,8 @@
 
 A simple chatting app for Android + IOS + Web made with dart and flutter.
 
+<img width="80%" src="screenshots/banner.png">
+
 <a href="https://drive.google.com/file/d/1cXccWis-IGNHAGkZHYmr5-zh3n_LuGue/view?usp=sharing"><img src="https://boostapk.com/wp-content/uploads/2020/08/fall-guys-android.png" width=200></a>
 
 ### Support this project
