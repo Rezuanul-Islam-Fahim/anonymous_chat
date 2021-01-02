@@ -5,15 +5,15 @@ import 'package:anonymous_chat/screens/chat/components/message_input_field.dart'
 
 // Chat screen's widget for building send-area
 class SendArea extends StatelessWidget {
-  SendArea(
-    this._messageController,
-    this._sendMessageHandler,
-    this._sendImageHandler,
+  const SendArea(
+    this.messageController,
+    this.sendMessageHandler,
+    this.sendImageHandler,
   );
 
-  final TextEditingController _messageController;
-  final Function _sendMessageHandler;
-  final Function _sendImageHandler;
+  final TextEditingController messageController;
+  final Function sendMessageHandler;
+  final Function sendImageHandler;
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +26,17 @@ class SendArea extends StatelessWidget {
           children: <Widget>[
             Container(
               width: 38,
-              padding: EdgeInsets.only(left: 5),
+              padding: const EdgeInsets.only(left: 5),
               child: IconButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 color: Theme.of(context).primaryColor,
-                icon: Icon(Icons.photo),
+                icon: const Icon(Icons.insert_photo_outlined),
                 iconSize: 22,
                 splashRadius: 13,
-                onPressed: _sendImageHandler,
+                onPressed: sendImageHandler,
               ),
             ),
-            MessageInputField(_messageController, _sendMessageHandler),
+            MessageInputField(messageController, sendMessageHandler),
             Container(
               width: 45,
               height: 45,
@@ -47,10 +47,10 @@ class SendArea extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 type: MaterialType.button,
                 child: IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send_rounded),
                   iconSize: 22,
                   color: Colors.white,
-                  onPressed: _sendMessageHandler,
+                  onPressed: sendMessageHandler,
                 ),
               ),
             ),

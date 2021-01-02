@@ -17,22 +17,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
 
   // Login handler
-  Future<void> _login(BuildContext context) async {
+  Future<void> login(BuildContext context) async {
     // Enable loader when logging in
-    setState(() => _isLoading = true);
+    setState(() => isLoading = true);
 
     // If a user is successfully logged in, this method will navigate
     // user to chat screen. If logging fails, then an error
     // message will be shown
     AuthNavigation(
       status: await AuthService.login(
-        email: _emailController.text,
-        password: _passwordController.text,
+        email: emailController.text,
+        password: passwordController.text,
       ),
       successMessage: 'Successfully Logged In',
       errorMessageTitle: 'Login Failed',
@@ -40,40 +40,40 @@ class _LoginScreenState extends State<LoginScreen> {
     ).navigate(context);
 
     // Disable loader when successfully logged in
-    setState(() => _isLoading = false);
+    setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool _isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isPortrait = mediaQuery.orientation == Orientation.portrait;
 
     return Scaffold(
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
             child: Container(
-              height: _isPortrait ? MediaQuery.of(context).size.height : null,
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              height: isPortrait ? mediaQuery.size.height : null,
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               alignment: Alignment.center,
               child: Container(
-                width: Responsive(MediaQuery.of(context)).width(400),
+                width: Responsive(mediaQuery).width(400),
                 child: Column(
                   children: <Widget>[
                     Header(),
                     LoginForm(
-                      _emailController,
-                      _passwordController,
-                      () => _login(context),
+                      emailController,
+                      passwordController,
+                      () => login(context),
                     ),
                     RegisterLink(),
-                    if (!_isPortrait) SizedBox(height: 100),
+                    if (!isPortrait) const SizedBox(height: 100),
                   ],
                 ),
               ),
             ),
           ),
-          if (_isLoading) Loader('Logging In...'),
+          if (isLoading) Loader('Logging In...'),
         ],
       ),
     );

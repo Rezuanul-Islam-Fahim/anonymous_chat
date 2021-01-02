@@ -4,13 +4,14 @@ import 'package:email_validator/email_validator.dart';
 // Input-field decoration for all general input-fields
 InputDecoration inputField(String placeholderText, IconData icon) {
   return InputDecoration(
-    contentPadding: EdgeInsets.symmetric(
+    contentPadding: const EdgeInsets.symmetric(
       horizontal: 10,
-      vertical: 16,
+      vertical: 15,
     ),
     filled: true,
     fillColor: Colors.grey[200],
     hintText: placeholderText,
+    hintStyle: const TextStyle(fontSize: 15),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30),
     ),
@@ -28,7 +29,7 @@ InputDecoration inputField(String placeholderText, IconData icon) {
         color: Colors.grey[350],
       ),
     ),
-    prefixIcon: Icon(icon),
+    prefixIcon: Icon(icon, size: 21),
   );
 }
 
@@ -40,7 +41,7 @@ TextFormField emailField(
   return TextFormField(
     decoration: inputField(
       placeholder,
-      Icons.email,
+      Icons.email_outlined,
     ),
     controller: controller,
     keyboardType: TextInputType.emailAddress,

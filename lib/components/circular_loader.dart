@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 // This Circular loader is used in login, register, change-password,
 // and chat screen(when sending images)
 class Loader extends StatelessWidget {
-  Loader(this._loadingText);
+  const Loader(this.loadingText);
 
-  final String _loadingText;
+  final String loadingText;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +21,10 @@ class Loader extends StatelessWidget {
             height: 40,
             child: CircularProgressIndicator(),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
-            _loadingText,
-            style: TextStyle(color: Colors.white, fontSize: 16),
+            loadingText,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ],
       ),

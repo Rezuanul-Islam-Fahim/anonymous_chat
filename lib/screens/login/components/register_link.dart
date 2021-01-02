@@ -11,7 +11,7 @@ class RegisterLink extends StatelessWidget {
       children: <Widget>[
         Text(
           'Don\'t have an account? ',
-          style: TextStyle(fontSize: 16),
+          style: Theme.of(context).textTheme.bodyText1,
         ),
         GestureDetector(
           onTap: () => Navigator.push(

@@ -12,15 +12,21 @@ void openDialogue(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Logout'),
-        content: Text('Are you sure you want to Logout?'),
+        title: Text(
+          'Logout',
+          style: Theme.of(context).textTheme.headline2,
+        ),
+        content: Text(
+          'Are you sure you want to Logout?',
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
         actions: <Widget>[
           FlatButton(
             color: Colors.blueGrey,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(),
           ),
           FlatButton(
@@ -28,12 +34,12 @@ void openDialogue(BuildContext context) {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
-            child: Text('Logout'),
+            child: const Text('Logout'),
             onPressed: () => _logOut(context),
           ),
         ],
-        contentPadding: EdgeInsets.fromLTRB(25, 15, 25, 0),
-        buttonPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
+        buttonPadding: const EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 12,
         ),

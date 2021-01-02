@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
+import 'package:anonymous_chat/models/user.dart';
 import 'package:anonymous_chat/screens/settings/components/link.dart';
 import 'package:anonymous_chat/screens/settings/components/alert_dialogue.dart';
 import 'package:anonymous_chat/screens/change_password/change_password.dart';
 
 class SettingScreen extends StatelessWidget {
-  SettingScreen(this._userData);
+  const SettingScreen(this.userData);
 
-  final Map<String, dynamic> _userData;
+  final UserM userData;
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData _mediaQuery = MediaQuery.of(context);
-    final bool _isPortrait = _mediaQuery.orientation == Orientation.portrait;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isPortrait = mediaQuery.orientation == Orientation.portrait;
 
     final PreferredSizeWidget appBar = AppBar(title: Text('Settings'));
 
@@ -20,10 +21,10 @@ class SettingScreen extends StatelessWidget {
       appBar: appBar,
       body: SingleChildScrollView(
         child: Container(
-          height: _isPortrait
-              ? _mediaQuery.size.height -
+          height: isPortrait
+              ? mediaQuery.size.height -
                   appBar.preferredSize.height -
-                  _mediaQuery.padding.top
+                  mediaQuery.padding.top
               : null,
           child: Column(
             children: <Widget>[
@@ -36,28 +37,24 @@ class SettingScreen extends StatelessWidget {
                   color: Colors.grey[700],
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 8),
               Text(
-                _userData['name'],
+                userData.name,
+                style: Theme.of(context).textTheme.headline3,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                userData.email,
                 style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: Colors.grey[700],
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 5),
-              Text(
-                _userData['email'],
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey[600],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Link(
-                Icons.vpn_key,
+                Icons.vpn_key_outlined,
                 'Change Password',
                 () => Navigator.of(context).push(
                   MaterialPageRoute(

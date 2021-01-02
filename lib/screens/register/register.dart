@@ -17,69 +17,71 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
 
   // Register handler
-  Future<void> _register(BuildContext context) async {
+  Future<void> register(BuildContext context) async {
     // Enable loader when registering
-    setState(() => _isLoading = true);
+    setState(() => isLoading = true);
 
     // If a user is successfully registered a new account, this method
     // will navigate user to chat screen. If registering fails,
     // then an error message will be shown
     AuthNavigation(
       status: await AuthService.register(
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
+        name: nameController.text,
+        email: emailController.text,
+        password: passwordController.text,
       ),
       successMessage: 'Successfully registered a new account',
-      errorMessageTitle: 'Registration failed',
+      errorMessageTitle: 'Registration Failed',
       navigationScreen: ChatScreen(),
     ).navigate(context);
 
     // Disable loader when successfully registered a new account
-    setState(() => _isLoading = false);
+    setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool _isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isPortrait = mediaQuery.orientation == Orientation.portrait;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: _isPortrait ? MediaQuery.of(context).size.height : null,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 25),
-                alignment: Alignment.center,
-                child: Container(
-                  width: Responsive(MediaQuery.of(context)).width(400),
-                  child: Column(
-                    children: <Widget>[
-                      Header(),
-                      RegisterForm(
-                        _nameController,
-                        _emailController,
-                        _passwordController,
-                        () => _register(context),
-                      ),
-                      if (!_isPortrait) SizedBox(height: 100),
-                    ],
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  height: isPortrait ? mediaQuery.size.height : null,
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: Responsive(mediaQuery).width(400),
+                    child: Column(
+                      children: <Widget>[
+                        Header(),
+                        RegisterForm(
+                          nameController,
+                          emailController,
+                          passwordController,
+                          () => register(context),
+                        ),
+                        if (!isPortrait) const SizedBox(height: 100),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              RegisterBackButton(),
-              if (_isLoading) Loader('Registering New Account...'),
-            ],
+                RegisterBackButton(),
+              ],
+            ),
           ),
-        ),
+          if (isLoading) const Loader('Registering new account...'),
+        ],
       ),
     );
   }

@@ -6,42 +6,42 @@ import 'package:anonymous_chat/screens/register/components/input_field.dart';
 
 // Register screen's form widget
 class RegisterForm extends StatefulWidget {
-  RegisterForm(
-    this._nameController,
-    this._emailController,
-    this._passwordController,
-    this._handler,
+  const RegisterForm(
+    this.nameController,
+    this.emailController,
+    this.passwordController,
+    this.handler,
   );
 
-  final TextEditingController _nameController;
-  final TextEditingController _emailController;
-  final TextEditingController _passwordController;
-  final Function _handler;
+  final TextEditingController nameController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final Function handler;
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: <Widget>[
-          nameField(widget._nameController),
+          nameField(widget.nameController),
           SizedBox(height: 20),
-          emailField(widget._emailController, 'Email'),
+          emailField(widget.emailController, 'Email'),
           SizedBox(height: 20),
-          passwordField(widget._passwordController),
+          passwordField(widget.passwordController),
           SizedBox(height: 20),
           GeneralButton('Register Now', () {
-            if (_formKey.currentState.validate()) {
+            if (formKey.currentState.validate()) {
               // If form validation passes, then register
               // handler will be called
-              widget._handler();
+              widget.handler();
             }
           }),
         ],
