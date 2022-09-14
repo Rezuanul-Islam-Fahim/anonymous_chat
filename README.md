@@ -8,7 +8,7 @@ A simple chatting app for Android + IOS + Web made with dart and flutter.
 
 ### Support this project
 
-[![GitHub stars](https://img.shields.io/github/stars/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/stargazers) [![GitHub forks](https://img.shields.io/github/forks/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/network/members) [![GitHub watchers](https://img.shields.io/github/watchers/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/watchers) [![License](https://img.shields.io/github/license/rezuanul-islam-fahim/anonymous_chat)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/blob/add-license-1/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/stargazers) [![GitHub forks](https://img.shields.io/github/forks/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/network/members) [![GitHub watchers](https://img.shields.io/github/watchers/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/watchers) [![License](https://img.shields.io/github/license/rezuanul-islam-fahim/anonymous_chat)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/blob/stable/LICENSE)
 
 ## Screenshots
 
