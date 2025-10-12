@@ -47,6 +47,9 @@ class MessageStream extends StatelessWidget {
                       Message(
                         text: message.get('text'),
                         fromName: message.get('fromName'),
+                        fromEmail: message.get('fromEmail'),
+                        timendate: message.get('timendate'),
+                        isImage: message.get('isImage'),
                       ),
                       message.get('fromEmail') == userData.email,
                     )
@@ -54,6 +57,9 @@ class MessageStream extends StatelessWidget {
                       Message(
                         text: message.get('text'),
                         fromName: message.get('fromName'),
+                        fromEmail: message.get('fromEmail'),
+                        timendate: message.get('timendate'),
+                        isImage: message.get('isImage'),
                       ),
                       message.get('fromEmail') == userData.email,
                     );

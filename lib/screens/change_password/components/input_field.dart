@@ -12,8 +12,8 @@ TextFormField passwordField(
     decoration: inputField(placeHolder, Icons.vpn_key_outlined),
     controller: mainController,
     obscureText: true,
-    validator: (String value) {
-      if (value.isEmpty) {
+    validator: (String? value) {
+      if (value == null || value.isEmpty) {
         return 'Required Field';
       } else if (mainController.text != secondaryController.text) {
         return 'Password fields should be matched';

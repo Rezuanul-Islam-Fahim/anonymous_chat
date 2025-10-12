@@ -18,33 +18,40 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ^3.5.0
 
 dependencies:
   flutter:
     sdk: flutter
 
   # External Packages
-  cupertino_icons: ^0.1.2
-  firebase_core: ^0.5.3
-  firebase_auth: ^0.18.4+1
-  cloud_firestore: ^0.14.4
-  firebase_storage: ^4.0.1
-  shared_preferences: ^0.5.12+4
-  image_picker: ^0.6.7+17
-  email_validator: ^1.0.5
-  flushbar: ^1.10.4
-  cached_network_image: ^2.4.1
+  cupertino_icons: ^1.0.8
+  firebase_core: ^4.1.1
+  firebase_auth: ^6.1.0
+  cloud_firestore: ^6.0.2
+  firebase_storage: ^13.0.2
+  shared_preferences: ^2.3.2
+  image_picker: ^1.1.2
+  email_validator: ^3.0.0
+  another_flushbar: ^1.12.30
+  cached_network_image: ^3.4.1
 
+  cloud_firestore_web: any
+  firebase_auth_web: any
+  firebase_core_web: any
+  shared_preferences_web: any
+  flutter_web_plugins:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^6.0.0
   
   # Launcher icon
-  flutter_launcher_icons: ^0.8.0
+  flutter_launcher_icons: ^0.14.1
 
   # Splash screen
-  flutter_native_splash: ^0.1.9
+  flutter_native_splash: ^2.4.1
 
 
 # Launcher icon settings

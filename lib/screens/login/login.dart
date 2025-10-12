@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: isPortrait ? mediaQuery.size.height : null,
               padding: const EdgeInsets.symmetric(horizontal: 25),
               alignment: Alignment.center,
-              child: Container(
+              child: SizedBox(
                 width: Responsive(mediaQuery).width(400),
                 child: Column(
                   children: <Widget>[

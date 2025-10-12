@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   height: isPortrait ? mediaQuery.size.height : null,
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SizedBox(
                     width: Responsive(mediaQuery).width(400),
                     child: Column(
                       children: <Widget>[

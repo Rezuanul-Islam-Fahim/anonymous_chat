@@ -20,7 +20,7 @@ class SettingScreen extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: isPortrait
               ? mediaQuery.size.height -
                   appBar.preferredSize.height -
@@ -40,7 +40,7 @@ class SettingScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 userData.name,
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 4),

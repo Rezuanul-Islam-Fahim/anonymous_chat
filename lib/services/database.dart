@@ -13,8 +13,8 @@ class DatabaseService {
   DatabaseService.toCollection(this.collectionRef);
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String uid;
-  String collectionRef;
+  String? uid;
+  String? collectionRef;
 
   // Store user data in database
   Future<void> storeUser(UserM userData) async {
@@ -37,6 +37,7 @@ class DatabaseService {
     DocumentSnapshot userDoc = userSnapshot.docs[0];
 
     return UserM(
+      id: userDoc.get('id'),
       name: userDoc.get('name'),
       email: userDoc.get('email'),
     );
@@ -45,7 +46,7 @@ class DatabaseService {
   // Store message in database to collection provided
   // by (collectionRef) variable
   Future<void> storeMessage(Message messageData) async {
-    await firestore.collection(collectionRef).add({
+    await firestore.collection(collectionRef!).add({
       'text': messageData.text,
       'fromName': messageData.fromName,
       'fromEmail': messageData.fromEmail,

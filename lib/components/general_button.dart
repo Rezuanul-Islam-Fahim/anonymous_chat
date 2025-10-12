@@ -10,20 +10,22 @@ class GeneralButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      child: RaisedButton(
+      child: ElevatedButton(
+        onPressed: () => handler(),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+        ),
         child: Text(
           label,
           style: const TextStyle(fontSize: 16, letterSpacing: 0.5),
         ),
-        padding: const EdgeInsets.all(14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        color: Theme.of(context).primaryColor,
-        textColor: Colors.white,
-        onPressed: handler,
       ),
     );
   }

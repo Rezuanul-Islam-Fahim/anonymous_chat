@@ -6,7 +6,7 @@ class Link extends StatelessWidget {
 
   final IconData icon;
   final String label;
-  final Function handler;
+  final VoidCallback handler;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Link extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               label,
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),

@@ -30,7 +30,7 @@ class _LoginFormState extends State<LoginForm> {
           passwordField(widget.passwordController),
           const SizedBox(height: 20),
           GeneralButton('Login', () {
-            if (formKey.currentState.validate()) {
+            if (formKey.currentState!.validate()) {
               // If form validation passes, then login
               // handler will be called
               widget.handler();

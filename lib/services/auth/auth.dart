@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,8 +12,8 @@ import 'package:anonymous_chat/services/auth/auth_exception.dart';
 class AuthService {
   // Handler for logging in user
   static Future<AuthResultStatus> login({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -25,7 +24,7 @@ class AuthService {
         email: email,
         password: password,
       );
-      User user = result.user;
+      User? user = result.user;
 
       if (user != null) {
         status = AuthResultStatus.successful;
@@ -39,6 +38,8 @@ class AuthService {
         await prefs.setString('name', userData.name);
         await prefs.setString('email', userData.email);
         await prefs.setString('password', password);
+      } else {
+        status = AuthResultStatus.undefined;
       }
     } catch (e) {
       status = AuthExceptionHandler.handleException(e);
@@ -49,9 +50,9 @@ class AuthService {
 
   // Handler for registering new user
   static Future<AuthResultStatus> register({
-    @required String name,
-    @required String email,
-    @required String password,
+    required String name,
+    required String email,
+    required String password,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -62,7 +63,7 @@ class AuthService {
         email: email,
         password: password,
       );
-      User user = result.user;
+      User? user = result.user;
 
       if (user != null) {
         status = AuthResultStatus.successful;
@@ -76,6 +77,8 @@ class AuthService {
         await prefs.setString('name', name);
         await prefs.setString('email', email);
         await prefs.setString('password', password);
+      } else {
+        status = AuthResultStatus.undefined;
       }
     } catch (e) {
       status = AuthExceptionHandler.handleException(e);
@@ -106,7 +109,7 @@ class AuthService {
 
   // Change-password handler
   static Future<AuthResultStatus> changePassword({
-    @required String newPassword,
+    required String newPassword,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -114,14 +117,23 @@ class AuthService {
 
     try {
       // Do recent-login operation for changing-password
-      UserCredential result = await auth.signInWithEmailAndPassword(
-        email: prefs.getString('email'),
-        password: prefs.getString('password'),
-      );
-      User user = result.user;
+      String? email = prefs.getString('email');
+      String? password = prefs.getString('password');
 
-      // Update password
-      await user.updatePassword(newPassword);
+      if (email != null && password != null) {
+        UserCredential result = await auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        User? user = result.user;
+
+        // Update password
+        if (user != null) {
+          await user.updatePassword(newPassword);
+        }
+      } else {
+        status = AuthResultStatus.undefined;
+      }
     } catch (e) {
       status = AuthExceptionHandler.handleException(e);
     }

@@ -45,7 +45,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       appBar: AppBar(title: const Text('Change Password')),
       body: Stack(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height,
             child: SingleChildScrollView(
               child: Container(

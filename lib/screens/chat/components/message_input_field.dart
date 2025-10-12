@@ -5,7 +5,7 @@ class MessageInputField extends StatelessWidget {
   const MessageInputField(this.messageController, this.handler);
 
   final TextEditingController messageController;
-  final Function handler;
+  final VoidCallback handler;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +22,14 @@ class MessageInputField extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(
                 width: 0.6,
-                color: Colors.grey[300].withOpacity(0.5),
+                color: Colors.grey[300]!.withValues(alpha: 0.5),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(
                 width: 1,
-                color: Colors.grey[300].withOpacity(0.7),
+                color: Colors.grey[300]!.withValues(alpha: 0.7),
               ),
             ),
             hintText: 'Enter your text...',

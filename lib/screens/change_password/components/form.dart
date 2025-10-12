@@ -26,7 +26,7 @@ class _ChangePassFormState extends State<ChangePasswordForm> {
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
-      child: Container(
+      child: SizedBox(
         width: Responsive(MediaQuery.of(context)).width(400),
         child: Column(
           children: <Widget>[
@@ -43,7 +43,7 @@ class _ChangePassFormState extends State<ChangePasswordForm> {
             ),
             const SizedBox(height: 20),
             GeneralButton('Change Password', () {
-              if (formKey.currentState.validate()) {
+              if (formKey.currentState!.validate()) {
                 widget.handler(context);
               }
             }),

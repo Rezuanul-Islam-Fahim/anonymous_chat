@@ -38,7 +38,7 @@ class _RegisterFormState extends State<RegisterForm> {
           passwordField(widget.passwordController),
           SizedBox(height: 20),
           GeneralButton('Register Now', () {
-            if (formKey.currentState.validate()) {
+            if (formKey.currentState!.validate()) {
               // If form validation passes, then register
               // handler will be called
               widget.handler();

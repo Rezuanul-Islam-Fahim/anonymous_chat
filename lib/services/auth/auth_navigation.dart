@@ -9,10 +9,10 @@ import 'package:anonymous_chat/components/flush_message.dart';
 // or fails. Like login, register, change-password
 class AuthNavigation {
   const AuthNavigation({
-    this.status,
-    this.successMessage,
-    this.errorMessageTitle,
-    this.navigationScreen,
+    required this.status,
+    required this.successMessage,
+    required this.errorMessageTitle,
+    required this.navigationScreen,
   });
 
   final AuthResultStatus status;

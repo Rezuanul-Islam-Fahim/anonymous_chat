@@ -1,7 +1,7 @@
 // Class for handling auth exceptions
 class AuthExceptionHandler {
   // This handler will return auth process result
-  static AuthResultStatus handleException(e) {
+  static AuthResultStatus handleException(dynamic e) {
     AuthResultStatus status;
 
     // Generate status

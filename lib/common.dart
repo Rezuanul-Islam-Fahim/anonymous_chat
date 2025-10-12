@@ -19,14 +19,14 @@ InputDecoration inputField(String placeholderText, IconData icon) {
       borderRadius: BorderRadius.circular(30),
       borderSide: BorderSide(
         width: 0.6,
-        color: Colors.grey[300],
+        color: Colors.grey[300]!,
       ),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30),
       borderSide: BorderSide(
         width: 1.1,
-        color: Colors.grey[350],
+        color: Colors.grey[350]!,
       ),
     ),
     prefixIcon: Icon(icon, size: 21),
@@ -45,8 +45,8 @@ TextFormField emailField(
     ),
     controller: controller,
     keyboardType: TextInputType.emailAddress,
-    validator: (String value) {
-      if (value.isEmpty) {
+    validator: (String? value) {
+      if (value == null || value.isEmpty) {
         return 'Email is required';
       } else if (!EmailValidator.validate(value)) {
         return 'Invalid Email Address';

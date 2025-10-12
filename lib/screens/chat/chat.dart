@@ -22,7 +22,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController messageController = TextEditingController();
   final ScrollController messageScroll = ScrollController();
-  UserM userData;
+  UserM? userData;
   int msgLimit = 20;
   int msgIncrement = 25;
   bool isLoading = false;
@@ -33,8 +33,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
     setState(() {
       userData = UserM(
-        name: prefs.getString('name'),
-        email: prefs.getString('email'),
+        id: prefs.getString('id') ?? '',
+        name: prefs.getString('name') ?? '',
+        email: prefs.getString('email') ?? '',
       );
     });
   }
@@ -49,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   // This handler is used for storing message to database
   Future<void> sendMessage() async {
-    if (messageController.text.length > 0) {
+    if (messageController.text.isNotEmpty && userData != null) {
       // Store message to a new variable for performance improvement
       String message = messageController.text;
 
@@ -60,8 +61,8 @@ class _ChatScreenState extends State<ChatScreen> {
       DatabaseService.toCollection('messages').storeMessage(
         Message(
           text: message,
-          fromName: userData.name,
-          fromEmail: userData.email,
+          fromName: userData!.name,
+          fromEmail: userData!.email,
           timendate: DateTime.now().toIso8601String(),
           isImage: false,
         ),
@@ -71,38 +72,44 @@ class _ChatScreenState extends State<ChatScreen> {
 
   // This handler is used for storing image message to database
   Future<void> sendImage() async {
+    if (userData == null) return;
+
     // Pick an image
-    PickedFile pickedImage = await ImagePicker().getImage(
+    final XFile? pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
     );
 
-    if (pickedImage != null) {
-      // Enable the loader when sending image
-      setState(() => isLoading = true);
+    if (pickedImage == null) return;
 
+    // Enable the loader when sending image
+    setState(() => isLoading = true);
+
+    try {
       File image = File(pickedImage.path);
-      StorageReference storageRef = FirebaseStorage.instance.ref().child(
+      Reference storageRef = FirebaseStorage.instance.ref().child(
             '${DateTime.now().millisecondsSinceEpoch}',
           );
-      StorageUploadTask uploadTask = storageRef.putFile(image);
-      StorageTaskSnapshot taskSnap = await uploadTask.onComplete;
+      UploadTask uploadTask = storageRef.putFile(image);
+      TaskSnapshot taskSnap = await uploadTask;
 
-      taskSnap.ref.getDownloadURL().then((imgUrl) async {
-        // Store image message to database
-        DatabaseService.toCollection('messages').storeMessage(
-          Message(
-            text: imgUrl,
-            fromName: userData.name,
-            fromEmail: userData.email,
-            timendate: DateTime.now().toIso8601String(),
-            isImage: true,
-          ),
-        );
-      });
+      String imgUrl = await taskSnap.ref.getDownloadURL();
 
-      // Disable the loader when image successfully stored
-      setState(() => isLoading = false);
+      // Store image message to database
+      await DatabaseService.toCollection('messages').storeMessage(
+        Message(
+          text: imgUrl,
+          fromName: userData!.name,
+          fromEmail: userData!.email,
+          timendate: DateTime.now().toIso8601String(),
+          isImage: true,
+        ),
+      );
+    } catch (e) {
+      print('Error uploading image: $e');
     }
+
+    // Disable the loader when image successfully stored
+    setState(() => isLoading = false);
   }
 
   @override
@@ -118,13 +125,19 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (userData == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
-      appBar: getAppBar(context, userData),
+      appBar: getAppBar(context, userData!),
       body: Stack(
         children: <Widget>[
           Column(
             children: <Widget>[
-              MessageStream(userData, messageScroll, msgLimit),
+              MessageStream(userData!, messageScroll, msgLimit),
               SendArea(messageController, sendMessage, sendImage),
             ],
           ),

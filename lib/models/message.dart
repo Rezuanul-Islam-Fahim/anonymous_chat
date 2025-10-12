@@ -1,11 +1,11 @@
 // Message model
 class Message {
   const Message({
-    this.text,
-    this.fromName,
-    this.fromEmail,
-    this.timendate,
-    this.isImage,
+    required this.text,
+    required this.fromName,
+    required this.fromEmail,
+    required this.timendate,
+    required this.isImage,
   });
 
   final String text;

@@ -19,7 +19,7 @@ class FullImageScreen extends StatelessWidget {
               progressIndicatorBuilder: (context, url, downloadProgress) {
                 return Container(
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SizedBox(
                     width: 40,
                     height: 40,
                     child: CircularProgressIndicator(
@@ -34,7 +34,7 @@ class FullImageScreen extends StatelessWidget {
                 child: Icon(
                   Icons.error,
                   size: 40,
-                  color: Theme.of(context).errorColor,
+                  color: Theme.of(context).colorScheme.error,
                 ),
               ),
             ),

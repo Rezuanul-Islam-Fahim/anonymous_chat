@@ -25,7 +25,7 @@ class ImageMessage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 2),
               child: Text(
                 messageData.fromName,
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           GestureDetector(
@@ -46,7 +46,7 @@ class ImageMessage extends StatelessWidget {
                   return Container(
                     alignment: Alignment.center,
                     color: Colors.grey[300],
-                    child: Container(
+                    child: SizedBox(
                       width: 40,
                       height: 40,
                       child: CircularProgressIndicator(
@@ -62,7 +62,7 @@ class ImageMessage extends StatelessWidget {
                   child: Icon(
                     Icons.error,
                     size: 40,
-                    color: Theme.of(context).errorColor,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                 ),
               ),

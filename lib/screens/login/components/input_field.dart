@@ -11,8 +11,8 @@ TextFormField passwordField(TextEditingController controller) {
     ),
     controller: controller,
     obscureText: true,
-    validator: (String value) {
-      if (value.isEmpty) {
+    validator: (String? value) {
+      if (value == null || value.isEmpty) {
         return 'Password is required';
       }
       return null;

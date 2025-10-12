@@ -12,15 +12,15 @@ class SendArea extends StatelessWidget {
   );
 
   final TextEditingController messageController;
-  final Function sendMessageHandler;
-  final Function sendImageHandler;
+  final VoidCallback sendMessageHandler;
+  final VoidCallback sendImageHandler;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 5, 8, 5),
       alignment: Alignment.center,
-      child: Container(
+      child: SizedBox(
         width: Responsive(MediaQuery.of(context)).width(450),
         child: Row(
           children: <Widget>[
@@ -37,7 +37,7 @@ class SendArea extends StatelessWidget {
               ),
             ),
             MessageInputField(messageController, sendMessageHandler),
-            Container(
+            SizedBox(
               width: 45,
               height: 45,
               child: Material(
