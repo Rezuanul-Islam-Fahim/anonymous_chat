@@ -6,11 +6,15 @@ import 'package:anonymous_chat/theme.dart';
 import 'package:anonymous_chat/screens/login/login.dart';
 import 'package:anonymous_chat/screens/chat/chat.dart';
 
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize firebase before running app
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Main function for running the app
   runApp(AnonymousChat());
