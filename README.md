@@ -10,6 +10,7 @@ A modern, feature-rich real-time chatting application built with Flutter and Fir
 [![GitHub forks](https://img.shields.io/github/forks/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/network/members) 
 [![GitHub watchers](https://img.shields.io/github/watchers/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/watchers) 
 [![License](https://img.shields.io/github/license/rezuanul-islam-fahim/anonymous_chat)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/blob/stable/LICENSE)
+[![Build and Deploy](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/actions/workflows/build-and-deploy-appetize.yml/badge.svg)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/actions/workflows/build-and-deploy-appetize.yml)
 
 [Live preview](https://appetize.io/app/b_lcp4koyt2ysaugukg3eszodyfm) • [Report Bug](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/issues) • [Request Feature](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/issues)
 
@@ -29,6 +30,7 @@ A modern, feature-rich real-time chatting application built with Flutter and Fir
   - [Firebase Setup](#firebase-setup)
 - [Usage](#-usage)
 - [Building for Production](#-building-for-production)
+- [CI/CD Pipeline](#-cicd-pipeline)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
 - [Roadmap](#-roadmap)
@@ -102,7 +104,7 @@ A modern, feature-rich real-time chatting application built with Flutter and Fir
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** [Flutter](https://flutter.dev/) (Dart SDK ^3.5.0)
+- **Framework:** [Flutter](https://flutter.dev/) (Dart SDK ^3.9.0)
 - **State Management:** StatefulWidget with setState
 - **UI Components:** Material Design
 
@@ -115,10 +117,10 @@ A modern, feature-rich real-time chatting application built with Flutter and Fir
 ### Key Dependencies
 | Package | Version | Purpose |
 |---------|---------|---------|
-| firebase_core | ^4.1.1 | Firebase SDK initialization |
-| firebase_auth | ^6.1.0 | User authentication |
-| cloud_firestore | ^6.0.2 | Real-time database |
-| firebase_storage | ^13.0.2 | Image storage |
+| firebase_core | ^4.2.0 | Firebase SDK initialization |
+| firebase_auth | ^6.1.1 | User authentication |
+| cloud_firestore | ^6.0.3 | Real-time database |
+| firebase_storage | ^13.0.3 | Image storage |
 | image_picker | ^1.1.2 | Camera/gallery access |
 | cached_network_image | ^3.4.1 | Image caching |
 | email_validator | ^3.0.0 | Email validation |
@@ -162,8 +164,8 @@ lib/
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
-- [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.5.0 or higher)
-- [Dart SDK](https://dart.dev/get-dart) (^3.5.0)
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.35.6 or higher)
+- [Dart SDK](https://dart.dev/get-dart) (^3.9.0)
 - [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/)
 - A Firebase account ([Create one here](https://firebase.google.com/))
@@ -356,10 +358,68 @@ flutter pub run flutter_native_splash:create
 
 ---
 
-## 📁 Project Structure
+## � CI/CD Pipeline
+
+This project includes an automated CI/CD pipeline using GitHub Actions that builds and deploys the APK to Appetize.io for easy testing.
+
+### Workflow Features
+
+- ✅ **Automated Builds** - Triggered on pull requests to master/main or manual dispatch
+- 🚀 **Appetize Deployment** - Automatic deployment to Appetize.io for browser testing
+- 📦 **APK Artifacts** - Download ready-to-install APKs (30-day retention)
+- ⚡ **Smart Caching** - Flutter SDK, pub dependencies, and Gradle caching (3x faster builds)
+- 🔍 **Code Analysis** - Runs `flutter analyze` on every build
+- 📊 **Build Summary** - Detailed workflow summaries with download links
+
+### Build Timeline
+
+| Build Type | Duration | Notes |
+|------------|----------|-------|
+| First Build | ~12-15 min | Full dependency download |
+| Cached Build | ~4-5 min | With cache hits (3x faster) |
+
+### Setup Instructions
+
+1. **Get Appetize API Token**
+   - Sign up at [Appetize.io](https://appetize.io/)
+   - Navigate to Account Settings → API Token
+   - Copy your API token
+
+2. **Add GitHub Secrets**
+   - Go to `Settings → Secrets and variables → Actions`
+   - Add secret: `APPETIZE_API_TOKEN` (required)
+   - After first run, add: `APPETIZE_PUBLIC_KEY` (for updates)
+
+3. **Trigger Workflow**
+   - Create a Pull Request to master/main branch
+   - Or manually: `Actions → Build Flutter APK and Deploy to Appetize → Run workflow`
+
+4. **Access Your Build**
+   - Check workflow summary for APK download link
+   - Test app in browser via Appetize URL
+   - Download APK artifact for local testing
+
+### Workflow Architecture
+
+See [`.github/ARCHITECTURE.md`](.github/ARCHITECTURE.md) for detailed workflow architecture, caching strategy, and troubleshooting guide.
+
+### Monitoring
+
+- **Workflow Status:** Check the build badge at the top of this README
+- **Build History:** `Actions` tab → `Build Flutter APK and Deploy to Appetize`
+- **APK Artifacts:** Available in workflow run summaries for 30 days
+
+---
+
+## �📁 Project Structure
 
 ```
 anonymous_chat/
+├── .github/                  # GitHub configuration
+│   ├── workflows/           # GitHub Actions workflows
+│   │   └── build-and-deploy-appetize.yml
+│   ├── ARCHITECTURE.md      # CI/CD workflow architecture
+│   └── copilot-instructions.md
 ├── android/                  # Android native code
 ├── ios/                      # iOS native code
 ├── web/                      # Web-specific files
