@@ -343,7 +343,7 @@ Output location: `build/web/`
 **Update version:**
 Edit `pubspec.yaml`:
 ```yaml
-version: 1.0.0+1  # version_name+build_number
+version: 1.1.0+2  # version_name+build_number
 ```
 
 **Generate launcher icons:**
@@ -365,7 +365,8 @@ This project includes an automated CI/CD pipeline using GitHub Actions that buil
 ### Workflow Features
 
 - ✅ **Automated Builds** - Triggered on pull requests to master/main or manual dispatch
-- 🚀 **Appetize Deployment** - Automatic deployment to Appetize.io for browser testing
+- � **Firebase Auto-Configuration** - Automatic Firebase setup for Android, iOS, and Web
+- �🚀 **Appetize Deployment** - Automatic deployment to Appetize.io for browser testing
 - 📦 **APK Artifacts** - Download ready-to-install APKs (30-day retention)
 - ⚡ **Smart Caching** - Flutter SDK, pub dependencies, and Gradle caching (3x faster builds)
 - 🔍 **Code Analysis** - Runs `flutter analyze` on every build
@@ -380,6 +381,33 @@ This project includes an automated CI/CD pipeline using GitHub Actions that buil
 
 ### Setup Instructions
 
+#### 1. Firebase Configuration (Required)
+
+The workflow automatically configures Firebase for all platforms (Android, iOS, Web) during the build process.
+
+**Required GitHub Secrets:**
+1. **Get Firebase CI token:**
+   ```bash
+   firebase login:ci
+   ```
+   Copy the token from the output.
+
+2. **Add secrets to GitHub:**
+   - Go to `Settings → Secrets and variables → Actions`
+   - Add the following secrets:
+     - **Name:** `FIREBASE_TOKEN`  
+       **Value:** Your Firebase CI token from step 1
+     - **Name:** `FIREBASE_PROJECT_ID`  
+       **Value:** Your Firebase project ID (e.g., `anonymous-chat-ed611`)
+
+**What the workflow does:**
+- Automatically installs Firebase CLI and FlutterFire CLI
+- Configures Firebase for Android, iOS, and Web platforms
+- Generates `firebase_options.dart`, `google-services.json`, and `GoogleService-Info.plist`
+- No manual Firebase configuration needed!
+
+#### 2. Appetize Deployment (Optional)
+
 1. **Get Appetize API Token**
    - Sign up at [Appetize.io](https://appetize.io/)
    - Navigate to Account Settings → API Token
@@ -390,14 +418,25 @@ This project includes an automated CI/CD pipeline using GitHub Actions that buil
    - Add secret: `APPETIZE_API_TOKEN` (required)
    - After first run, add: `APPETIZE_PUBLIC_KEY` (for updates)
 
-3. **Trigger Workflow**
-   - Create a Pull Request to master/main branch
-   - Or manually: `Actions → Build Flutter APK and Deploy to Appetize → Run workflow`
+#### 3. Trigger Workflow
 
-4. **Access Your Build**
-   - Check workflow summary for APK download link
-   - Test app in browser via Appetize URL
-   - Download APK artifact for local testing
+- Create a Pull Request to master/main branch
+- Or manually: `Actions → Build Flutter APK and Deploy to Appetize → Run workflow`
+
+#### 4. Access Your Build
+
+- Check workflow summary for APK download link
+- Test app in browser via Appetize URL
+- Download APK artifact for local testing
+
+### Required GitHub Secrets
+
+| Secret Name | Description | Required | How to Get |
+|-------------|-------------|----------|------------|
+| `FIREBASE_TOKEN` | Firebase CI authentication token | ✅ Yes | Run `firebase login:ci` in terminal |
+| `FIREBASE_PROJECT_ID` | Firebase project ID | ✅ Yes | Find in Firebase Console URL or project settings |
+| `APPETIZE_API_TOKEN` | Appetize.io API token | ✅ Yes | Get from Appetize.io Account Settings → API Token |
+| `APPETIZE_PUBLIC_KEY` | Appetize app public key (auto-generated) | ⭐ Optional | Provided in first workflow run output |
 
 ### Workflow Architecture
 

@@ -17,10 +17,10 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: ${{ env.JAVA_VERSION }}
@@ -62,6 +62,61 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Install Firebase CLI
+        run: |
+          curl -sL https://firebase.tools | bash
+          firebase --version
+
+      - name: Install FlutterFire CLI
+        run: |
+          dart pub global activate flutterfire_cli
+          echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+
+      - name: Configure Firebase for all platforms
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          # Authenticate with Firebase
+          firebase login:ci --no-localhost --token "$FIREBASE_TOKEN"
+          
+          # Configure FlutterFire for Android, iOS, and Web
+          flutterfire configure \
+            --project="$FIREBASE_PROJECT_ID" \
+            --platforms=android,ios,web \
+            --yes \
+            --out=lib/firebase_options.dart \
+            --android-package-name=com.rezuanulfahim.anonymous_chat \
+            --ios-bundle-id=com.rezuanulfahim.anonymousChat \
+            --web-app-id=auto
+          
+          echo "✅ Firebase configured successfully for all platforms"
+
+      - name: Verify Firebase configuration
+        run: |
+          if [ -f "lib/firebase_options.dart" ]; then
+            echo "✅ firebase_options.dart generated successfully"
+            echo "File contents preview:"
+            head -n 20 lib/firebase_options.dart
+          else
+            echo "❌ firebase_options.dart not found"
+            exit 1
+          fi
+          
+          # Verify Android google-services.json
+          if [ -f "android/app/google-services.json" ]; then
+            echo "✅ android/app/google-services.json exists"
+          else
+            echo "⚠️ android/app/google-services.json not found (may need manual setup)"
+          fi
+          
+          # Verify iOS GoogleService-Info.plist
+          if [ -f "ios/Runner/GoogleService-Info.plist" ]; then
+            echo "✅ ios/Runner/GoogleService-Info.plist exists"
+          else
+            echo "⚠️ ios/Runner/GoogleService-Info.plist not found (may need manual setup)"
+          fi
 
       - name: Analyze code
         run: flutter analyze

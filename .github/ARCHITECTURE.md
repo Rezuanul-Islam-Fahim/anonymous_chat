@@ -13,7 +13,7 @@
 │                    SETUP ENVIRONMENT                             │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
 │  │ Checkout     │  │ Setup Java   │  │ Setup Flutter │         │
-│  │ Repository   │→ │ JDK 17 (Zulu)│→ │ 3.5.6 Stable │         │
+│  │ Repository   │→ │ JDK 17 (Zulu)│→ │ 3.35.6 Stable│         │
 │  └──────────────┘  └──────────────┘  └──────────────┘         │
 └────────────────────────────┬────────────────────────────────────┘
                              │
@@ -27,6 +27,17 @@
 │                                                                  │
 │  Cache Hit?  YES → Fast Build (3-5 min)                        │
 │              NO  → Full Build (10-15 min)                       │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                  FIREBASE CONFIGURATION                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
+│  │ Install      │→ │ Install      │→ │ Configure    │         │
+│  │ Firebase CLI │  │ FlutterFire  │  │ Firebase     │         │
+│  └──────────────┘  └──────────────┘  └──────────────┘         │
+│                                              │                   │
+│  Generates: firebase_options.dart, google-services.json, etc.   │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
@@ -138,7 +149,11 @@ Total Time Saved: 7-11 minutes on subsequent builds!
 
 Required Secrets:
 ┌─────────────────────────┐
-│ APPETIZE_API_TOKEN      │  ← Required before first run
+│ FIREBASE_TOKEN          │  ← Required for Firebase config
+│                         │    (Get via: firebase login:ci)
+│ FIREBASE_PROJECT_ID     │  ← Your Firebase project ID
+│                         │    (e.g., anonymous-chat-ed611)
+│ APPETIZE_API_TOKEN      │  ← Required for Appetize deploy
 │                         │    (Get from Appetize.io)
 └─────────────────────────┘
 
@@ -149,8 +164,10 @@ Optional (After First Deployment):
 └─────────────────────────┘
 
 Secret Usage Flow:
-1. Workflow reads APPETIZE_API_TOKEN for authentication
-2. Checks if APPETIZE_PUBLIC_KEY exists
+1. Workflow authenticates with Firebase using FIREBASE_TOKEN
+2. Configures Firebase for all platforms using FIREBASE_PROJECT_ID
+3. Reads APPETIZE_API_TOKEN for Appetize authentication
+4. Checks if APPETIZE_PUBLIC_KEY exists
    ├── NO  → Creates new app, returns public key
    └── YES → Updates existing app using public key
 ```
@@ -205,6 +222,7 @@ First Build (No Cache):
 │ Checkout           ████ 30s                                │
 │ Setup Java         ██████████ 60s                          │
 │ Setup Flutter      ████████████████████ 120s               │
+│ Firebase Config    ████████████ 75s                        │
 │ Flutter Doctor     ████ 20s                                │
 │ Pub Get            ████████████ 80s                        │
 │ Analyze            ████ 30s                                │
@@ -212,13 +230,14 @@ First Build (No Cache):
 │ Flutter Build      ████████████████████████████████ 200s   │
 │ Appetize Upload    ████████ 45s                            │
 └────────────────────────────────────────────────────────────┘
-Total: ~12.5 minutes
+Total: ~14 minutes
 
 Subsequent Build (With Cache):
 ┌────────────────────────────────────────────────────────────┐
 │ Checkout           ████ 30s                                │
 │ Setup Java         ██ 15s (cached)                         │
 │ Setup Flutter      ████ 25s (cached)                       │
+│ Firebase Config    ██████ 35s                              │
 │ Flutter Doctor     ██ 10s                                  │
 │ Pub Get            ██ 15s (cached)                         │
 │ Analyze            ██ 10s                                  │
@@ -226,9 +245,9 @@ Subsequent Build (With Cache):
 │ Flutter Build      ████████████████ 90s                    │
 │ Appetize Upload    ████████ 45s                            │
 └────────────────────────────────────────────────────────────┘
-Total: ~4.5 minutes
+Total: ~5.5 minutes
 
-⚡ Speed Improvement: ~3x faster!
+⚡ Speed Improvement: ~2.5x faster!
 ```
 
 ## 🔄 Continuous Deployment Flow
@@ -343,7 +362,12 @@ For all future runs:
 
 **Issue:** Gradle build fails
 - **Solution:** Check `android/app/build.gradle` for correct SDK versions
-- **Solution:** Ensure `google-services.json` is present in `android/app/`
+- **Solution:** Verify Firebase secrets (`FIREBASE_TOKEN` and `FIREBASE_PROJECT_ID`) are set correctly
+
+**Issue:** Firebase configuration fails
+- **Solution:** Ensure `FIREBASE_TOKEN` and `FIREBASE_PROJECT_ID` secrets are set in GitHub
+- **Solution:** Verify Firebase project ID matches your actual project
+- **Solution:** Check Firebase CLI authentication by reviewing workflow logs
 
 **Issue:** Flutter analyze fails
 - **Solution:** Run `flutter analyze` locally and fix linting issues
@@ -424,8 +448,8 @@ For all future runs:
 
 **Architecture Version:** 1.0.0  
 **Last Updated:** October 2025  
-**Flutter Version:** 3.5.6  
-**Dart SDK:** ^3.5.0  
+**Flutter Version:** 3.35.6  
+**Dart SDK:** ^3.9.0  
 **Java Version:** 17 (Zulu Distribution)  
-**Target SDK:** Android 34  
+**Target SDK:** Android 36  
 **Minimum SDK:** Android 21 (Android 5.0 Lollipop)
