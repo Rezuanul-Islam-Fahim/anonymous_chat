@@ -97,6 +97,7 @@ jobs:
           fi
 
           # Run flutterfire configure non-interactively using the token.
+          # Using specific web app ID instead of 'auto' for CI compatibility
           flutterfire configure \
             --project="$FIREBASE_PROJECT_ID" \
             --platforms=android,ios,web \
@@ -104,7 +105,7 @@ jobs:
             --out=lib/firebase_options.dart \
             --android-package-name=com.rezuanulfahim.anonymous_chat \
             --ios-bundle-id=com.rezuanulfahim.anonymousChat \
-            --web-app-id=auto \
+            --web-app-id=1:489536134509:web:2c27e0af4323d5c1f20e64 \
             --token="$FIREBASE_TOKEN"
 
           echo "✅ Firebase configured successfully for all platforms"
