@@ -72,15 +72,31 @@ jobs:
           dart pub global activate flutterfire_cli
           echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
-      - name: Configure Firebase for all platforms
+      - name: Configure Firebase for all platforms (non-interactive)
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
-          # Authenticate with Firebase
-          firebase login:ci --no-localhost --token "$FIREBASE_TOKEN"
-          
-          # Configure FlutterFire for Android, iOS, and Web
+          # This workflow runs non-interactively on GitHub Actions. Do NOT call
+          # `firebase login:ci` here because it requires browser-based auth.
+          # Instead, the FIREBASE_TOKEN secret must contain a CI token created
+          # locally with `firebase login:ci` and saved in repository secrets.
+
+          # Quick verification: ensure the token is valid and can list projects.
+          if [ -z "$FIREBASE_TOKEN" ]; then
+            echo "❌ FIREBASE_TOKEN is empty. Add a token created with 'firebase login:ci' to repository secrets as FIREBASE_TOKEN.";
+            exit 1;
+          fi
+
+          echo "Verifying FIREBASE_TOKEN by listing projects (should succeed)..."
+          if ! firebase projects:list --token "$FIREBASE_TOKEN" >/dev/null 2>&1; then
+            echo "❌ FIREBASE_TOKEN appears invalid or has insufficient permissions.";
+            echo "Create a token locally with: firebase login:ci";
+            echo "Then add it to repository secrets (Settings → Secrets and variables → Actions).";
+            exit 1;
+          fi
+
+          # Run flutterfire configure non-interactively using the token.
           flutterfire configure \
             --project="$FIREBASE_PROJECT_ID" \
             --platforms=android,ios,web \
@@ -88,8 +104,9 @@ jobs:
             --out=lib/firebase_options.dart \
             --android-package-name=com.rezuanulfahim.anonymous_chat \
             --ios-bundle-id=com.rezuanulfahim.anonymousChat \
-            --web-app-id=auto
-          
+            --web-app-id=auto \
+            --token="$FIREBASE_TOKEN"
+
           echo "✅ Firebase configured successfully for all platforms"
 
       - name: Verify Firebase configuration
