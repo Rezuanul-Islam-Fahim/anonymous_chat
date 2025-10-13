@@ -31,18 +31,24 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+
+      - name: Get Flutter package info
+        id: flutter_info
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: *//' | tr -d ' \r')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Flutter App Version: $VERSION"
 
       - name: Cache pub dependencies
         uses: actions/cache@v4
         with:
           path: |
-            ${{ env.PUB_CACHE }}
             ~/.pub-cache
             ${{ github.workspace }}/.dart_tool
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+            ${{ github.workspace }}/.packages
+          key: ${{ runner.os }}-pub-${{ env.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
+            ${{ runner.os }}-pub-${{ env.FLUTTER_VERSION }}-
             ${{ runner.os }}-pub-
 
       - name: Cache Gradle dependencies
@@ -52,8 +58,12 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             ~/.android/build-cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            ${{ github.workspace }}/android/.gradle
+            ${{ github.workspace }}/android/app/build
+            ${{ github.workspace }}/build
+          key: ${{ runner.os }}-gradle-${{ env.JAVA_VERSION }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
           restore-keys: |
+            ${{ runner.os }}-gradle-${{ env.JAVA_VERSION }}-
             ${{ runner.os }}-gradle-
 
       - name: Flutter doctor
@@ -140,16 +150,22 @@ jobs:
         continue-on-error: true
 
       - name: Build APK
-        run: flutter build apk --release
+        run: |
+          flutter build apk --release \
+            --build-name=${{ steps.flutter_info.outputs.version }} \
+            --build-number=${{ github.run_number }}
 
       - name: Rename APK with version
         run: |
-          VERSION=$(grep 'version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')
-          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/anonymous_chat-${VERSION}.apk
-          echo "APK_NAME=anonymous_chat-${VERSION}.apk" >> $GITHUB_ENV
-          echo "APK_PATH=build/app/outputs/flutter-apk/anonymous_chat-${VERSION}.apk" >> $GITHUB_ENV
+          VERSION="${{ steps.flutter_info.outputs.version }}"
+          BUILD_NUMBER="${{ github.run_number }}"
+          APK_NAME="anonymous_chat-${VERSION}+${BUILD_NUMBER}.apk"
+          mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/${APK_NAME}"
+          echo "APK_NAME=${APK_NAME}" >> $GITHUB_ENV
+          echo "APK_PATH=build/app/outputs/flutter-apk/${APK_NAME}" >> $GITHUB_ENV
           echo "APP_VERSION=${VERSION}" >> $GITHUB_ENV
-          echo "ARTIFACT_NAME=anonymous_chat-${VERSION}" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=${BUILD_NUMBER}" >> $GITHUB_ENV
+          echo "ARTIFACT_NAME=anonymous_chat-${VERSION}+${BUILD_NUMBER}" >> $GITHUB_ENV
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
@@ -177,7 +193,7 @@ jobs:
             -u "${{ secrets.APPETIZE_API_TOKEN }}:" \
             -F "file=@${{ env.APK_PATH }}" \
             -F "platform=android" \
-            -F "note=Anonymous Chat - Build ${{ github.run_number }}")
+            -F "note=Anonymous Chat v${{ env.APP_VERSION }}+${{ env.BUILD_NUMBER }} - Build ${{ github.run_number }} (${{ github.sha }})")
           
           echo "Response: $RESPONSE"
           PUBLIC_KEY=$(echo $RESPONSE | jq -r '.publicKey')
@@ -202,7 +218,7 @@ jobs:
           RESPONSE=$(curl -X POST "https://api.appetize.io/v1/apps/${{ secrets.APPETIZE_PUBLIC_KEY }}" \
             -u "${{ secrets.APPETIZE_API_TOKEN }}:" \
             -F "file=@${{ env.APK_PATH }}" \
-            -F "note=Anonymous Chat - Build ${{ github.run_number }} (Updated)")
+            -F "note=Anonymous Chat v${{ env.APP_VERSION }}+${{ env.BUILD_NUMBER }} - Build ${{ github.run_number }} (${{ github.sha }}) [Updated]")
           
           echo "Response: $RESPONSE"
           PUBLIC_KEY=$(echo $RESPONSE | jq -r '.publicKey')
@@ -255,6 +271,8 @@ jobs:
           echo "### Build Information" >> $GITHUB_STEP_SUMMARY
           echo "- **APK Name:** ${{ env.APK_NAME }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Version:** ${{ env.APP_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Number:** ${{ env.BUILD_NUMBER }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Full Version:** ${{ env.APP_VERSION }}+${{ env.BUILD_NUMBER }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -297,6 +315,8 @@ jobs:
               ### Build Information
               - **APK Name:** ${{ env.APK_NAME }}
               - **Version:** ${{ env.APP_VERSION }}
+              - **Build Number:** ${{ env.BUILD_NUMBER }}
+              - **Full Version:** ${{ env.APP_VERSION }}+${{ env.BUILD_NUMBER }}
               - **Artifact Name:** ${{ env.ARTIFACT_NAME }}
               
               ### 📦 Build Artifact
