@@ -35,9 +35,14 @@ jobs:
       - name: Get Flutter package info
         id: flutter_info
         run: |
-          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: *//' | tr -d ' \r')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Flutter App Version: $VERSION"
+          FULL_VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: *//' | tr -d ' \r')
+          VERSION_NAME=$(echo $FULL_VERSION | cut -d'+' -f1)
+          BUILD_NUMBER=$(echo $FULL_VERSION | cut -d'+' -f2)
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "full_version=$FULL_VERSION" >> $GITHUB_OUTPUT
+          echo "Flutter App Version Name: $VERSION_NAME"
+          echo "Flutter App Build Number: $BUILD_NUMBER"
 
       - name: Cache pub dependencies
         uses: actions/cache@v4
@@ -152,13 +157,13 @@ jobs:
       - name: Build APK
         run: |
           flutter build apk --release \
-            --build-name=${{ steps.flutter_info.outputs.version }} \
-            --build-number=${{ github.run_number }}
+            --build-name=${{ steps.flutter_info.outputs.version_name }} \
+            --build-number=${{ steps.flutter_info.outputs.build_number }}
 
       - name: Rename APK with version
         run: |
-          VERSION="${{ steps.flutter_info.outputs.version }}"
-          BUILD_NUMBER="${{ github.run_number }}"
+          VERSION="${{ steps.flutter_info.outputs.version_name }}"
+          BUILD_NUMBER="${{ steps.flutter_info.outputs.build_number }}"
           APK_NAME="anonymous_chat-${VERSION}.apk"
           mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/${APK_NAME}"
           echo "APK_NAME=${APK_NAME}" >> $GITHUB_ENV
@@ -193,7 +198,7 @@ jobs:
             -u "${{ secrets.APPETIZE_API_TOKEN }}:" \
             -F "file=@${{ env.APK_PATH }}" \
             -F "platform=android" \
-            -F "note=Anonymous Chat v${{ env.APP_VERSION }} - Build ${{ github.run_number }} (${{ github.sha }})")
+            -F "note=Anonymous Chat v${{ env.APP_VERSION }} (Build ${{ env.BUILD_NUMBER }}) - Run ${{ github.run_number }} (${{ github.sha }})")
           
           echo "Response: $RESPONSE"
           PUBLIC_KEY=$(echo $RESPONSE | jq -r '.publicKey')
@@ -218,7 +223,7 @@ jobs:
           RESPONSE=$(curl -X POST "https://api.appetize.io/v1/apps/${{ secrets.APPETIZE_PUBLIC_KEY }}" \
             -u "${{ secrets.APPETIZE_API_TOKEN }}:" \
             -F "file=@${{ env.APK_PATH }}" \
-            -F "note=Anonymous Chat v${{ env.APP_VERSION }} - Build ${{ github.run_number }} (${{ github.sha }}) [Updated]")
+            -F "note=Anonymous Chat v${{ env.APP_VERSION }} (Build ${{ env.BUILD_NUMBER }}) - Run ${{ github.run_number }} (${{ github.sha }}) [Updated]")
           
           echo "Response: $RESPONSE"
           PUBLIC_KEY=$(echo $RESPONSE | jq -r '.publicKey')

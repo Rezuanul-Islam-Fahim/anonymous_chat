@@ -5,7 +5,7 @@
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                     TRIGGER EVENT                                │
-│  (Pull Request to master/main branch or Manual workflow dispatch)│
+│  (Pull Request to main branch or Manual workflow dispatch)      │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
@@ -332,7 +332,7 @@ The workflow builds an APK that connects to Firebase services:
 
 ### Step 3: First Workflow Run
 
-1. Create a Pull Request to `master` or `main` branch
+1. Create a Pull Request to the `main` branch
 2. Or manually trigger the workflow: `Actions → Build Flutter APK and Deploy to Appetize → Run workflow`
 3. Wait for the workflow to complete
 4. Check the workflow summary for the public key

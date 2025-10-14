@@ -343,7 +343,7 @@ Output location: `build/web/`
 **Update version:**
 Edit `pubspec.yaml`:
 ```yaml
-version: 1.1.0+2  # version_name+build_number
+version: 1.1.0+4  # version_name+build_number
 ```
 
 **Generate launcher icons:**
@@ -364,7 +364,7 @@ This project includes an automated CI/CD pipeline using GitHub Actions that buil
 
 ### Workflow Features
 
-- ✅ **Automated Builds** - Triggered on pull requests to master/main or manual dispatch
+- ✅ **Automated Builds** - Triggered on pull requests to main branch or manual dispatch
 - � **Firebase Auto-Configuration** - Automatic Firebase setup for Android, iOS, and Web
 - �🚀 **Appetize Deployment** - Automatic deployment to Appetize.io for browser testing
 - 📦 **APK Artifacts** - Download ready-to-install APKs (30-day retention)
@@ -420,7 +420,7 @@ The workflow automatically configures Firebase for all platforms (Android, iOS, 
 
 #### 3. Trigger Workflow
 
-- Create a Pull Request to master/main branch
+- Create a Pull Request to the main branch
 - Or manually: `Actions → Build Flutter APK and Deploy to Appetize → Run workflow`
 
 #### 4. Access Your Build
