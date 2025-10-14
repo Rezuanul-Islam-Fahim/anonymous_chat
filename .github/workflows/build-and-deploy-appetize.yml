@@ -277,7 +277,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Build Information" >> $GITHUB_STEP_SUMMARY
           echo "- **APK Name:** ${{ env.APK_NAME }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version:** ${{ env.APP_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version:** ${{ env.FULL_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -319,7 +319,7 @@ jobs:
               
               ### Build Information
               - **APK Name:** ${{ env.APK_NAME }}
-              - **Version:** ${{ env.APP_VERSION }}
+              - **Version:** ${{ env.FULL_VERSION }}
               - **Artifact Name:** ${{ env.ARTIFACT_NAME }}
               
               ### 📦 Build Artifact

@@ -343,7 +343,7 @@ Output location: `build/web/`
 **Update version:**
 Edit `pubspec.yaml`:
 ```yaml
-version: 1.1.0+5  # version_name+build_number
+version: 1.1.0+6  # version_name+build_number
 ```
 
 **Generate launcher icons:**
