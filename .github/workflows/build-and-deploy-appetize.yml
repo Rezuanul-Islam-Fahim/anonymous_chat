@@ -164,13 +164,15 @@ jobs:
         run: |
           VERSION="${{ steps.flutter_info.outputs.version_name }}"
           BUILD_NUMBER="${{ steps.flutter_info.outputs.build_number }}"
-          APK_NAME="anonymous_chat-${VERSION}.apk"
+          FULL_VERSION="${{ steps.flutter_info.outputs.full_version }}"
+          APK_NAME="anonymous_chat-${FULL_VERSION}.apk"
           mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/${APK_NAME}"
           echo "APK_NAME=${APK_NAME}" >> $GITHUB_ENV
           echo "APK_PATH=build/app/outputs/flutter-apk/${APK_NAME}" >> $GITHUB_ENV
           echo "APP_VERSION=${VERSION}" >> $GITHUB_ENV
           echo "BUILD_NUMBER=${BUILD_NUMBER}" >> $GITHUB_ENV
-          echo "ARTIFACT_NAME=anonymous_chat-${VERSION}" >> $GITHUB_ENV
+          echo "FULL_VERSION=${FULL_VERSION}" >> $GITHUB_ENV
+          echo "ARTIFACT_NAME=anonymous_chat-${FULL_VERSION}" >> $GITHUB_ENV
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
