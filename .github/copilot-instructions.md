@@ -200,7 +200,7 @@ Firebase debugging:
 - Monitor Storage usage/rules for image uploads
 
 ## Dependencies of Note
-- `firebase_*`: Core v4.1.1, Auth v6.1.0, Firestore v6.0.2, Storage v13.0.2
+- `firebase_*`: Core v4.2.0, Auth v6.1.1, Firestore v6.0.3, Storage v13.0.3
 - `image_picker` v1.1.2: Gallery/camera access
 - `cached_network_image` v3.4.1: Image caching
 - `another_flushbar` v1.12.30: Toast notifications (not Snackbar!)

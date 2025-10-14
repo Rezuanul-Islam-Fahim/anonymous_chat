@@ -1,0 +1,335 @@
+name: Build Flutter APK and Deploy to Appetize
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.35.6'
+  JAVA_VERSION: '17'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'gradle'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get Flutter package info
+        id: flutter_info
+        run: |
+          FULL_VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: *//' | tr -d ' \r')
+          VERSION_NAME=$(echo $FULL_VERSION | cut -d'+' -f1)
+          BUILD_NUMBER=$(echo $FULL_VERSION | cut -d'+' -f2)
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "full_version=$FULL_VERSION" >> $GITHUB_OUTPUT
+          echo "Flutter App Version Name: $VERSION_NAME"
+          echo "Flutter App Build Number: $BUILD_NUMBER"
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            ${{ github.workspace }}/.dart_tool
+            ${{ github.workspace }}/.packages
+          key: ${{ runner.os }}-pub-${{ env.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-${{ env.FLUTTER_VERSION }}-
+            ${{ runner.os }}-pub-
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.android/build-cache
+            ${{ github.workspace }}/android/.gradle
+            ${{ github.workspace }}/android/app/build
+            ${{ github.workspace }}/build
+          key: ${{ runner.os }}-gradle-${{ env.JAVA_VERSION }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-${{ env.JAVA_VERSION }}-
+            ${{ runner.os }}-gradle-
+
+      - name: Flutter doctor
+        run: flutter doctor -v
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Install Firebase CLI
+        run: |
+          curl -sL https://firebase.tools | bash
+          firebase --version
+
+      - name: Install FlutterFire CLI
+        run: |
+          dart pub global activate flutterfire_cli
+          echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+
+      - name: Configure Firebase for all platforms (non-interactive)
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          # This workflow runs non-interactively on GitHub Actions. Do NOT call
+          # `firebase login:ci` here because it requires browser-based auth.
+          # Instead, the FIREBASE_TOKEN secret must contain a CI token created
+          # locally with `firebase login:ci` and saved in repository secrets.
+
+          # Quick verification: ensure the token is valid and can list projects.
+          if [ -z "$FIREBASE_TOKEN" ]; then
+            echo "❌ FIREBASE_TOKEN is empty. Add a token created with 'firebase login:ci' to repository secrets as FIREBASE_TOKEN.";
+            exit 1;
+          fi
+
+          echo "Verifying FIREBASE_TOKEN by listing projects (should succeed)..."
+          if ! firebase projects:list --token "$FIREBASE_TOKEN" >/dev/null 2>&1; then
+            echo "❌ FIREBASE_TOKEN appears invalid or has insufficient permissions.";
+            echo "Create a token locally with: firebase login:ci";
+            echo "Then add it to repository secrets (Settings → Secrets and variables → Actions).";
+            exit 1;
+          fi
+
+          # Run flutterfire configure non-interactively using the token.
+          # Using specific web app ID instead of 'auto' for CI compatibility
+          flutterfire configure \
+            --project="$FIREBASE_PROJECT_ID" \
+            --platforms=android,ios,web \
+            --yes \
+            --out=lib/firebase_options.dart \
+            --android-package-name=com.rezuanulfahim.anonymous_chat \
+            --ios-bundle-id=com.rezuanulfahim.anonymousChat \
+            --web-app-id=1:489536134509:web:2c27e0af4323d5c1f20e64 \
+            --token="$FIREBASE_TOKEN"
+
+          echo "✅ Firebase configured successfully for all platforms"
+
+      - name: Verify Firebase configuration
+        run: |
+          if [ -f "lib/firebase_options.dart" ]; then
+            echo "✅ firebase_options.dart generated successfully"
+            echo "File contents preview:"
+            head -n 20 lib/firebase_options.dart
+          else
+            echo "❌ firebase_options.dart not found"
+            exit 1
+          fi
+          
+          # Verify Android google-services.json
+          if [ -f "android/app/google-services.json" ]; then
+            echo "✅ android/app/google-services.json exists"
+          else
+            echo "⚠️ android/app/google-services.json not found (may need manual setup)"
+          fi
+          
+          # Verify iOS GoogleService-Info.plist
+          if [ -f "ios/Runner/GoogleService-Info.plist" ]; then
+            echo "✅ ios/Runner/GoogleService-Info.plist exists"
+          else
+            echo "⚠️ ios/Runner/GoogleService-Info.plist not found (may need manual setup)"
+          fi
+
+      - name: Analyze code
+        run: flutter analyze
+        continue-on-error: true
+
+      - name: Build APK
+        run: |
+          flutter build apk --release \
+            --build-name=${{ steps.flutter_info.outputs.version_name }} \
+            --build-number=${{ steps.flutter_info.outputs.build_number }}
+
+      - name: Rename APK with version
+        run: |
+          VERSION="${{ steps.flutter_info.outputs.version_name }}"
+          BUILD_NUMBER="${{ steps.flutter_info.outputs.build_number }}"
+          FULL_VERSION="${{ steps.flutter_info.outputs.full_version }}"
+          APK_NAME="anonymous_chat-${FULL_VERSION}.apk"
+          mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/${APK_NAME}"
+          echo "APK_NAME=${APK_NAME}" >> $GITHUB_ENV
+          echo "APK_PATH=build/app/outputs/flutter-apk/${APK_NAME}" >> $GITHUB_ENV
+          echo "APP_VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=${BUILD_NUMBER}" >> $GITHUB_ENV
+          echo "FULL_VERSION=${FULL_VERSION}" >> $GITHUB_ENV
+          echo "ARTIFACT_NAME=anonymous_chat-${FULL_VERSION}" >> $GITHUB_ENV
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.APK_PATH }}
+          retention-days: 30
+
+      - name: Check for existing Appetize app
+        id: check_app
+        run: |
+          if [ -z "${{ secrets.APPETIZE_PUBLIC_KEY }}" ]; then
+            echo "app_exists=false" >> $GITHUB_OUTPUT
+            echo "No existing Appetize public key found"
+          else
+            echo "app_exists=true" >> $GITHUB_OUTPUT
+            echo "Existing Appetize public key found: ${{ secrets.APPETIZE_PUBLIC_KEY }}"
+          fi
+
+      - name: Upload new APK to Appetize
+        if: steps.check_app.outputs.app_exists == 'false'
+        id: upload_new
+        run: |
+          RESPONSE=$(curl -X POST "https://api.appetize.io/v1/apps" \
+            -u "${{ secrets.APPETIZE_API_TOKEN }}:" \
+            -F "file=@${{ env.APK_PATH }}" \
+            -F "platform=android" \
+            -F "note=Anonymous Chat v${{ env.APP_VERSION }} (Build ${{ env.BUILD_NUMBER }}) - Run ${{ github.run_number }} (${{ github.sha }})")
+          
+          echo "Response: $RESPONSE"
+          PUBLIC_KEY=$(echo $RESPONSE | jq -r '.publicKey')
+          APP_URL=$(echo $RESPONSE | jq -r '.publicURL')
+          
+          if [ "$PUBLIC_KEY" != "null" ]; then
+            echo "public_key=$PUBLIC_KEY" >> $GITHUB_OUTPUT
+            echo "app_url=$APP_URL" >> $GITHUB_OUTPUT
+            echo "✅ Successfully uploaded new APK to Appetize"
+            echo "Public Key: $PUBLIC_KEY"
+            echo "App URL: $APP_URL"
+            echo "⚠️ IMPORTANT: Save this public key as APPETIZE_PUBLIC_KEY in GitHub Secrets for future updates!"
+          else
+            echo "❌ Failed to upload APK to Appetize"
+            exit 1
+          fi
+
+      - name: Update existing APK on Appetize
+        if: steps.check_app.outputs.app_exists == 'true'
+        id: update_existing
+        run: |
+          RESPONSE=$(curl -X POST "https://api.appetize.io/v1/apps/${{ secrets.APPETIZE_PUBLIC_KEY }}" \
+            -u "${{ secrets.APPETIZE_API_TOKEN }}:" \
+            -F "file=@${{ env.APK_PATH }}" \
+            -F "note=Anonymous Chat v${{ env.APP_VERSION }} (Build ${{ env.BUILD_NUMBER }}) - Run ${{ github.run_number }} (${{ github.sha }}) [Updated]")
+          
+          echo "Response: $RESPONSE"
+          PUBLIC_KEY=$(echo $RESPONSE | jq -r '.publicKey')
+          APP_URL=$(echo $RESPONSE | jq -r '.publicURL')
+          
+          if [ "$PUBLIC_KEY" != "null" ]; then
+            echo "public_key=$PUBLIC_KEY" >> $GITHUB_OUTPUT
+            echo "app_url=$APP_URL" >> $GITHUB_OUTPUT
+            echo "✅ Successfully updated APK on Appetize"
+            echo "Public Key: $PUBLIC_KEY"
+            echo "App URL: $APP_URL"
+          else
+            echo "❌ Failed to update APK on Appetize"
+            exit 1
+          fi
+
+      - name: Set deployment info
+        id: deployment_info
+        run: |
+          if [ "${{ steps.check_app.outputs.app_exists }}" == "true" ]; then
+            echo "public_key=${{ steps.update_existing.outputs.public_key }}" >> $GITHUB_OUTPUT
+            echo "app_url=${{ steps.update_existing.outputs.app_url }}" >> $GITHUB_OUTPUT
+          else
+            echo "public_key=${{ steps.upload_new.outputs.public_key }}" >> $GITHUB_OUTPUT
+            echo "app_url=${{ steps.upload_new.outputs.app_url }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get artifact ID
+        id: get_artifact
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+            });
+            const artifact = artifacts.data.artifacts.find(a => a.name === '${{ env.ARTIFACT_NAME }}');
+            if (artifact) {
+              core.setOutput('artifact_id', artifact.id);
+              console.log(`Found artifact ID: ${artifact.id}`);
+            } else {
+              core.setFailed('Artifact not found');
+            }
+
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Build Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **APK Name:** ${{ env.APK_NAME }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version:** ${{ env.FULL_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Build Artifact" >> $GITHUB_STEP_SUMMARY
+          echo "**Download APK:** [${{ env.ARTIFACT_NAME }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.get_artifact.outputs.artifact_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> 💡 **Tip:** Click the link above to download the APK directly." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Appetize Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ✅ Success" >> $GITHUB_STEP_SUMMARY
+          echo "- **Test App:** ${{ steps.deployment_info.outputs.app_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📱 Test Your App" >> $GITHUB_STEP_SUMMARY
+          echo "Click the link above to test your app in the browser!" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.check_app.outputs.app_exists }}" == "false" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### ⚠️ Action Required" >> $GITHUB_STEP_SUMMARY
+            echo "This is a new app upload. Please save the **Public Key** as \`APPETIZE_PUBLIC_KEY\` in your GitHub repository secrets for future updates." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Steps to add secret:**" >> $GITHUB_STEP_SUMMARY
+            echo "1. Go to your repository Settings" >> $GITHUB_STEP_SUMMARY
+            echo "2. Navigate to Secrets and variables → Actions" >> $GITHUB_STEP_SUMMARY
+            echo "3. Click 'New repository secret'" >> $GITHUB_STEP_SUMMARY
+            echo "4. Name: \`APPETIZE_PUBLIC_KEY\`" >> $GITHUB_STEP_SUMMARY
+            echo "5. Value: \`${{ steps.deployment_info.outputs.public_key }}\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Comment PR with deployment info
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🚀 APK Built and Deployed to Appetize
+              
+              ### Build Information
+              - **APK Name:** ${{ env.APK_NAME }}
+              - **Version:** ${{ env.FULL_VERSION }}
+              - **Artifact Name:** ${{ env.ARTIFACT_NAME }}
+              
+              ### 📦 Build Artifact
+              **Download APK:** [${{ env.ARTIFACT_NAME }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.get_artifact.outputs.artifact_id }})
+              
+              > 💡 **Tip:** Click the link above to download the APK directly.
+              
+              ### Appetize Deployment
+              - **Status:** ✅ Success
+              - **Test App:** ${{ steps.deployment_info.outputs.app_url }}
+              
+              Click the link above to test the app in your browser! 📱`
+            })
