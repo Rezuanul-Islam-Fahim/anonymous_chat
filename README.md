@@ -9,7 +9,7 @@ A modern, feature-rich real-time chatting application built with Flutter and Fir
 [![GitHub stars](https://img.shields.io/github/stars/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/stargazers) 
 [![GitHub forks](https://img.shields.io/github/forks/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/network/members) 
 [![GitHub watchers](https://img.shields.io/github/watchers/rezuanul-islam-fahim/anonymous_chat?style=social)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/watchers) 
-[![License](https://img.shields.io/github/license/rezuanul-islam-fahim/anonymous_chat)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/blob/stable/LICENSE)
+[![License](https://img.shields.io/github/license/rezuanul-islam-fahim/anonymous_chat)](LICENSE)
 [![Build and Deploy](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/actions/workflows/build-and-deploy-appetize.yml/badge.svg)](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/actions/workflows/build-and-deploy-appetize.yml)
 
 [Live preview](https://appetize.io/app/b_lcp4koyt2ysaugukg3eszodyfm) • [Report Bug](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/issues) • [Request Feature](https://github.com/Rezuanul-Islam-Fahim/anonymous_chat/issues)
